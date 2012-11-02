@@ -1,0 +1,5 @@
+{
+    "title" : "//title",
+    "description" : "//meta[@name='Description']",
+    "h1" : "//div[@id='content']//h1"
+}
