@@ -4,14 +4,8 @@
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 
-from shared import config
-from shared import db
-from shared import browser
-from shared import vscreen
-from shared.helpers import *
+from shared import config, browser, vscreen, db
 
-import os
-import json
 import sys
 
 class CheckTitlesTestCase( unittest.TestCase ) :

@@ -2,14 +2,9 @@
 
 from selenium.common.exceptions import NoSuchElementException
 
-from shared import browser
-from shared import vscreen
-from shared import config
-from shared import db
+from shared import browser, config, vscreen, db
 
 import sys
-import os
-import json
 
 heap = sys.argv[ 1 ]
 www = sys.argv[ 2 ]

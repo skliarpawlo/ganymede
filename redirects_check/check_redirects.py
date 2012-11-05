@@ -2,9 +2,7 @@
 # coding: utf-8
 
 import unittest
-from shared import db
-from shared import vscreen
-from shared import browser
+from shared import db, browser, vscreen
 import urllib
 import sys
 
