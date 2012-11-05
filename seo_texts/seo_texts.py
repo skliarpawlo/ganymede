@@ -4,9 +4,9 @@ from selenium.common.exceptions import NoSuchElementException
 import unittest
 
 from shared import config
-from shared import db
 from shared import browser
 from shared import vscreen
+from models import SeoText
 
 from itertools import groupby
 from shared.helpers import *
@@ -19,22 +19,19 @@ class CheckTextTestCase( unittest.TestCase ) :
     def setUp( self ) :
         vscreen.start()
         browser.start()
-        db.connect()
-        
+
     def tearDown( self ) :
         browser.stop()
-        db.close()
-        vscreen.stop()        
+        vscreen.stop()
                     
     def test_texts( self ) :
         firefox = browser.inst
-        com = db.createCommand( "SELECT * FROM interface_seo_texts JOIN interface_pages USING ( page_id )" )
 
         heap = sys.argv[ 1 ]
         browser.setHeap( heap )
                 
-        t = com.queryAll()
-        keyf = lambda x : (x[ "page" ], x[ "domain" ])
+        t = SeoText.objects.all()
+        keyf = lambda x : (x.page, x.domain)
         t = sorted( t, key = keyf )
         for k, testgroup in groupby( t, keyf ) :
         

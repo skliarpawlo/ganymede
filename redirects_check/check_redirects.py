@@ -24,12 +24,12 @@ class CheckRedirect ( unittest.TestCase ) :
         firefox = browser.inst
     
         for test in t :
-    
+
             firefox.get( test[ "source" ] )
             try :
                 curl = urllib.unquote( firefox.current_url.encode( "utf-8" ) )
                 etalon = test[ "dest" ]
-            
+
                 self.assertEqual( curl, etalon )
                 print( "OK : " + test[ "source" ] + " -> " + etalon )
             except AssertionError as err :

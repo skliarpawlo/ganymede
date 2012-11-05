@@ -9,16 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ganymede', # 'lun_ua_new',
-        'USER': 'root', # 'skliar',
-        'PASSWORD': '', # 'lilipad',
-        'HOST': '127.0.0.1', # '77.120.117.134',
-        'PORT': '3306',
-    }
-}
+import db
+db.init()
 
 TIME_ZONE = 'Europe/Riga'
 
@@ -109,6 +101,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'seo_texts',
 )
 
 # A sample logging configuration. The only tangible logging
