@@ -1,4 +1,4 @@
-import ganymede.db
+import core.db
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, UnicodeText
 from sqlalchemy.orm import relationship
@@ -25,8 +25,8 @@ class SeoText( Base ) :
     content = Column(UnicodeText)
 
 if __name__ == '__main__' :
-    ganymede.db.init()
-    data = ganymede.db.session.query(SeoText).all()
+    core.db.init()
+    data = core.db.session.query(SeoText).all()
     for x in data :
         print(x.page.route)
-    ganymede.db.session.close()
+    core.db.session.close()

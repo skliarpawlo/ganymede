@@ -2,7 +2,7 @@
 
 from selenium.common.exceptions import NoSuchElementException
 
-from shared import browser, config, vscreen, db
+from core import browser, config, vscreen, db
 
 import sys
 

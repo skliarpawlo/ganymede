@@ -5,5 +5,6 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^seo_texts/', include('seo_texts.urls')),
+    #url(r'^seo_texts/', include('seo_texts.urls')),
+    url(r'^$', 'ganymede.views.home')
 )

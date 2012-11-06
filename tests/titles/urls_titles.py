@@ -4,7 +4,7 @@
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 
-from shared import config, browser, vscreen, db
+from core import config, browser, vscreen, db
 
 import sys
 

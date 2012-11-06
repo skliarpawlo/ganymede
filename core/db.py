@@ -12,4 +12,4 @@ def init():
         #_engine = create_engine('mysql+mysqldb://skliar:lilipad@77.120.117.134/lun_ua_new', pool_recycle=1800)
         _Session = sessionmaker(bind=_engine)
         session = _Session()
-        print( 'init' )
+        print( 'init db session' )

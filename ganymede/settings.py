@@ -1,4 +1,5 @@
 # Django settings for ganymede project.
+from core import db
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -9,7 +10,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-import db
 db.init()
 
 TIME_ZONE = 'Europe/Riga'
@@ -101,7 +101,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'seo_texts',
+    'tests.seo_texts',
 )
 
 # A sample logging configuration. The only tangible logging

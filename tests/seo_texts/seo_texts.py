@@ -4,14 +4,14 @@
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 
-import ganymede.db
-from shared import config
-from shared import browser
-from shared import vscreen
-from models import SeoText
+import core.db
+from core import config
+from core import browser
+from core import vscreen
+from tests.seo_texts.models import SeoText
 
 from itertools import groupby
-from shared.helpers import *
+from core.helpers import *
 
 class CheckTextTestCase( unittest.TestCase ) :
                     
@@ -31,7 +31,7 @@ class CheckTextTestCase( unittest.TestCase ) :
 
         success = True
                 
-        t = ganymede.db.session.query(SeoText).all()
+        t = core.db.session.query(SeoText).all()
         keyf = lambda x : { 'page':x.page.page, 'domain' : x.page.domain }
         t = sorted( t, key = keyf )
         for k, testgroup in groupby( t, keyf ) :
@@ -74,9 +74,9 @@ class CheckTextTestCase( unittest.TestCase ) :
             self.assertTrue( False, u'Были фейлы' )
 
 if ( __name__ == "__main__" ) :
-    ganymede.db.init()
+    core.db.init()
     suite = unittest.TestLoader().loadTestsFromTestCase(CheckTextTestCase)
     unittest.TextTestRunner(verbosity=0).run(suite)
-    ganymede.db.session.close()
+    core.db.session.close()
             
     

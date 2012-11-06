@@ -1,5 +1,5 @@
-__author__ = 'pavlo'
+from django.http import HttpResponse
 
-def home( request ) :
-    print( "Xoxoxo" )
+def home(request) :
+    return HttpResponse("Xoxoxo")
 
