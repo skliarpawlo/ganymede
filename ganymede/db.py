@@ -8,7 +8,8 @@ session = None
 def init():
     global _engine, _Session, session
     if _engine == None :
-        _engine = create_engine('mysql+mysqldb://root@localhost/ganymede', pool_recycle=1800)
+        _engine = create_engine('mysql+mysqldb://root@localhost/ganymede?charset=utf8', pool_recycle=1800)
+        #_engine = create_engine('mysql+mysqldb://skliar:lilipad@77.120.117.134/lun_ua_new', pool_recycle=1800)
         _Session = sessionmaker(bind=_engine)
         session = _Session()
         print( 'init' )

@@ -1,6 +1,7 @@
 import ganymede.db
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey, UnicodeText
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -17,14 +18,15 @@ class Page( Base ) :
 
 class SeoText( Base ) :
     __tablename__ = 'interface_seo_texts'
+    page = relationship(Page)
 
-    page_id = Column(Integer(10), primary_key=True)
+    page_id = Column(Integer(10), ForeignKey('interface_pages.page_id'), primary_key=True)
     type = Column(String(50), primary_key=True)
-    content = Column(String)
+    content = Column(UnicodeText)
 
 if __name__ == '__main__' :
     ganymede.db.init()
     data = ganymede.db.session.query(SeoText).all()
     for x in data :
-        print(x.content)
+        print(x.page.route)
     ganymede.db.session.close()
