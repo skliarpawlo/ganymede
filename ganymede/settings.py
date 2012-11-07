@@ -6,6 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 BASE_PATH = os.path.join(os.path.dirname(__file__), "../" )
+HEAP_PATH = os.path.join(BASE_PATH, "heap" )
 
 ADMINS = (
     ('Pavlo Skliar', 'skliarpawlo@rambler.ru'),
@@ -30,6 +31,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_PATH, "ganymede", "static"),
+    os.path.join(BASE_PATH, "static"),
 )
 
 # List of finder classes that know how to find static files in

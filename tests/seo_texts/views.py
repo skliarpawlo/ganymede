@@ -1,1 +1,7 @@
-# Create your views here.
+import unittest
+
+def test(request) :
+    return False
+
+def log(request) :
+    return False

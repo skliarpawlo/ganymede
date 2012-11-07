@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script src="/static/js/all_tests.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Test name</th>
+                <th>Status</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in tests %}
+                <tr test_id="{{ test }}">
+                    <td>{{ test }}</td>
+                    <td>Passed</td>
+                    <td>
+                        <button class="test-start-btn btn btn-primary">Test</button>
+                        <button class="test-log-btn btn btn-primary">Log</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

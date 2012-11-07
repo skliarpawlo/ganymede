@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, include, url
-from django.views.static import *
+from django.conf.urls import patterns, url
 from django.conf import settings
 
 urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    url(r'^$', 'ganymede.views.home')
+    url(r'^$', 'ganymede.views.home'),
+    url(r'^ajax/test$', 'ganymede.views.test'),
 )

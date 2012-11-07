@@ -1,17 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel='stylesheet' href="/static/bootstrap/css/bootstrap-responsive.min.css" />
     <link rel='stylesheet' href="/static/bootstrap/css/bootstrap.min.css" />
     <script src="/static/jquery/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    {% block head %}{% endblock %}
 </head>
 <body>
-    {% block column %}
-        empty column
-    {% endblock %}
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="#">ЛУН.ua</a>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                {% block column %}
+                    empty column
+                {% endblock %}
+            </div>
 
-    {% block content %}
-        empty content
-    {% endblock %}
+            <div class="span9">
+                {% block content %}
+                    empty content
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

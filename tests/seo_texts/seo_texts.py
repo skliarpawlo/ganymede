@@ -4,24 +4,26 @@
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 
-import core.db
+from core import db
 from core import config
 from core import browser
 from core import vscreen
+from core import helpers
 from tests.seo_texts.models import SeoText
 
 from itertools import groupby
-from core.helpers import *
 
 class CheckTextTestCase( unittest.TestCase ) :
                     
     def setUp( self ) :
+        db.init()
         vscreen.start()
         browser.start()
 
     def tearDown( self ) :
         browser.stop()
         vscreen.stop()
+        db.session.close()
                     
     def test_texts( self ) :
         firefox = browser.inst
@@ -31,7 +33,7 @@ class CheckTextTestCase( unittest.TestCase ) :
 
         success = True
                 
-        t = core.db.session.query(SeoText).all()
+        t = db.session.query(SeoText).all()
         keyf = lambda x : { 'page':x.page.page, 'domain' : x.page.domain }
         t = sorted( t, key = keyf )
         for k, testgroup in groupby( t, keyf ) :
@@ -55,8 +57,8 @@ class CheckTextTestCase( unittest.TestCase ) :
                         
                         txt = firefox.page_source.encode( 'utf-8', 'ignore' )
                         
-                        ftxt = remove_html_tags( remove_new_lines( txt ) )
-                        fcontent = remove_html_tags( remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
+                        ftxt = helpers.remove_html_tags( helpers.remove_new_lines( txt ) )
+                        fcontent = helpers.remove_html_tags( helpers.remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
 
                         self.assertTrue( fcontent in ftxt, test.page )
                     else :
@@ -74,9 +76,7 @@ class CheckTextTestCase( unittest.TestCase ) :
             self.assertTrue( False, u'Были фейлы' )
 
 if ( __name__ == "__main__" ) :
-    core.db.init()
     suite = unittest.TestLoader().loadTestsFromTestCase(CheckTextTestCase)
     unittest.TextTestRunner(verbosity=0).run(suite)
-    core.db.session.close()
             
     
