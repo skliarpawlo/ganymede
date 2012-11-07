@@ -1,18 +1,15 @@
 # Django settings for ganymede project.
-from core import db
 import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-BASE_PATH = os.path.join(os.path.dirname(__file__), "../" )
-HEAP_PATH = os.path.join(BASE_PATH, "heap" )
+BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
+HEAP_PATH = os.path.join(BASE_PATH, "heap")
 
 ADMINS = (
     ('Pavlo Skliar', 'skliarpawlo@rambler.ru'),
 )
-
-db.init()
 
 TIME_ZONE = 'Europe/Riga'
 

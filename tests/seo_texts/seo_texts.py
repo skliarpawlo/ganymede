@@ -9,6 +9,7 @@ from core import config
 from core import browser
 from core import vscreen
 from core import helpers
+from core import path
 from tests.seo_texts.models import SeoText
 
 from itertools import groupby
@@ -28,11 +29,11 @@ class CheckTextTestCase( unittest.TestCase ) :
     def test_texts( self ) :
         firefox = browser.inst
 
-        heap = 'heap'
-        browser.setHeap( heap )
+        heap = path.photos_dir('seo_texts')
+        browser.setHeap(heap)
 
         success = True
-                
+
         t = db.session.query(SeoText).all()
         keyf = lambda x : { 'page':x.page.page, 'domain' : x.page.domain }
         t = sorted( t, key = keyf )
@@ -66,17 +67,18 @@ class CheckTextTestCase( unittest.TestCase ) :
                     print "OK : ", test.page.page
                 except NoSuchElementException as err:
                     print "FAILED : ", test.page.page, " ", test.type
-                    browser.save()                    
+                    success = False
+                    browser.save()
                 except AssertionError as err :
                     print "FAILED : ", test.page.page, " ", test.type
                     success = False
                     browser.save()
 
         if not success :
-            self.assertTrue( False, u'Были фейлы' )
+            self.assertTrue( False, 'Test failed' )
 
-if ( __name__ == "__main__" ) :
-    suite = unittest.TestLoader().loadTestsFromTestCase(CheckTextTestCase)
-    unittest.TextTestRunner(verbosity=0).run(suite)
+#if ( __name__ == "__main__" ) :
+suite = unittest.TestLoader().loadTestsFromTestCase(CheckTextTestCase)
+unittest.TextTestRunner(verbosity=0).run(suite)
             
     

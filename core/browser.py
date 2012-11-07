@@ -1,4 +1,5 @@
 from selenium import webdriver
+import os
 
 inst = None
 
@@ -20,6 +21,6 @@ def setHeap( h ) :
 
 def save() :
     global errors, heap, inst
-    inst.save_screenshot( heap + "/screenshots/sc_" + str( errors ) + ".png" )
+    inst.save_screenshot( os.path.join( heap, "sc_" + str( errors ) + ".png" ) )
     errors += 1
 
