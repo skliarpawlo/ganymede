@@ -2,36 +2,23 @@
 # coding: utf-8
 
 from selenium.common.exceptions import NoSuchElementException
+import tests.utils
 import unittest
 
 from core import db
 from core import config
 from core import browser
-from core import vscreen
 from core import helpers
-from core import path
 from tests.seo_texts.models import SeoText
 
 from itertools import groupby
 
-class CheckTextTestCase( unittest.TestCase ) :
-                    
-    def setUp( self ) :
-        db.init()
-        vscreen.start()
-        browser.start()
+class CheckTextTestCase( tests.utils.FunctionalTest ) :
 
-    def tearDown( self ) :
-        browser.stop()
-        vscreen.stop()
-        db.session.close()
-                    
+    id = 'seo_texts'
+
     def test_texts( self ) :
         firefox = browser.inst
-
-        heap = path.photos_dir('seo_texts')
-        browser.setHeap(heap)
-
         success = True
 
         t = db.session.query(SeoText).all()
@@ -77,8 +64,5 @@ class CheckTextTestCase( unittest.TestCase ) :
         if not success :
             self.assertTrue( False, 'Test failed' )
 
-#if ( __name__ == "__main__" ) :
-suite = unittest.TestLoader().loadTestsFromTestCase(CheckTextTestCase)
-unittest.TextTestRunner(verbosity=0).run(suite)
-            
-    
+if (__name__=="__main__"):
+    unittest.main()
