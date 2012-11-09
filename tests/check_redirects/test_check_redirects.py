@@ -5,7 +5,7 @@ import unittest
 from core import db, browser
 import urllib
 import tests.utils
-from tests.redirects_check.models import CheckRedirect
+from tests.check_redirects.models import CheckRedirect
 
 class CheckRedirectTestCase ( tests.utils.FunctionalTest ) :
 

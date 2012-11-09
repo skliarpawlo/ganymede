@@ -6,6 +6,7 @@ TEMPLATE_DEBUG = DEBUG
 
 BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
+TESTS_PATH = os.path.join(BASE_PATH, "tests")
 
 ADMINS = (
     ('Pavlo Skliar', 'skliarpawlo@rambler.ru'),

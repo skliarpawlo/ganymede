@@ -3,6 +3,7 @@ import core.lock
 from core import db
 from core import browser
 from core import vscreen
+import core.process
 import os
 import sys
 import codecs
@@ -10,15 +11,18 @@ import logging
 import unittest
 from cStringIO import StringIO
 import shutil
+import ganymede.settings
+
+heap_dir = ganymede.settings.HEAP_PATH
+base_dir = ganymede.settings.BASE_PATH
 
 class FunctionalTest(unittest.TestCase) :
     def setUp(self):
         # set paths
-        self.test_dir = core.path.test_dir( self.id )
-        self.pid_file = os.path.join( self.test_dir, ".pid" )
-        self.log_file = os.path.join( self.test_dir, ".log" )
-        self.photo_dir = core.path.photos_dir( self.id )
-        self.test_exe = core.path.test_exe( self.id )
+        self.test_dir = test_dir( self.id )
+        self.pid_file = pid_file( self.id )
+        self.log_file = log_file( self.id )
+        self.photo_dir = photos_dir( self.id )
 
         # stdio redirect to string
         sys.stderr = sys.stdout = StringIO()
@@ -54,13 +58,6 @@ class FunctionalTest(unittest.TestCase) :
         browser.start()
         browser.setHeap(self.photo_dir)
 
-    def log(self):
-        "Show log content"
-        f = open(self.log_file, "r")
-        log = f.read()
-        f.close()
-        return log
-
     def tearDown(self):
         # save test out to log
         self.logger.info(sys.stdout.getvalue())
@@ -73,13 +70,41 @@ class FunctionalTest(unittest.TestCase) :
         db.session.close()
 
 
-class TestRunner :
-    pass
-#    # for subprocesses, etc
-#    success = core.lock.capture(self.pid_file)
-#    if (success == core.lock.STATUS_SUCCESS) :
-#        try :
-#        finally :
-#            core.lock.uncapture(self.pid_file)
-#        else :
-#            raise Exception('Lock failed')
+class LockException(Exception) :
+    def __init__(self, msg):
+        self.msg = msg
+
+def run_test(test_id):
+    fpid = pid_file(test_id)
+    stu_pid=core.lock.is_free(fpid)
+    if stu_pid==0:
+        core.process.daemonize()
+        core.lock.capture(fpid)
+        try :
+            unittest.main(module='tests.' + test_id + '.test_' + test_id)
+        finally :
+            core.lock.uncapture(fpid)
+    else :
+        raise Exception('Lock failed. PID=' + stu_pid)
+
+def dump_log(test_id):
+    "Show log content"
+    f = open(log_file(test_id), "r")
+    log = f.read()
+    f.close()
+    return log
+
+def test_dir(test_id) :
+    return os.path.join(heap_dir, "tests", test_id)
+
+def pid_file(test_id) :
+    return os.path.join(test_dir(test_id), ".pid")
+
+def log_file(test_id) :
+    return os.path.join(test_dir(test_id), ".log")
+
+def photos_dir(test_id) :
+    return os.path.join(test_dir(test_id), "photos")
+
+if (__name__=='__main__'):
+    run_test('check_redirects')
