@@ -69,15 +69,27 @@ TEMPLATE_DIRS = (
     os.path.join( BASE_PATH, 'templates' ),
 )
 
+DATABASES = {
+    'default': {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'ganymede',
+        'HOST' : 'localhost',
+        'USER' : 'root',
+        'PASSWORD' : '',
+    }
+}
+
 INSTALLED_APPS = (
-    #'django.contrib.auth',
-    #'django.contrib.contenttypes',
-    #'django.contrib.sessions',
-    #'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.admin',
     #'django.contrib.messages',
 
     'django.contrib.staticfiles',
-    'tests.seo_texts',
+    'tests',
+    'chronograph'
 )
 
 # A sample logging configuration. The only tangible logging

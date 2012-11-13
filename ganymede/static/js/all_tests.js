@@ -12,7 +12,6 @@ $( function() {
         var test_id = $(this).parents("[test_id]").attr("test_id");
         var op_id = 'test';
         performRequest(test_id, op_id).done( function(data) {
-            console.log(data);
         });
     });
 
@@ -20,7 +19,13 @@ $( function() {
         var test_id = $(this).parents("[test_id]").attr("test_id");
         var op_id = 'log';
         performRequest(test_id, op_id).done( function(data) {
-            console.log(data);
+            if (data.status == 0) {
+                $("#log-message").html(data.message);
+                $("#log-modal").modal();
+            } else {
+                $("#error-message").html(data.message);
+                $("#error-modal").modal();
+            }
         });
     });
 
