@@ -2,7 +2,6 @@
 # coding: utf-8
 
 from selenium.common.exceptions import NoSuchElementException
-import tests.utils
 import unittest
 
 from core import db
@@ -10,6 +9,7 @@ from core import config
 from core import browser
 from core import helpers
 from tests.seo_texts.models import SeoText
+import tests.utils
 
 from itertools import groupby
 

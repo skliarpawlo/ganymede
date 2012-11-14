@@ -2,10 +2,10 @@
 # coding=utf8
 
 from selenium.common.exceptions import NoSuchElementException
-import tests.utils
 
 from core import config, browser, db
-from tests.titles.models import TitleTest
+from tests.urls_titles.models import TitleTest
+import tests.utils
 import unittest
 
 class CheckTitlesTestCase( tests.utils.FunctionalTest ) :

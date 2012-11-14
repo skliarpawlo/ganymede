@@ -24,10 +24,10 @@ class FunctionalTest(unittest.TestCase) :
         self.log_file = log_file( self.id )
         self.photo_dir = photos_dir( self.id )
 
-        # stdio redirect to string
-        sys.stderr = sys.stdout = StringIO()
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+#        stdio redirect to string
+#        sys.stderr = sys.stdout = StringIO()
+#        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+#        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
         try :
             for root, dirs, files in os.walk(self.photo_dir):
@@ -60,10 +60,10 @@ class FunctionalTest(unittest.TestCase) :
 
     def tearDown(self):
         # save test out to log
-        self.logger.info(sys.stdout.getvalue())
+#        self.logger.info(sys.stdout.getvalue())
 
-        sys.stdout.close()
-        sys.stderr.close()
+#        sys.stdout.close()
+#        sys.stderr.close()
 
         browser.stop()
         vscreen.stop()

@@ -1,55 +1,7 @@
 {% extends "layout.html" %}
 
-{% block head %}
-    <script src="/static/js/all_tests.js"></script>
-{% endblock %}
-
 {% block content %}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Test name</th>
-                <th>Status</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for test in tests %}
-                <tr test_id="{{ test }}">
-                    <td>{{ test }}</td>
-                    <td>Passed</td>
-                    <td>
-                        <button class="test-start-btn btn btn-primary">Test</button>
-                        <button class="test-log-btn btn btn-primary">Log</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="modal hide fade" id="error-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Error</h3>
-        </div>
-        <div class="modal-body">
-            <pre id="error-message"></pre>
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
-
-    <div class="modal hide fade" id="log-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Log</h3>
-        </div>
-        <div class="modal-body">
-            <pre id="log-message"></pre>
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
+    <a href="/admin">go to admin</a>
 
 {% endblock %}
