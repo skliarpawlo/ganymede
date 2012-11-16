@@ -1,1 +1,0 @@
-from tests.seo_texts.test_seo_texts import *
