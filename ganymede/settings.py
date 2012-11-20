@@ -79,6 +79,24 @@ DATABASES = {
     }
 }
 
+APPEND_SLASH=False
+
+import djcelery
+djcelery.setup_loader()
+
+CELERY_RESULT_BACKEND = "mongodb"
+CELERY_MONGODB_BACKEND_SETTINGS = {
+    "host": "localhost",
+    "port": 27017,
+    "database": "ganymede",
+    "taskmeta_collection": "testing_tasks_collection",
+    }
+
+BROKER_URL = 'mongodb://localhost:27017/ganymede'
+CELERY_IMPORTS = ('tests.tasks',)
+
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -89,7 +107,8 @@ INSTALLED_APPS = (
 
     'django.contrib.staticfiles',
     'tests',
-    'chronograph'
+    'djcelery',
+    'djkombu'
 )
 
 # A sample logging configuration. The only tangible logging

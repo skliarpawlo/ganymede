@@ -51,3 +51,6 @@ def test_dir(test_id) :
 
 def photos_dir(test_id) :
     return os.path.join(test_dir(test_id), "photos")
+
+def log_file(test_id) :
+    return os.path.join(heap_dir, "logs", test_id + ".log")
