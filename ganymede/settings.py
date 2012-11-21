@@ -1,5 +1,4 @@
 import os.path
-from twisted.web.test.test_wsgi import InputStreamTestMixin
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -37,18 +36,6 @@ INSTALLED_APPS = (
     'tests',
 )
 
-#################### CELERY CONFIG
-
-import djcelery
-djcelery.setup_loader()
-
-INSTALLED_APPS += ('djcelery',)
-
-# celery backend
-CELERY_RESULT_BACKEND = "database"
-CELERY_RESULT_DBURI = "mysql://root@localhost/ganymede"
-
-####################
 ####################
 
 STATICFILES_DIRS = (

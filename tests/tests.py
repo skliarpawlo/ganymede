@@ -7,8 +7,6 @@ from selenium.common.exceptions import NoSuchElementException
 
 class CheckRedirectTestCase ( FunctionalTest ) :
 
-    id = "check_redirects"
-
     def run( self ) :
         t = db.session.query(CheckRedirect).all()
         firefox = browser.inst
@@ -18,7 +16,7 @@ class CheckRedirectTestCase ( FunctionalTest ) :
             try :
                 curl = urllib.unquote( firefox.current_url.encode('utf8') ).decode('utf8')
                 etalon = test.dest
-                self.assertEqual( curl, etalon )
+                assert curl == etalon
                 print( "OK : ", test.source, " -> ", etalon )
             except AssertionError as err :
                 print( "FAILED : ", test.source, " -> ", etalon, " really redirected to ", curl )
@@ -28,8 +26,6 @@ class CheckRedirectTestCase ( FunctionalTest ) :
             raise Exception('Test failed')
 
 class CheckSeoTextsTestCase( FunctionalTest ) :
-
-    id = 'seo_texts'
 
     def run( self ) :
         firefox = browser.inst
@@ -50,11 +46,11 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                     if ( test.type == "title" ) :
                         xpath = config.xpath[ "title" ]
                         elem = firefox.find_element_by_xpath( xpath )
-                        self.assertEqual( elem.text, test.content )
+                        assert elem.text == test.content
                     elif ( test.type == "description" ) :
                         xpath = config.xpath[ "description" ]
                         elem = firefox.find_element_by_xpath( xpath )
-                        self.assertEqual( elem.get_attribute( 'content' ), test.content )
+                        assert elem.get_attribute( 'content' ) == test.content
                     elif ( test.type == "footer" ) :
 
                         txt = firefox.page_source.encode( 'utf-8', 'ignore' )
@@ -62,7 +58,7 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                         ftxt = helpers.remove_html_tags( helpers.remove_new_lines( txt ) )
                         fcontent = helpers.remove_html_tags( helpers.remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
 
-                        self.assertTrue( fcontent in ftxt, test.page )
+                        assert fcontent in ftxt
                     else :
                         xpath = "//willfail"
                     print "OK : ", test.page.page
@@ -76,11 +72,9 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                     browser.save()
 
         if not success :
-            self.assertTrue( False, 'Test failed' )
+            assert False
 
 class CheckTitlesTestCase( FunctionalTest ) :
-
-    id = "urls_titles"
 
     def run( self ) :
         firefox = browser.inst
@@ -94,11 +88,11 @@ class CheckTitlesTestCase( FunctionalTest ) :
 
                 xpath = config.xpath[ "title" ]
                 elem = firefox.find_element_by_xpath( xpath )
-                self.assertEqual( elem.text, test.title )
+                assert elem.text == test.title
 
                 xpath = config.xpath[ "h1" ]
                 elem = firefox.find_element_by_xpath( xpath )
-                self.assertEqual( elem.text, test.h1 )
+                assert elem.text == test.h1
 
                 print "OK : ", test.domain, " ", test.url
             except NoSuchElementException as err:

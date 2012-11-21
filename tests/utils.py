@@ -1,38 +1,37 @@
-import core.path
 from core import db
 from core import browser
 from core import vscreen
+from core import path
 import os
-import shutil
+import sys
 import ganymede.settings
+import codecs
+from cStringIO import StringIO
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
 
 class FunctionalTest :
+    def __init__(self, test_id):
+        self.id = test_id
+
     def setUp(self):
         # set paths
         self.test_dir = test_dir( self.id )
         self.photo_dir = photos_dir( self.id )
 
-        try :
-            for root, dirs, files in os.walk(self.photo_dir):
-                for f in files:
-                    os.unlink(os.path.join(root, f))
-                for d in dirs:
-                    shutil.rmtree(os.path.join(root, d))
-        except :
-            pass
+        path.clean( self.photo_dir )
 
         # ensure paths
-        try :
-            os.makedirs( self.test_dir )
-        except os.error :
-            pass
-        try :
-            os.makedirs( self.photo_dir )
-        except os.error :
-            pass
+        path.ensure( self.test_dir )
+        path.ensure( self.photo_dir )
+
+        # redirect to log
+        self._err = sys.stderr
+        self._out = sys.stdout
+        sys.stderr = sys.stdout = StringIO()
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
         # functional tests setup
         db.init()
@@ -45,6 +44,17 @@ class FunctionalTest :
         vscreen.stop()
         db.session.close()
 
+        log = sys.stdout.getvalue()
+        fd = open( log_file(self.id), 'w' )
+        fd.write(log)
+        fd.close()
+
+        sys.stdout.close()
+        sys.stderr.close()
+
+        sys.stdout = self._out
+        sys.stderr = self._err
+
 def test_dir(test_id) :
     return os.path.join(heap_dir, "tests", test_id)
 
@@ -52,4 +62,4 @@ def photos_dir(test_id) :
     return os.path.join(test_dir(test_id), "photos")
 
 def log_file(test_id) :
-    return os.path.join(heap_dir, "logs", test_id + ".log")
+    return os.path.join(heap_dir, "tests", test_id, ".log")

@@ -1,6 +1,5 @@
 from celery import task
-import unittest
-import tests
+import tests_config
 
 @task()
 def add(x, y):
@@ -9,8 +8,9 @@ def add(x, y):
     return x + y
 
 @task()
-def run_test():
-    t = tests.CheckSeoTextsTestCase()
+def run_test(test_id):
+    t_class = tests_config.all_tests[test_id]
+    t = t_class(test_id)
     success = True
     try :
         t.setUp()
