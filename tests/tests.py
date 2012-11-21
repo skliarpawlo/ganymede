@@ -5,16 +5,11 @@ from itertools import groupby
 from utils import FunctionalTest
 from selenium.common.exceptions import NoSuchElementException
 
-import unittest
-class FakeTestCase(unittest.TestCase) :
-    def test_fake(self):
-        print('FAKE TEST LOG')
-
 class CheckRedirectTestCase ( FunctionalTest ) :
 
     id = "check_redirects"
 
-    def test_redirects( self ) :
+    def run( self ) :
         t = db.session.query(CheckRedirect).all()
         firefox = browser.inst
         success = True
@@ -36,7 +31,7 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
 
     id = 'seo_texts'
 
-    def test_texts( self ) :
+    def run( self ) :
         firefox = browser.inst
         success = True
 
@@ -87,7 +82,7 @@ class CheckTitlesTestCase( FunctionalTest ) :
 
     id = "urls_titles"
 
-    def test_titles( self ) :
+    def run( self ) :
         firefox = browser.inst
         t = db.session.query(TitleTest).all()
 

@@ -3,14 +3,13 @@ from core import db
 from core import browser
 from core import vscreen
 import os
-import unittest
 import shutil
 import ganymede.settings
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
 
-class FunctionalTest(unittest.TestCase) :
+class FunctionalTest :
     def setUp(self):
         # set paths
         self.test_dir = test_dir( self.id )
