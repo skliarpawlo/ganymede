@@ -23,7 +23,7 @@ class CheckRedirectTestCase ( FunctionalTest ) :
                 success = False
                 browser.save()
         if not success:
-            raise Exception('Test failed')
+            assert False
 
 class CheckSeoTextsTestCase( FunctionalTest ) :
 
@@ -58,10 +58,13 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                         ftxt = helpers.remove_html_tags( helpers.remove_new_lines( txt ) )
                         fcontent = helpers.remove_html_tags( helpers.remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
 
+                        if (not (fcontent in ftxt)):
+                            print(fcontent)
+                            print(ftxt)
                         assert fcontent in ftxt
                     else :
                         xpath = "//willfail"
-                    print "OK : ", test.page.page
+                    #print "OK : ", test.page.page
                 except NoSuchElementException as err:
                     print "FAILED : ", test.page.page, " ", test.type
                     success = False
@@ -104,5 +107,5 @@ class CheckTitlesTestCase( FunctionalTest ) :
                 success = False
                 browser.save()
 
-            if not success :
-                raise Exception('Test failed')
+        if not success :
+            assert False

@@ -4,7 +4,11 @@ $( function() {
         return $.ajax( {
             type : "GET",
             url : "/ajax/test",
-            data : { test_id : test_id, op_id : op_id }
+            data : {
+                test_id : test_id,
+                op_id : op_id,
+                domain: $("#domain-val").val()
+            }
         })
     }
 
@@ -12,6 +16,8 @@ $( function() {
         var test_id = $(this).parents("[test_id]").attr("test_id");
         var op_id = 'test';
         performRequest(test_id, op_id).done( function(data) {
+            $("#info-message").html(data.message);
+            $("#info-modal").modal();
         });
     });
 

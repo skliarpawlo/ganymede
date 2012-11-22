@@ -6,7 +6,7 @@ def start() :
     global display
     if display is None :
         display = Display( visible = 0, size=( 800, 600 ) )
-        display.start()
+    display.start()
         
 def stop() :    
     display.stop()

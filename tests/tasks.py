@@ -1,13 +1,6 @@
-from celery import task
 import tests_config
+import utils
 
-@task()
-def add(x, y):
-    logger = add.get_logger()
-    logger.info("xxx fake task xxx")
-    return x + y
-
-@task()
 def run_test(test_id):
     t_class = tests_config.all_tests[test_id]
     t = t_class(test_id)
@@ -19,4 +12,13 @@ def run_test(test_id):
         success = False
     finally:
         t.tearDown()
+
+    # save result
+    fd = open(utils.res_file(test_id), 'w')
+    if (success) :
+        fd.write('ACCEPTED')
+    else :
+        fd.write('FAILED')
+    fd.close()
+
     return success

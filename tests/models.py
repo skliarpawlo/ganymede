@@ -29,7 +29,7 @@ class SeoText( Base ) :
     type = Column(String(50), primary_key=True)
     content = Column(UnicodeText)
 
-class TitleTest(Base):
+class TitleTest( Base ):
     __tablename__ = "test_seo_titles"
 
     domain = Column(String(64), primary_key=True)

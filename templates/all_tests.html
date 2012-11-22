@@ -1,7 +1,38 @@
 {% extends "layout.html" %}
 
+{% block head %}
+    <script src="/static/js/all_tests.js"></script>
+{% endblock %}
+
 {% block content %}
 
-    <a href="/admin">go to admin</a>
+    domain: <input id="domain-val" value="www" type="text"/>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>status</th>
+                <th>last result</th>
+                <th>log</th>
+                <th>run</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test_id, test_data in tests.items %}
+                <tr test_id="{{ test_id }}">
+                    <td>{{ test_id }}</td>
+                    <td>{{ test_data.status }}</td>
+                    <td>{{ test_data.last_result }}</td>
+                    <td><input type="button" class="btn test-log-btn" value='log'/></td>
+                    <td><input type="button" class="btn test-start-btn" value='run'/></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include "error_modal.html" %}
+    {% include "info_modal.html" %}
+    {% include "log_modal.html" %}
 
 {% endblock %}
