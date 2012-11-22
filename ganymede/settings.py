@@ -41,6 +41,7 @@ INSTALLED_APPS = (
 STATICFILES_DIRS = (
     os.path.join(BASE_PATH, "ganymede", "static"),
     os.path.join(BASE_PATH, "static"),
+    HEAP_PATH,
     )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

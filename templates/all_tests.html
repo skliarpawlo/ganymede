@@ -6,14 +6,16 @@
 
 {% block content %}
 
-    domain: <input id="domain-val" value="www" type="text"/>
+    domain: <input id="domain-val" value="lun.ua" type="text"/>
 
     <table class="table">
         <thead>
             <tr>
                 <th>id</th>
-                <th>status</th>
                 <th>last result</th>
+                <th>last run</th>
+                <th>fail screenshots</th>
+                <th>status</th>
                 <th>log</th>
                 <th>run</th>
             </tr>
@@ -22,8 +24,28 @@
             {% for test_id, test_data in tests.items %}
                 <tr test_id="{{ test_id }}">
                     <td>{{ test_id }}</td>
-                    <td>{{ test_data.status }}</td>
-                    <td>{{ test_data.last_result }}</td>
+                    <td>
+                        {% if test_data.last_result == 'ACCEPTED' %}
+                            <span class="label label-success">{{ test_data.last_result }}</span>
+                        {% else %}
+                            <span class="label label-important">{{ test_data.last_result }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ test_data.last_run }}
+                    </td>
+                    <td>
+                        {% for sc in test_data.screenshots %}
+                            <a href="{{ sc }}">#</a>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if test_data.status == 0 %}
+                            <span class="label label-info">ready</span>
+                        {% else %}
+                            <span class="label label-warning">running pid={{ test_data.status }}</span>
+                        {% endif %}
+                    </td>
                     <td><input type="button" class="btn test-log-btn" value='log'/></td>
                     <td><input type="button" class="btn test-start-btn" value='run'/></td>
                 </tr>

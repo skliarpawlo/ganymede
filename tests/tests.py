@@ -1,4 +1,4 @@
-from core import db, browser, config, helpers
+from core import db, browser, config, helpers, urls
 import urllib
 from models import *
 from itertools import groupby
@@ -17,9 +17,9 @@ class CheckRedirectTestCase ( FunctionalTest ) :
                 curl = urllib.unquote( firefox.current_url.encode('utf8') ).decode('utf8')
                 etalon = test.dest
                 assert curl == etalon
-                print( "OK : ", test.source, " -> ", etalon )
+                print "OK : ", test.source, " -> ", etalon
             except AssertionError as err :
-                print( "FAILED : ", test.source, " -> ", etalon, " really redirected to ", curl )
+                print "FAILED : ", test.source, " -> ", etalon, " really redirected to ", curl
                 success = False
                 browser.save()
         if not success:
@@ -37,9 +37,9 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
         for k, testgroup in groupby( t, keyf ) :
 
             if k['page'][0:1] == "/" :
-                firefox.get("http://" + k['domain'] + ".lun.ua" + k['page'] )
+                firefox.get( urls.create( subdomain=k['domain'], path=k['page'] ) )
             else :
-                firefox.get("http://" + k['domain'] + ".lun.ua" )
+                firefox.get( urls.create( subdomain=k['domain'] ) )
 
             for test in testgroup :
                 try:
@@ -58,9 +58,6 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                         ftxt = helpers.remove_html_tags( helpers.remove_new_lines( txt ) )
                         fcontent = helpers.remove_html_tags( helpers.remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
 
-                        if (not (fcontent in ftxt)):
-                            print(fcontent)
-                            print(ftxt)
                         assert fcontent in ftxt
                     else :
                         xpath = "//willfail"
