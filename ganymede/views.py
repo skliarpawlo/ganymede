@@ -12,6 +12,7 @@ import time
 from core import urls
 
 def home(request) :
+    domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
     data = {}
     for test_id in tests.tests_config.all_tests :
         pid_file = tests.utils.pid_file(test_id)
@@ -26,7 +27,7 @@ def home(request) :
             for f in files:
                 data[test_id]['screenshots'].append( os.path.join( 'static', os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) ) )
 
-    return render_to_response( 'all_tests.html', { 'tests' : data } )
+    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains } )
 
 def test(request) :
     test_id = request.GET.get('test_id')

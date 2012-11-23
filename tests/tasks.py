@@ -1,5 +1,6 @@
 import tests_config
 import utils
+import core.urls
 
 def run_test(test_id):
     t_class = tests_config.all_tests[test_id]
@@ -16,9 +17,9 @@ def run_test(test_id):
     # save result
     fd = open(utils.res_file(test_id), 'w')
     if (success) :
-        fd.write('ACCEPTED')
+        fd.write('ACCEPTED [{0}]'.format(core.urls.domain))
     else :
-        fd.write('FAILED')
+        fd.write('FAILED [{0}]'.format(core.urls.domain))
     fd.close()
 
     return success

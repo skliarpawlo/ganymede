@@ -84,14 +84,20 @@ class CheckTitlesTestCase( FunctionalTest ) :
 
         for test in t :
             try :
-                firefox.get( "http://" + test.domain + ".lun.ua" + test.url )
+                firefox.get( urls.create( subdomain=test.domain, path=test.url ) )
 
                 xpath = config.xpath[ "title" ]
                 elem = firefox.find_element_by_xpath( xpath )
+                if (not elem.text == test.title) :
+                    print elem.text
+                    print test.title
                 assert elem.text == test.title
 
                 xpath = config.xpath[ "h1" ]
                 elem = firefox.find_element_by_xpath( xpath )
+                if (not elem.text == test.h1) :
+                    print elem.text
+                    print test.h1
                 assert elem.text == test.h1
 
                 print "OK : ", test.domain, " ", test.url
