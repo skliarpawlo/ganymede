@@ -18,13 +18,18 @@
                 <th>fail screenshots</th>
                 <th>status</th>
                 <th>log</th>
-                <th>run</th>
+                <th><input id="test-all" type="button" class="btn" value="run all"/></th>
             </tr>
         </thead>
         <tbody>
             {% for test_id, test_data in tests.items %}
                 <tr test_id="{{ test_id }}">
-                    <td>{{ test_id }}</td>
+                    <td>
+                        <a href="#" rel="popover">{{ test_id }}</a>
+                        <div class="doc" style="display:none">
+                            {{ test_data.doc }}
+                        </div>
+                    </td>
                     <td>
                         {% if 'ACCEPTED' in test_data.last_result %}
                             <span class="label label-success">{{ test_data.last_result }}</span>
@@ -59,5 +64,7 @@
     {% include "log_modal.html" %}
 
     <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-popover.js"></script>
 
 {% endblock %}

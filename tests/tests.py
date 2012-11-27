@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from core import db, browser, config, helpers, urls
 import urllib
 from models import *
@@ -6,6 +8,7 @@ from utils import FunctionalTest
 from selenium.common.exceptions import NoSuchElementException
 
 class CheckRedirectTestCase ( FunctionalTest ) :
+    "Проверяет редиректы вроде www.lun.ua/weolcome -> www.lun.ua"
 
     def run( self ) :
         t = db.session.query(CheckRedirect).all()
@@ -26,6 +29,7 @@ class CheckRedirectTestCase ( FunctionalTest ) :
             assert False
 
 class CheckSeoTextsTestCase( FunctionalTest ) :
+    "Проверяет наличие сео текстов из таблици interface_seo_texts на соответсвующих страницах"
 
     def run( self ) :
         firefox = browser.inst
@@ -58,6 +62,9 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                         ftxt = helpers.remove_html_tags( helpers.remove_new_lines( txt ) )
                         fcontent = helpers.remove_html_tags( helpers.remove_new_lines( test.content.encode( 'utf-8', 'ignore' ) ) )
 
+                        if not(fcontent in ftxt) :
+                            print fcontent
+                            print ftxt
                         assert fcontent in ftxt
                     else :
                         xpath = "//willfail"
@@ -75,6 +82,7 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
             assert False
 
 class CheckTitlesTestCase( FunctionalTest ) :
+    "Проверяет соответсие тайтлов на страницах, значениям из таблици test_seo_titles"
 
     def run( self ) :
         firefox = browser.inst

@@ -10,6 +10,7 @@ import sys
 import core.lock
 import time
 from core import urls
+import tests.schedule
 
 def home(request) :
     domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
@@ -22,6 +23,7 @@ def home(request) :
         # traverse screenshots
         data[test_id]['screenshots'] = []
         data[test_id]['last_run'] = time.ctime(os.path.getmtime(tests.utils.res_file(test_id)))
+        data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
         photo_dir = tests.utils.photos_dir(test_id)
         for root, dirs, files in os.walk(photo_dir):
             for f in files:
@@ -45,9 +47,12 @@ def test(request) :
                 message = "test started"
             else:
                 urls.domain = domain
-                core.lock.capture(pid_file)
-                tests.tasks.run_test(test_id)
-                core.lock.uncapture(pid_file)
+                if (test_id == "__test_all__") :
+                    tests.schedule.run_all()
+                else:
+                    core.lock.capture(pid_file)
+                    tests.tasks.run_test(test_id)
+                    core.lock.uncapture(pid_file)
                 sys.exit(0)
         else:
             message = "test is running already. PID:{0}".format(test_pid)

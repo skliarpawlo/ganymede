@@ -35,4 +35,25 @@ $( function() {
         });
     });
 
+    $("#test-all").click(function(){
+        var test_id = '__test_all__';
+        var op_id = 'test';
+        performRequest(test_id, op_id).done( function(data) {
+            $("#info-message").html(data.message);
+            $("#info-modal").modal();
+        });
+    });
+
+    ////
+
+    $("a[rel=popover]").each(function(ind,el){
+        var that = $(el);
+        console.log(that.siblings(".doc").text());
+        that.popover( {
+            title:"Предназначение теста",
+            content:that.siblings(".doc").text(),
+            delay: { show: 500, hide: 100 }
+        } );
+    });
+
 } );

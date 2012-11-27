@@ -1,5 +1,3 @@
-import sched
-import time
 import tests_config
 import utils
 import tasks
@@ -13,10 +11,9 @@ def run(test_id) :
         tasks.run_test(test_id)
         core.lock.uncapture(pid_file)
 
+def run_all() :
+    for x in tests_config.all_tests:
+        run(x)
 
-scheduler = sched.scheduler(time.time, time.sleep)
-
-for x in tests_config.all_tests:
-    scheduler.enter(1, 1, run, (x,))
-
-scheduler.run()
+if (__name__=="__main__"):
+    run_all()
