@@ -2,8 +2,10 @@ import tests_config
 import utils
 import tasks
 import core.lock
+import core.path
 
 def run(test_id) :
+    core.path.ensure(utils.test_dir(test_id))
     pid_file = utils.pid_file(test_id)
     test_pid = core.lock.is_free(pid_file)
     if (test_pid==0):
