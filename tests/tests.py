@@ -8,7 +8,7 @@ from utils import FunctionalTest
 from selenium.common.exceptions import NoSuchElementException
 
 class CheckRedirectTestCase ( FunctionalTest ) :
-    "Проверяет редиректы вроде www.lun.ua/weolcome -> www.lun.ua"
+    "Проверяет редиректы вроде www.lun.ua/wellcome -> www.lun.ua"
 
     def run( self ) :
         t = db.session.query(CheckRedirect).all()

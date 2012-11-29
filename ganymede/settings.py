@@ -16,11 +16,8 @@ TEMPLATE_DIRS = (
 
 DATABASES = {
     'default': {
-        'ENGINE' : 'django.db.backends.mysql',
-        'NAME' : 'ganymede',
-        'HOST' : 'localhost',
-        'USER' : 'root',
-        'PASSWORD' : '',
+        'ENGINE' : 'django.db.backends.sqlite3',
+        'NAME' : '/tmp/sqlite_dump.db',
     }
 }
 

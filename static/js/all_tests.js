@@ -48,7 +48,6 @@ $( function() {
 
     $("a[rel=popover]").each(function(ind,el){
         var that = $(el);
-        console.log(that.siblings(".doc").text());
         that.popover( {
             title:"Предназначение теста",
             content:that.siblings(".doc").text(),

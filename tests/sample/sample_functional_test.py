@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from tests.utils import FunctionalTest
 
 # для обращения к браузеру (через browser.inst)

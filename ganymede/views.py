@@ -22,7 +22,10 @@ def home(request) :
         data[test_id]['last_result'] = tests.utils.dump_res(test_id)
         # traverse screenshots
         data[test_id]['screenshots'] = []
-        data[test_id]['last_run'] = time.ctime(os.path.getmtime(tests.utils.res_file(test_id)))
+        if (os.path.exists(tests.utils.res_file(test_id))):
+            data[test_id]['last_run'] = time.ctime(os.path.getmtime(tests.utils.res_file(test_id)))
+        else :
+            data[test_id]['last_run'] = "-"
         data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
         photo_dir = tests.utils.photos_dir(test_id)
         for root, dirs, files in os.walk(photo_dir):

@@ -1,0 +1,5 @@
+Python packages:
+    pyvirtualdisplay (+Xvfb)
+    sqlalchemy
+    selenium
+    iceweasel (firefox | any other browser with it's webdriver)
