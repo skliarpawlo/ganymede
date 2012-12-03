@@ -21,6 +21,8 @@ def setHeap( h ) :
 
 def save() :
     global errors, heap, inst
-    inst.save_screenshot( os.path.join( heap, "sc_" + str( errors ) + ".png" ) )
+    res = inst.save_screenshot( os.path.join( heap, "sc_" + str( errors ) + ".png" ) )
+    if not res :
+        print "cannot save screenshot"
     errors += 1
 

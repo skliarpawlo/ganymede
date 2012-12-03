@@ -12,6 +12,16 @@ import time
 from core import urls
 import tests.schedule
 
+def screenshot(request) :
+    try :
+        fd = open( ganymede.settings.HEAP_PATH + request.path )
+        resp = HttpResponse( mimetype='image/png' )
+        resp.write( fd.read() )
+        fd.close()
+        return resp
+    except :
+        return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
+
 def home(request) :
     domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
     data = {}
@@ -30,7 +40,7 @@ def home(request) :
         photo_dir = tests.utils.photos_dir(test_id)
         for root, dirs, files in os.walk(photo_dir):
             for f in files:
-                data[test_id]['screenshots'].append( os.path.join( 'static', os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) ) )
+                data[test_id]['screenshots'].append( os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) )
 
     return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains } )
 

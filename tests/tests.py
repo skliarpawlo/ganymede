@@ -68,7 +68,7 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
                         assert fcontent in ftxt
                     else :
                         xpath = "//willfail"
-                    #print "OK : ", test.page.page
+                    print "OK : ", test.page.page
                 except NoSuchElementException as err:
                     print "FAILED : ", test.page.page, " ", test.type
                     success = False
@@ -82,7 +82,7 @@ class CheckSeoTextsTestCase( FunctionalTest ) :
             assert False
 
 class CheckTitlesTestCase( FunctionalTest ) :
-    "Проверяет соответсие тайтлов на страницах, значениям из таблици test_seo_titles"
+    "Проверяет соответствие тайтлов на страницах, значениям из таблици test_seo_titles"
 
     def run( self ) :
         firefox = browser.inst

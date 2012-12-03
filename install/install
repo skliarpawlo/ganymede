@@ -1,5 +1,7 @@
 Python packages:
-    pyvirtualdisplay (+Xvfb)
+    pyvirtualdisplay
     sqlalchemy
     selenium
+Soft:
     iceweasel (firefox | any other browser with it's webdriver)
+    Xvfb

@@ -7,15 +7,12 @@ BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
 TESTS_PATH = os.path.join(BASE_PATH, "tests")
 
-STATIC_ROOT = os.path.join(BASE_PATH, "assets")
-STATIC_URL = '/static/'
-
 TEMPLATE_DIRS = (
     os.path.join( BASE_PATH, 'templates' ),
 )
 
 DATABASES = {
-    'default': {
+    'default': { # not used (sql alchemy instead)
         'ENGINE' : 'django.db.backends.sqlite3',
         'NAME' : '/tmp/sqlite_dump.db',
     }
@@ -27,23 +24,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    #'django.contrib.messages',
-
-    'django.contrib.staticfiles',
     'tests',
 )
 
 ####################
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_PATH, "ganymede", "static"),
-    os.path.join(BASE_PATH, "static"),
-    HEAP_PATH,
-    )
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    )
 SECRET_KEY = '=j%dl$72b*3aoqpqi)g)$rrfe-e+4$*k#f@8$=b#f@-u=v&amp;lgl'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
