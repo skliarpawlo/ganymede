@@ -27,11 +27,12 @@ class FunctionalTest :
         path.ensure( self.photo_dir )
 
         # redirect to log
-        self._err = sys.stderr
-        self._out = sys.stdout
-        sys.stderr = sys.stdout = StringIO()
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+        if not ganymede.settings.DEBUG:
+            self._err = sys.stderr
+            self._out = sys.stdout
+            sys.stderr = sys.stdout = StringIO()
+            sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+            sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
         # functional tests setup
         db.init()
@@ -44,16 +45,17 @@ class FunctionalTest :
         vscreen.stop()
         db.session.close()
 
-        log = sys.stdout.getvalue()
-        fd = open( log_file(self.id), 'w' )
-        fd.write(log)
-        fd.close()
+        if not ganymede.settings.DEBUG:
+            log = sys.stdout.getvalue()
+            fd = open( log_file(self.id), 'w' )
+            fd.write(log)
+            fd.close()
 
-        sys.stdout.close()
-        sys.stderr.close()
+            sys.stdout.close()
+            sys.stderr.close()
 
-        sys.stdout = self._out
-        sys.stderr = self._err
+            sys.stdout = self._out
+            sys.stderr = self._err
 
 def test_dir(test_id) :
     return os.path.join(heap_dir, "tests", test_id)
