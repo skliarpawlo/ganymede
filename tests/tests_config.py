@@ -2,6 +2,6 @@ import tests
 
 all_tests = {
     'seo_texts' : tests.CheckSeoTextsTestCase,
-    'redirects' : tests.CheckRedirectTestCase,
+    'status' : tests.CheckStatusTestCase,
     'titles' : tests.CheckTitlesTestCase,
 }

@@ -4,13 +4,23 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-class CheckRedirect(Base) :
+class TestPagesStatus(Base):
+    __tablename__ = 'test_pages_status'
+    test_id = Column(Integer(10), primary_key=True)
+    page_domain = Column(UnicodeText(50))
+    page = Column(UnicodeText(255))
+    status_code = Column(Integer(10))
+    redirect_domain = Column(UnicodeText(50))
+    redirect_location = Column(UnicodeText(255))
+
+class CheckRedirect(Base):
     __tablename__ = 'test_check_redirects'
 
-    source = Column(UnicodeText(255),primary_key=True)
+    source = Column(UnicodeText(255), primary_key=True)
     dest = Column(UnicodeText(255))
 
-class Page( Base ) :
+
+class Page(Base):
     __tablename__ = 'interface_pages'
 
     page_id = Column(Integer(10), primary_key=True)
@@ -21,7 +31,8 @@ class Page( Base ) :
     params = Column(String(255))
     impressions = Column(Integer(10))
 
-class SeoText( Base ) :
+
+class SeoText(Base):
     __tablename__ = 'interface_seo_texts'
     page = relationship(Page)
 
@@ -29,7 +40,8 @@ class SeoText( Base ) :
     type = Column(String(50), primary_key=True)
     content = Column(UnicodeText)
 
-class TitleTest( Base ):
+
+class TitleTest(Base):
     __tablename__ = "test_seo_titles"
 
     domain = Column(String(64), primary_key=True)
