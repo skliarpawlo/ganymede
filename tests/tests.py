@@ -18,8 +18,8 @@ class CheckStatusTestCase(FunctionalTest):
         for test in t:
             firefox.get(urls.create(test.page_domain, test.page))
             try:
-                conn = httplib.HTTPConnection(test.page_domain + ".lun.ua")
-                conn.request("HEAD", test.page.encode('utf-8'))
+                conn = httplib.HTTPConnection(urls.host(test.page_domain))
+                conn.request("HEAD", urls.path(test.page_domain, test.page.encode('utf-8')))
                 response = conn.getresponse()
                 assert test.status_code == response.status
                 if len(test.redirect_location) > 0:
@@ -32,9 +32,9 @@ class CheckStatusTestCase(FunctionalTest):
                     #проверяем финальный Location, на случай если было несколько редиректов
                     curl = urllib.unquote(firefox.current_url.encode('utf8')).decode('utf-8')
                     assert urls.create(test.redirect_domain, test.redirect_location) == curl
-                    print "OK : ", url, " -> ", curl
-                else:
-                    print "OK : ", url, " -> ", test.status_code
+                    #print "OK : ", url, " -> ", curl
+                #else:
+                    #print "OK : ", url, " -> ", test.status_code
             except AssertionError as err:
                 print "FAILED (", test.test_id, ") : ", test.page, " ", test.status_code
                 if "curl" in locals():
@@ -85,13 +85,13 @@ class CheckSeoTextsTestCase(FunctionalTest):
                         assert fcontent in ftxt
                     else:
                         xpath = "//willfail"
-                    print "OK : ", test.page.page
+                    #print "OK : ", test.page.page
                 except NoSuchElementException as err:
-                    print "FAILED : ", test.page.page, " ", test.type
+                    print "FAILED : ", test.page.page.encode('utf-8', 'ignore'), " ", test.type.encode('utf-8', 'ignore')
                     success = False
                     browser.save()
                 except AssertionError as err:
-                    print "FAILED : ", test.page.page, " ", test.type
+                    print "FAILED : ", test.page.page.encode('utf-8', 'ignore'), " ", test.type.encode('utf-8', 'ignore')
                     success = False
                     browser.save()
 
@@ -126,7 +126,7 @@ class CheckTitlesTestCase(FunctionalTest):
                     print test.h1
                 assert elem.text == test.h1
 
-                print "OK : ", test.domain, " ", test.url
+                #print "OK : ", test.domain, " ", test.url
             except NoSuchElementException as err:
                 print "FAILED : ", test.domain, " ", test.url
                 success = False
