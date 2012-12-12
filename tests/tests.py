@@ -7,6 +7,7 @@ from models import *
 from itertools import groupby
 from utils import FunctionalTest
 from selenium.common.exceptions import NoSuchElementException
+from sqlalchemy.sql import not_
 
 class CheckStatusTestCase(FunctionalTest):
     "Проверяет статус страницы и редирект"
@@ -53,7 +54,7 @@ class CheckSeoTextsTestCase(FunctionalTest):
         firefox = browser.inst
         success = True
 
-        t = db.session.query(SeoText).all()
+        t = db.session.query(SeoText).filter(not SeoText.page.domain=='odessa')
         keyf = lambda x: {'page': x.page.page, 'domain': x.page.domain}
         t = sorted(t, key=keyf)
         for k, testgroup in groupby(t, keyf):
@@ -85,13 +86,13 @@ class CheckSeoTextsTestCase(FunctionalTest):
                         assert fcontent in ftxt
                     else:
                         xpath = "//willfail"
-                    print "OK : ", test.page.page
+                    #print "OK : ", test.page.page
                 except NoSuchElementException as err:
-                    print "FAILED : ", test.page.page.encode('utf-8', 'ignore'), " ", test.type.encode('utf-8', 'ignore')
+                    print "FAILED : ", test.page, " ", test.type
                     success = False
                     browser.save()
                 except AssertionError as err:
-                    print "FAILED : ", test.page.page.encode('utf-8', 'ignore'), " ", test.type.encode('utf-8', 'ignore')
+                    print "FAILED : ", test.page.page, " ", test.type.encode
                     success = False
                     browser.save()
 

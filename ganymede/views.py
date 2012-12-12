@@ -11,6 +11,9 @@ import core.lock
 import time
 from core import urls
 import tests.schedule
+from core import db
+from tests.models import TestResult
+from sqlalchemy import desc
 
 def screenshot(request) :
     try :
@@ -25,23 +28,36 @@ def screenshot(request) :
 def home(request) :
     domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
     data = {}
+    db.init()
+
+    cur_domain = request.GET.get('domain');
+    if (cur_domain is None) :
+        cur_domain = "lun.ua"
+
     for test_id in tests.tests_config.all_tests :
+
+        result = db.session.query(TestResult).filter_by(test_id=test_id, domain=cur_domain).order_by(desc(TestResult.exec_time)).first()
+
+        if (result is None) :
+            result = TestResult( test_id = test_id, status = '-', log = '', domain='-' )
+
         pid_file = tests.utils.pid_file(test_id)
+
         data[test_id] = {}
+
         data[test_id]['status'] = core.lock.is_free(pid_file)
-        data[test_id]['last_result'] = tests.utils.dump_res(test_id)
+        data[test_id]['last_result'] = result.status
+        data[test_id]['last_run'] = result.exec_time
+        data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
+
         # traverse screenshots
         data[test_id]['screenshots'] = []
-        if (os.path.exists(tests.utils.res_file(test_id))):
-            data[test_id]['last_run'] = time.ctime(os.path.getmtime(tests.utils.res_file(test_id)))
-        else :
-            data[test_id]['last_run'] = "-"
-        data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
         photo_dir = tests.utils.photos_dir(test_id)
         for root, dirs, files in os.walk(photo_dir):
             for f in files:
                 data[test_id]['screenshots'].append( os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) )
 
+    db.session.close()
     return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains } )
 
 def test(request) :
@@ -71,7 +87,18 @@ def test(request) :
             message = "test is running already. PID:{0}".format(test_pid)
 
     elif (op_id == 'log'):
-        message = tests.utils.dump_log(test_id)
+        db.init()
+
+        cur_domain = request.GET.get('domain');
+        if (cur_domain is None) :
+            cur_domain = "lun.ua"
+
+        result = db.session.query(TestResult).filter_by(test_id=test_id, domain=cur_domain).order_by(desc(TestResult.exec_time)).first()
+        if (result is None):
+            message = 'no log available'
+        else:
+            message = result.log
+        db.session.close()
 
     return HttpResponse( json.dumps( {
         'status' : err,

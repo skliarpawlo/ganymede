@@ -3,10 +3,8 @@ from core import browser
 from core import vscreen
 from core import path
 import os
-import sys
 import ganymede.settings
-import codecs
-from cStringIO import StringIO
+
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
@@ -26,14 +24,6 @@ class FunctionalTest :
         path.ensure( self.test_dir )
         path.ensure( self.photo_dir )
 
-        # redirect to log
-        # if not ganymede.settings.DEBUG:
-        self._err = sys.stderr
-        self._out = sys.stdout
-        sys.stderr = sys.stdout = StringIO()
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
-
         # functional tests setup
         db.init()
         vscreen.start()
@@ -44,18 +34,6 @@ class FunctionalTest :
         browser.stop()
         vscreen.stop()
         db.session.close()
-
-        # if not ganymede.settings.DEBUG:
-        log = sys.stdout.getvalue()
-        fd = open( log_file(self.id), 'w' )
-        fd.write(log)
-        fd.close()
-
-        sys.stdout.close()
-        sys.stderr.close()
-
-        sys.stdout = self._out
-        sys.stderr = self._err
 
 def test_dir(test_id) :
     return os.path.join(heap_dir, "tests", test_id)

@@ -1,8 +1,16 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, UnicodeText, Integer, String, ForeignKey
+from sqlalchemy import Column, UnicodeText, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 Base = declarative_base()
+
+class TestResult(Base):
+    __tablename__ = 'test_results'
+    test_id = Column(UnicodeText(255), primary_key=True)
+    exec_time = Column(DateTime, primary_key=True)
+    domain = Column(UnicodeText(128))
+    status = Column(UnicodeText(128))
+    log = Column(UnicodeText)
 
 class TestPagesStatus(Base):
     __tablename__ = 'test_pages_status'
