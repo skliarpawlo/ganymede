@@ -9,7 +9,10 @@ def run_test(test_id):
     try :
         t.setUp()
         t.run()
-    except :
+    except AssertionError:
+        success = False
+    except Exception as s :
+        print "ERROR: ", s
         success = False
     finally:
         t.tearDown()

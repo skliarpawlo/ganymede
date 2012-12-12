@@ -85,7 +85,7 @@ class CheckSeoTextsTestCase(FunctionalTest):
                         assert fcontent in ftxt
                     else:
                         xpath = "//willfail"
-                    #print "OK : ", test.page.page
+                    print "OK : ", test.page.page
                 except NoSuchElementException as err:
                     print "FAILED : ", test.page.page.encode('utf-8', 'ignore'), " ", test.type.encode('utf-8', 'ignore')
                     success = False
