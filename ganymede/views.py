@@ -6,14 +6,13 @@ import tests.utils
 from django.http import HttpResponse
 import json
 import os
-import sys
 import core.lock
-import time
 from core import urls
 import tests.schedule
 from core import db
 from tests.models import TestResult
 from sqlalchemy import desc
+import tests.utils
 
 def screenshot(request) :
     try :
@@ -69,6 +68,9 @@ def test(request) :
     err = 0
     if (op_id == 'test'):
         pid_file = tests.utils.pid_file(test_id)
+
+        core.path.ensure(tests.utils.test_dir(test_id))
+
         test_pid = core.lock.is_free(pid_file)
         if (test_pid==0):
             pid = os.fork()
@@ -77,7 +79,7 @@ def test(request) :
             else:
                 urls.domain = domain
                 if (test_id == "__test_all__") :
-                    tests.schedule.run_all()
+                    tests.tasks.run_all()
                 else:
                     core.lock.capture(pid_file)
                     tests.tasks.run_test(test_id)

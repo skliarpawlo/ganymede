@@ -54,7 +54,7 @@ class CheckSeoTextsTestCase(FunctionalTest):
         firefox = browser.inst
         success = True
 
-        t = db.session.query(SeoText).filter(not SeoText.page.domain=='odessa')
+        t = db.session.query(SeoText)
         keyf = lambda x: {'page': x.page.page, 'domain': x.page.domain}
         t = sorted(t, key=keyf)
         for k, testgroup in groupby(t, keyf):
@@ -81,8 +81,9 @@ class CheckSeoTextsTestCase(FunctionalTest):
                             helpers.remove_new_lines(test.content.encode('utf-8', 'ignore')))
 
                         if not(fcontent in ftxt):
-                            print fcontent
-                            print ftxt
+                            print test.content
+                            print "###############"
+                            print firefox.page_source
                         assert fcontent in ftxt
                     else:
                         xpath = "//willfail"

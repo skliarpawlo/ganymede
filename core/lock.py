@@ -21,3 +21,4 @@ def capture(pid_file):
     pidf = open(pid_file, "w")
     pidf.write("{0}".format(os.getpid()))
     pidf.close()
+    os.chmod(pid_file, 0777)

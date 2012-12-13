@@ -13,6 +13,6 @@ def clean( dir ):
 
 def ensure( path ):
     try :
-        os.makedirs( path )
+        os.makedirs( path, 0777 )
     except os.error :
         pass
