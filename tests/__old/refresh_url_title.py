@@ -24,5 +24,5 @@ try :
 finally :
     browser.stop()
     vscreen.stop()
-    db.session.close()
+    db.close()
 

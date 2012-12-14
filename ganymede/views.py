@@ -45,7 +45,7 @@ def home(request) :
         data[test_id] = {}
 
         data[test_id]['status'] = core.lock.is_free(pid_file)
-        data[test_id]['last_result'] = result.status
+        data[test_id]['last_result'] = result.status + "[" + result.domain + "]"
         data[test_id]['last_run'] = result.exec_time
         data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
 
@@ -56,8 +56,8 @@ def home(request) :
             for f in files:
                 data[test_id]['screenshots'].append( os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) )
 
-    db.session.close()
-    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains } )
+    db.close()
+    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains, 'cur_domain' : cur_domain } )
 
 def test(request) :
     test_id = request.GET.get('test_id')
@@ -100,7 +100,7 @@ def test(request) :
             message = 'no log available'
         else:
             message = result.log
-        db.session.close()
+        db.close()
 
     return HttpResponse( json.dumps( {
         'status' : err,

@@ -47,9 +47,9 @@ def run_test(test_id):
         # save result
         status = ''
         if (success) :
-            status = 'ACCEPTED [{0}]'.format(core.urls.domain)
+            status = 'ACCEPTED'.format(core.urls.domain)
         else :
-            status = 'FAILED [{0}]'.format(core.urls.domain)
+            status = 'FAILED'.format(core.urls.domain)
 
         res = TestResult( test_id=test_id, domain=core.urls.domain, status=status, log=log )
         db.session.add(res)

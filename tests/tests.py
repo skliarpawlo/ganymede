@@ -20,7 +20,7 @@ class CheckStatusTestCase(FunctionalTest):
             firefox.get(urls.create(test.page_domain, test.page))
             try:
                 conn = httplib.HTTPConnection(urls.host(test.page_domain))
-                conn.request("HEAD", urls.path(test.page_domain, test.page.encode('utf-8')))
+                conn.request("HEAD", urls.path(test.page_domain.encode('utf-8'), test.page.encode('utf-8')))
                 response = conn.getresponse()
                 assert test.status_code == response.status
                 if len(test.redirect_location) > 0:
@@ -32,7 +32,7 @@ class CheckStatusTestCase(FunctionalTest):
                     assert url == curl
                     #проверяем финальный Location, на случай если было несколько редиректов
                     curl = urllib.unquote(firefox.current_url.encode('utf8')).decode('utf-8')
-                    assert urls.create(test.redirect_domain, test.redirect_location) == curl
+                    assert urls.create(urls.path(test.redirect_domain.encode('utf-8'), test.redirect_location.encode('utf-8'))) == curl
                     #print "OK : ", url, " -> ", curl
                 #else:
                     #print "OK : ", url, " -> ", test.status_code

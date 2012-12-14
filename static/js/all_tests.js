@@ -55,4 +55,9 @@ $( function() {
         } );
     });
 
+    $("#domain-val").keypress( function(e) {
+        if (e.keyCode == 13)
+            document.location = "?domain=" + $("#domain-val").val();
+    });
+
 } );

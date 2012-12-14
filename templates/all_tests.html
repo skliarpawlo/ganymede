@@ -7,7 +7,7 @@
 {% block content %}
 
     domain:
-    <input id="domain-val" type="text" value="lun.ua" data-provide="typeahead" data-source='[{% for domain in domains %}"{{ domain }}",{% endfor %}"lun.ua"]' />
+    <input id="domain-val" type="text" value="{{ cur_domain }}" data-provide="typeahead" data-source='[{% for domain in domains %}"{{ domain }}",{% endfor %}"lun.ua"]' />
 
     <table class="table">
         <thead>
