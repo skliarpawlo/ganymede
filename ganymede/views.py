@@ -29,9 +29,11 @@ def home(request) :
     data = {}
     db.init()
 
+    # determine testing domain
     cur_domain = request.GET.get('domain');
     if (cur_domain is None) :
         cur_domain = "lun.ua"
+    urls.domain = cur_domain
 
     for test_id in tests.tests_config.all_tests :
 
@@ -63,6 +65,8 @@ def test(request) :
     test_id = request.GET.get('test_id')
     op_id = request.GET.get('op_id')
     domain = request.GET.get('domain')
+
+    urls.domain = domain
 
     message = "OK"
     err = 0
