@@ -38,7 +38,7 @@ def test_dir(test_id) :
     return os.path.join(heap_dir, "tests", test_id)
 
 def photos_dir(test_id) :
-    return os.path.join(test_dir(test_id), "photos")
+    return os.path.join(test_dir(test_id), "photos", urls.domain)
 
 def pid_file(test_id) :
     return os.path.join(heap_dir, "tests", test_id, urls.domain + ".pid")

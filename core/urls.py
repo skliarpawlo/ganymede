@@ -1,16 +1,8 @@
 domain = u'lun.ua'
 
-def create( subdomain=u'www', path=u'' ) :
+def create( subdomain=u'www', path_uri=u'' ) :
     global domain
-    if (domain == u'lun.ua' ) :
-        return u"http://" + subdomain + "." + domain + path
-    else :
-        p = u"http://" + domain + path
-        if "?" in p :
-            p = p + u"&domain=" + subdomain
-        else :
-            p = p + u"?domain=" + subdomain
-        return p
+    return u"http://" + host( subdomain ) + path(subdomain, path_uri)
 
 def host( subdomain=u'www' ) :
     global domain

@@ -63,6 +63,7 @@ def run_test(test_id):
     return success
 
 def run(test_id) :
+    #import pdb; pdb.set_trace()
     core.path.ensure(utils.test_dir(test_id))
     pid_file = utils.pid_file(test_id)
     test_pid = core.lock.is_free(pid_file)

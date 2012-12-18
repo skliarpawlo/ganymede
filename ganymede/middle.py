@@ -14,7 +14,8 @@ class GanymedeMiddleware :
         db.init()
 
         #set testing mode
-        mode.set( mode.PRODUCTION )
+        mode.set_mode( mode.PRODUCTION )
+        mode.set_completeness( mode.COMPLETENESS_FAST )
 
     def process_response(self, request, response):
         # release db session

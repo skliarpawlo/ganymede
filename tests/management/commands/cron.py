@@ -6,7 +6,8 @@ from core import mode
 class Command(BaseCommand):
     def handle(self, *args, **options):
         db.init()
-        mode.set( mode.PRODUCTION )
+        mode.set_mode( mode.PRODUCTION )
+        mode.set_completeness( mode.COMPLETENESS_FULL )
 
         tasks.run_all()
 
