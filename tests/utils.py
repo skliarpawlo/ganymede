@@ -26,7 +26,6 @@ class FunctionalTest :
         path.ensure( self.photo_dir )
 
         # functional tests setup
-        db.init()
         vscreen.start()
         browser.start()
         browser.setHeap(self.photo_dir)
@@ -34,7 +33,6 @@ class FunctionalTest :
     def tearDown(self):
         browser.stop()
         vscreen.stop()
-        db.close()
 
 def test_dir(test_id) :
     return os.path.join(heap_dir, "tests", test_id)

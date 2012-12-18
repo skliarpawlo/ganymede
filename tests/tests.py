@@ -20,19 +20,22 @@ class CheckStatusTestCase(FunctionalTest):
             firefox.get(urls.create(test.page_domain, test.page))
             try:
                 conn = httplib.HTTPConnection(urls.host(test.page_domain))
-                conn.request("HEAD", urls.path(test.page_domain.encode('utf-8'), test.page.encode('utf-8')))
+                conn.request("HEAD", urls.path(test.page_domain, test.page).encode('utf-8'))
                 response = conn.getresponse()
                 assert test.status_code == response.status
                 if len(test.redirect_location) > 0:
                     #проверяем редирект Location
+                    # уже в утф-8
                     curl = response.getheader('Location')
-                    url = urls.create(test.redirect_domain, test.redirect_location).encode('utf-8')
+
+                    url = urls.create(test.redirect_domain, test.redirect_location)
                     if url.endswith('/') and not curl.endswith('/'):
                         curl += '/'
-                    assert url == curl
+                    assert url.encode('utf-8') == curl
                     #проверяем финальный Location, на случай если было несколько редиректов
-                    curl = urllib.unquote(firefox.current_url.encode('utf8')).decode('utf-8')
-                    assert urls.create(urls.path(test.redirect_domain.encode('utf-8'), test.redirect_location.encode('utf-8'))) == curl
+                    curl = urllib.unquote(firefox.current_url.encode('utf8'))
+                    #import pdb; pdb.set_trace()
+                    assert urls.create(test.redirect_domain, urls.path(test.redirect_domain, test.redirect_location)).encode('utf-8') == curl
                     #print "OK : ", url, " -> ", curl
                 #else:
                     #print "OK : ", url, " -> ", test.status_code
@@ -54,7 +57,7 @@ class CheckSeoTextsTestCase(FunctionalTest):
         firefox = browser.inst
         success = True
 
-        t = db.session.query(SeoText)
+        t = db.session.query(SeoText).limit(3)
         keyf = lambda x: {'page': x.page.page, 'domain': x.page.domain}
         t = sorted(t, key=keyf)
         for k, testgroup in groupby(t, keyf):
@@ -80,10 +83,6 @@ class CheckSeoTextsTestCase(FunctionalTest):
                         fcontent = helpers.remove_html_tags(
                             helpers.remove_new_lines(test.content.encode('utf-8', 'ignore')))
 
-                        if not(fcontent in ftxt):
-                            print test.content
-                            print "###############"
-                            print firefox.page_source
                         assert fcontent in ftxt
                     else:
                         xpath = "//willfail"

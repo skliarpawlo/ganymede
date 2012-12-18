@@ -8,6 +8,7 @@ import json
 import os
 import core.lock
 from core import urls
+from core import mode
 import tests.schedule
 from core import db
 from tests.models import TestResult
@@ -27,17 +28,9 @@ def screenshot(request) :
 def home(request) :
     domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
     data = {}
-    db.init()
-
-    # determine testing domain
-    cur_domain = request.GET.get('domain');
-    if (cur_domain is None) :
-        cur_domain = "lun.ua"
-    urls.domain = cur_domain
-
     for test_id in tests.tests_config.all_tests :
 
-        result = db.session.query(TestResult).filter_by(test_id=test_id, domain=cur_domain).order_by(desc(TestResult.exec_time)).first()
+        result = db.session.query(TestResult).filter_by(test_id=test_id, domain=urls.domain).order_by(desc(TestResult.exec_time)).first()
 
         if (result is None) :
             result = TestResult( test_id = test_id, status = '-', log = '', domain='-' )
@@ -58,15 +51,11 @@ def home(request) :
             for f in files:
                 data[test_id]['screenshots'].append( os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) )
 
-    db.close()
-    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains, 'cur_domain' : cur_domain } )
+    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains, 'cur_domain' : urls.domain } )
 
 def test(request) :
     test_id = request.GET.get('test_id')
     op_id = request.GET.get('op_id')
-    domain = request.GET.get('domain')
-
-    urls.domain = domain
 
     message = "OK"
     err = 0
@@ -77,24 +66,30 @@ def test(request) :
 
         test_pid = core.lock.is_free(pid_file)
         if (test_pid==0):
-            pid = os.fork()
-            if (pid > 0) :
-                message = "test started"
-            else:
-                urls.domain = domain
+            if (mode.mode == mode.PRODUCTION) :
+                pid = os.fork()
+                if (pid > 0) :
+                    message = "test started"
+                else:
+                    if (test_id == "__test_all__") :
+                        tests.tasks.run_all()
+                    else:
+                        core.lock.capture(pid_file)
+                        tests.tasks.run_test(test_id)
+                        core.lock.uncapture(pid_file)
+                    sys.exit(0)
+            else :
                 if (test_id == "__test_all__") :
                     tests.tasks.run_all()
                 else:
                     core.lock.capture(pid_file)
                     tests.tasks.run_test(test_id)
                     core.lock.uncapture(pid_file)
-                sys.exit(0)
+
         else:
             message = "test is running already. PID:{0}".format(test_pid)
 
     elif (op_id == 'log'):
-        db.init()
-
         cur_domain = request.GET.get('domain');
         if (cur_domain is None) :
             cur_domain = "lun.ua"
@@ -104,7 +99,6 @@ def test(request) :
             message = 'no log available'
         else:
             message = result.log
-        db.close()
 
     return HttpResponse( json.dumps( {
         'status' : err,

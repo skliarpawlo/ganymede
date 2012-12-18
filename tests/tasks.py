@@ -1,6 +1,7 @@
 import tests_config
 from models import TestResult
 from core import db
+from core import mode
 import core.urls
 import traceback
 import sys
@@ -17,12 +18,13 @@ def run_test(test_id):
 
     success = True
 
-    # redirect to log
-    _err = sys.stderr
-    _out = sys.stdout
-    sys.stderr = sys.stdout = StringIO()
-    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-    sys.stderr = codecs.getwriter('utf8')(sys.stderr)
+    if ( mode.mode == mode.PRODUCTION ) :
+        # redirect to log
+        _err = sys.stderr
+        _out = sys.stdout
+        sys.stderr = sys.stdout = StringIO()
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+        sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
     try :
         t.setUp()
@@ -36,13 +38,10 @@ def run_test(test_id):
     finally:
         t.tearDown()
 
-        log = sys.stdout.getvalue()
-
-        sys.stdout.close()
-        sys.stderr.close()
-
-        sys.stdout = _out
-        sys.stderr = _err
+        if (mode.mode == mode.PRODUCTION) :
+            log = sys.stdout.getvalue()
+        else :
+            log = u"testing performed"
 
         # save result
         status = ''
@@ -54,6 +53,12 @@ def run_test(test_id):
         res = TestResult( test_id=test_id, domain=core.urls.domain, status=status, log=log )
         db.session.add(res)
         db.session.commit()
+
+        if (mode.mode == mode.PRODUCTION) :
+            sys.stdout.close()
+            sys.stderr.close()
+            sys.stdout = _out
+            sys.stderr = _err
 
     return success
 
