@@ -17,3 +17,8 @@ def set_completeness( _compl ) :
     "Задание полноты тестирования 'full' - полное, 'fast' - быстрое"
     global complete
     complete = _compl
+
+testcase = '*'
+def set_testcase( _testcase ) :
+	global testcase
+	testcase = _testcase
