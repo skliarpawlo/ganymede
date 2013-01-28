@@ -6,6 +6,7 @@ from core import urls
 
 class Command(BaseCommand):
     def handle(self, domain='lun.ua', testcase='**', *args, **options):
+        print testcase
         urls.domain = domain
         mode.set_testcase( testcase )
         mode.set_mode( mode.PRODUCTION )
