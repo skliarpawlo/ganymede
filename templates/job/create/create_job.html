@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <script src="/static/js/create_job.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <form>
+
+        <fieldset>
+            <input type="button" class="btn btn-primary" id="сreate-job-btn" value="Создать"/>
+        </fieldset>
+
+        <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab1" data-toggle="tab">Git</a>
+                </li>
+                <li>
+                    <a href="#tab2" data-toggle="tab">Tests</a>
+                </li>
+                <li>
+                    <a href="#tab3" data-toggle="tab">Environment</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    {% include "job/create/git_tab.html" %}
+                </div>
+                <div class="tab-pane" id="tab2">
+                    {% include "job/create/tests_list.html" %}
+                </div>
+                <div class="tab-pane" id="tab3">
+                    {% include "job/create/environment.html" %}
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    {% include "error_modal.html" %}
+    {% include "info_modal.html" %}
+    {% include "log_modal.html" %}
+
+    <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source ../../env.sh
+PID_FILE=/home/pavlo/logs/ganymede.pid
+SOCKET=/home/pavlo/logs/ganymede.sock
+ERR_LOG=/home/pavlo/logs/fcgi.err
 
 case "$1" in
 "start")

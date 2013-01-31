@@ -1,19 +1,7 @@
 from django.shortcuts import render_to_response
 import ganymede.settings
-import tests.tests_config
-import tests.tasks
-import tests.utils
 from django.http import HttpResponse
-import json
-import os
-import core.lock
-from core import urls
-from core import mode
-import tests.schedule
-from core import db
-from tests.models import TestResult
-from sqlalchemy import desc
-import tests.utils
+from testlib import tests_config
 
 def screenshot(request) :
     try :
@@ -25,33 +13,36 @@ def screenshot(request) :
     except :
         return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
 
-def home(request) :
-    domains = [ 'develop.lun.ua', 'pasha.lun.ua' ]
-    data = {}
-    for test_id in tests.tests_config.all_tests :
+def index(request) :
+    return render_to_response( 'index.html' )
 
-        result = db.session.query(TestResult).filter_by(test_id=test_id, domain=urls.domain).order_by(desc(TestResult.exec_time)).first()
+def system_state(request) :
+    return render_to_response( 'index.html' )
 
-        if (result is None) :
-            result = TestResult( test_id = test_id, status = '-', log = '', domain='-' )
+def create_job(request) :
+    tests = []
+    for pagetest in tests_config.all_tests :
+        test = {}
+        test[ 'id' ] = pagetest
+        test[ 'url' ] = tests_config.all_tests[ pagetest ].url
+        test[ 'doc' ] = tests_config.all_tests[ pagetest ].__doc__
+        test[ 'subtests' ] = []
+        for subtest in tests_config.all_tests[ pagetest ].subtests :
+            stest = {}
+            stest[ 'id' ] = subtest.test_id
+            stest[ 'doc' ] = subtest.__doc__
+            test[ 'subtests' ].append( stest )
+        tests.append( test )
+    return render_to_response( 'job/create/create_job.html', { 'tests' : tests, 'branches' : ['develop', 't-kz'] } )
 
-        pid_file = tests.utils.pid_file(test_id)
+def create_test(request) :
+    return render_to_response( 'job/list.html' )
 
-        data[test_id] = {}
+def list_tests(request) :
+    return render_to_response( 'job/list.html' )
 
-        data[test_id]['status'] = core.lock.is_free(pid_file)
-        data[test_id]['last_result'] = result.status + "[" + result.domain + "]"
-        data[test_id]['last_run'] = result.exec_time
-        data[test_id]['doc'] = tests.tests_config.all_tests[test_id].__doc__
-
-        # traverse screenshots
-        data[test_id]['screenshots'] = []
-        photo_dir = tests.utils.photos_dir(test_id)
-        for root, dirs, files in os.walk(photo_dir):
-            for f in files:
-                data[test_id]['screenshots'].append( os.path.relpath(os.path.join(root, f), ganymede.settings.HEAP_PATH) )
-
-    return render_to_response( 'all_tests.html', { 'tests' : data, 'domains' : domains, 'cur_domain' : urls.domain } )
+def list_jobs(request) :
+    return render_to_response( 'job/list.html' )
 
 def test(request) :
     test_id = request.GET.get('test_id')

@@ -16,6 +16,14 @@ def set_project( proj ) :
     global project
     project = proj
 
+def branches() :
+    working_dir = os.path.join( config['repos_path'], project )
+    if not os.path.exists(working_dir) :
+        _clone()
+
+    with path.cd( working_dir ) :
+        subprocess.call( ["git", "branch"] )
+
 def checkout_and_deploy(branch) :
     working_dir = os.path.join( config['repos_path'], project )
     if not os.path.exists(working_dir) :

@@ -1,0 +1,37 @@
+<fieldset>
+<legend>Набор тестов</legend>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            <label class="checkbox">
+                <input type="checkbox" id="checkall" /> Тесты страници
+            </label>
+        </th>
+        <th>Подтесты</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for test in tests %}
+        <tr test_id="{{ test.id }}">
+            <td>
+                <label class="checkbox">
+                    <input type="checkbox" class="test-chk" />
+                    <a href="#" rel="popover">{{ test.url }}</a>
+                    <div class="doc" style="display:none">
+                        {{ test.doc }}
+                    </div>
+                </label>
+            </td>
+            <td>
+                {% for subtest in test.subtests %}
+                    <label class="checkbox" id="{{ subtest.id }}">
+                        <input type="checkbox"> {{ subtest.doc }}
+                    </label>
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</fieldset>

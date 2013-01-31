@@ -1,7 +1,12 @@
-Python packages:
-    pyvirtualdisplay
-    sqlalchemy
-    selenium
-Soft:
-    iceweasel (firefox | any other browser with it's webdriver)
-    Xvfb
+pip install pyvirtualdisplay
+pip install sqlalchemy
+pip install selenium
+
+# wsgi app
+pip install flup
+
+# firfox comes with webdriver
+apt-get install iceweasel
+
+# X-server frame buffer
+apt-get install xvfb

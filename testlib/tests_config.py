@@ -1,16 +1,17 @@
 import imp
 import glob, inspect
 import utils
+import os
 
 all_tests = {}
 sub_tests = {}
 
 # search for tests ing tests_root dir
-for test_path in glob.glob("tests_root/**/*.py"):
+for test_path in glob.glob( os.path.join(os.path.dirname(__file__), "../", "tests_root/**/*.py") ):
     if test_path[-11:] == "__init__.py":
         continue
     try:
-        mod_name = ".".join( test_path.split("/") )[:-3]
+        mod_name = ".".join( test_path.split("tests_root")[-1].split("/") )[1:-3]
         mod = imp.load_source( mod_name, test_path )
         for name, obj in inspect.getmembers( mod ) :
             # page tests

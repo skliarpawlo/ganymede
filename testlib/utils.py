@@ -8,6 +8,7 @@ import os
 import ganymede.settings
 import httplib
 from urlparse import urlparse
+import urllib
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
@@ -128,3 +129,6 @@ class SubTest( Test ) :
 def assert_xpath_content(webpage, xpath, waited_content):
     real_content = webpage.find_element_by_xpath( xpath ).text
     assert real_content == waited_content, u"Comparing content on xpath {0}, expect: '{1}', recieved '{2}'".format( xpath, waited_content, real_content )
+
+def url_unquote(url) :
+    return urllib.unquote( url.encode('utf-8') ).decode('utf-8')
