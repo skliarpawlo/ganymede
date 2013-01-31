@@ -12,7 +12,16 @@ def clean( dir ):
         pass
 
 def ensure( path ):
-    try :
+    if not os.path.exists( path ) :
         os.makedirs( path, 0777 )
-    except os.error :
-        pass
+
+class cd:
+    def __init__(self, newPath):
+        self.newPath = newPath
+
+    def __enter__(self):
+        self.savedPath = os.getcwd()
+        os.chdir(self.newPath)
+
+    def __exit__(self, etype, value, traceback):
+        os.chdir(self.savedPath)

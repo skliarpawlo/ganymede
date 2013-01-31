@@ -1,0 +1,7 @@
+{
+    "repos_path":"/home/pavlo/main/ganymede/repos",
+    "deploy_path":"/home/pavlo/main/test",
+    "callisto" : {
+        "repo":"git@github.com:skliarovskyi/callisto.git"
+    }
+}

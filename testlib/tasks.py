@@ -1,33 +1,27 @@
+# coding: utf-8
+
 import tests_config
-from core import db
-from core import mode
 import core.urls
 import traceback
-import sys
-import codecs
-from cStringIO import StringIO
-import utils
-import tasks
 import core.lock
 import core.path
 
-def run_test(test_id):
-    t_class = tests_config.all_tests[test_id]
-    t = t_class(test_id)
+def run_test(test):
+    "запускает PageTest"
 
     success = True
-
     try :
-        t.setUp()
-        t.run()
-    except AssertionError:
+        test.setUp()
+        test.run()
+    except AssertionError as ex :
+        print u"Assertion failed: {0}".format(ex.message)
         success = False
     except Exception as s :
         print "ERROR: ", s
         print traceback.format_exc()
         success = False
     finally:
-        t.tearDown()
+        test.tearDown()
 
         # save result
         status = ''
@@ -36,21 +30,21 @@ def run_test(test_id):
         else :
             status = 'FAILED'.format(core.urls.domain)
 
+    print status
     return success
 
-def run(test_id) :
-    #import pdb; pdb.set_trace()
-    core.path.ensure(utils.test_dir(test_id))
-    pid_file = utils.pid_file(test_id)
+def run(test) :
+    core.path.ensure(test.testDir())
+    pid_file = test.pidFile()
     test_pid = core.lock.is_free(pid_file)
     if (test_pid==0):
         core.lock.capture(pid_file)
-        tasks.run_test(test_id)
+        run_test(test)
         core.lock.uncapture(pid_file)
 
 def run_all() :
     for x in tests_config.all_tests:
-        run(x)
+        run( tests_config.all_tests[ x ] )
 
 if (__name__=="__main__"):
     run_all()

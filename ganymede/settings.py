@@ -5,7 +5,6 @@ TEMPLATE_DEBUG = DEBUG
 
 BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
-TESTS_PATH = os.path.join(BASE_PATH, "tests")
 STATIC_ROOT = os.path.join(BASE_PATH, "static")
 
 TEMPLATE_DIRS = (
@@ -25,7 +24,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'tests',
+    'testlib',
 )
 
 ####################

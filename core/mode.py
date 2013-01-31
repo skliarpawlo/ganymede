@@ -9,15 +9,6 @@ def set_mode( _mode ) :
     global mode
     mode = _mode
 
-COMPLETENESS_FULL = 'full'
-COMPLETENESS_FAST = 'fast'
-
-complete = COMPLETENESS_FULL
-def set_completeness( _compl ) :
-    "Задание полноты тестирования 'full' - полное, 'fast' - быстрое"
-    global complete
-    complete = _compl
-
 testcase = '*'
 def set_testcase( _testcase ) :
 	global testcase
