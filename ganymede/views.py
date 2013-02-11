@@ -1,7 +1,6 @@
 from django.shortcuts import render_to_response
 import ganymede.settings
 from django.http import HttpResponse
-from testlib import tests_config
 
 def screenshot(request) :
     try :
@@ -15,34 +14,6 @@ def screenshot(request) :
 
 def index(request) :
     return render_to_response( 'index.html' )
-
-def system_state(request) :
-    return render_to_response( 'index.html' )
-
-def create_job(request) :
-    tests = []
-    for pagetest in tests_config.all_tests :
-        test = {}
-        test[ 'id' ] = pagetest
-        test[ 'url' ] = tests_config.all_tests[ pagetest ].url
-        test[ 'doc' ] = tests_config.all_tests[ pagetest ].__doc__
-        test[ 'subtests' ] = []
-        for subtest in tests_config.all_tests[ pagetest ].subtests :
-            stest = {}
-            stest[ 'id' ] = subtest.test_id
-            stest[ 'doc' ] = subtest.__doc__
-            test[ 'subtests' ].append( stest )
-        tests.append( test )
-    return render_to_response( 'job/create/create_job.html', { 'tests' : tests, 'branches' : ['develop', 't-kz'] } )
-
-def create_test(request) :
-    return render_to_response( 'job/list.html' )
-
-def list_tests(request) :
-    return render_to_response( 'job/list.html' )
-
-def list_jobs(request) :
-    return render_to_response( 'job/list.html' )
 
 def test(request) :
     test_id = request.GET.get('test_id')

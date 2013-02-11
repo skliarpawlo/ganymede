@@ -5,10 +5,14 @@
     <tr>
         <th>
             <label class="checkbox">
-                <input type="checkbox" id="checkall" /> Тесты страници
+                <input type="checkbox" id="check-all-tests" /> Тесты страницы
             </label>
         </th>
-        <th>Подтесты</th>
+        <th>
+            <label class="checkbox">
+                <input type="checkbox" id="check-all-subtests" /> Подтесты
+            </label>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -25,8 +29,8 @@
             </td>
             <td>
                 {% for subtest in test.subtests %}
-                    <label class="checkbox" id="{{ subtest.id }}">
-                        <input type="checkbox"> {{ subtest.doc }}
+                    <label class="checkbox">
+                        <input class="subtest-chk" type="checkbox" subtest_id="{{ subtest.id }}"> {{ subtest.doc }}
                     </label>
                 {% endfor %}
             </td>

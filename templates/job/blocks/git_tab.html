@@ -1,0 +1,21 @@
+<fieldset>
+<legend>GIT config</legend>
+
+<label class="control-label" for="branch-val">Проэкт</label>
+<input id="repo-val" type="text" autocomplete="off"
+        {% if job.repo %}
+           value="{{ job.repo }}"
+       {% else %}
+           value="callisto"
+       {% endif %}
+/>
+
+<label class="control-label" for="branch-val">Ветка</label>
+<input id="branch-val" type="text" autocomplete="off"
+        {% if job.branch %}
+           value="{{ job.branch }}"
+       {% else %}
+           value="master"
+       {% endif %}
+/>
+</fieldset>

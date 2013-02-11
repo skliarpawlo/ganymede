@@ -1,6 +1,6 @@
 from core import db
 
-class GanymedeMiddleware :
+class DbMiddleware :
     def process_request(self, request):
         # init db
         db.init()

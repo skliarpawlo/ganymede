@@ -1,0 +1,16 @@
+{% extends "layout/layout.html" %}
+
+{% block head %}
+    <script src="/static/js/update_job.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    {% include "job/blocks/job.html" %}
+
+{% endblock %}
+
+{% block bottom-navbar-items %}
+    <input type="button" class="btn btn-primary btn-large" id="update-job-btn" value="Сохранить"/>
+    <a href="/job/list"><input type="button" class="btn btn-primary btn-large" value="Отменить"/></a>
+{% endblock %}

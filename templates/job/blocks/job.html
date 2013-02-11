@@ -1,0 +1,35 @@
+<script src="/static/js/job.js"></script>
+<form>
+
+    <div class="tabbable tabs-top">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab0" data-toggle="tab">General</a>
+            </li>
+            <li>
+                <a href="#tab1" data-toggle="tab">Git</a>
+            </li>
+            <li>
+                <a href="#tab2" data-toggle="tab">Tests</a>
+            </li>
+            <li>
+                <a href="#tab3" data-toggle="tab">Environment</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab0">
+                {% include "job/blocks/general.html" %}
+            </div>
+            <div class="tab-pane" id="tab1">
+                {% include "job/blocks/git_tab.html" %}
+            </div>
+            <div class="tab-pane" id="tab2">
+                {% include "job/blocks/tests_list.html" %}
+            </div>
+            <div class="tab-pane" id="tab3">
+                {% include "job/blocks/environment.html" %}
+            </div>
+        </div>
+    </div>
+
+</form>

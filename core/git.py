@@ -2,32 +2,34 @@ import subprocess
 import json
 import os
 import path
+import re
 
 config = json.loads( open( os.path.abspath( os.path.dirname(__file__) ) + "/config/git.json", "r" ).read() )
 path.ensure( config['repos_path'] )
 
-def _clone() :
+def projects() :
+    return config["projects"].keys()
+
+def clone(project) :
     with path.cd( os.path.join( config['repos_path'] ) ) :
-        subprocess.call( [ "git", "clone", config[ project ][ 'repo' ] ] )
+        subprocess.call( [ "git", "clone", config[ 'projects' ][ project ][ 'repo' ] ] )
 
-project = "callisto"
-
-def set_project( proj ) :
-    global project
-    project = proj
-
-def branches() :
+def branches(project) :
     working_dir = os.path.join( config['repos_path'], project )
     if not os.path.exists(working_dir) :
-        _clone()
+        clone(project)
 
     with path.cd( working_dir ) :
-        subprocess.call( ["git", "branch"] )
+        pipe = subprocess.Popen( ["git", "branch", "-r"], stdout=subprocess.PIPE )
+        res = pipe.stdout.read()
+        brs = re.findall("t[0-9]+-[a-zA-Z]+", res)
 
-def checkout_and_deploy(branch) :
+    return brs
+
+def checkout_and_deploy(project, branch) :
     working_dir = os.path.join( config['repos_path'], project )
     if not os.path.exists(working_dir) :
-        _clone()
+        clone(project)
 
     with path.cd( working_dir ) :
         subprocess.call( ["git", "checkout", branch] )

@@ -1,0 +1,36 @@
+{% extends "layout/layout.html" %}
+
+{% block head %}
+    <script src="/static/js/jobs_list.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <table class="table table-striped">
+        <tr>
+            <th>Операции</th>
+            <th>Название</th>
+            <th>Репозиторий</th>
+            <th>Ветка</th>
+        </tr>
+        {% for job in jobs %}
+            <tr job_name="{{ job.name }}">
+                <td>
+                    <a class="run-job" href="#">
+                        <i class="icon-play"></i>
+                    </a>
+                    <a class="change-job" href="/job/update?job_name={{ job.name }}">
+                        <i class="icon-wrench"></i>
+                    </a>
+                    <a class="remove-job" href="#">
+                        <i class="icon-trash"></i>
+                    </a>
+                </td>
+                <td>{{ job.name }}</td>
+                <td>{{ job.repo }}</td>
+                <td>{{ job.branch }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

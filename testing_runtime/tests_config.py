@@ -1,6 +1,6 @@
 import imp
 import glob, inspect
-import utils
+from testlib import utils
 import os
 
 all_tests = {}
@@ -21,7 +21,7 @@ for test_path in glob.glob( os.path.join(os.path.dirname(__file__), "../", "test
             # subtests
             if (inspect.isclass(obj)) and (obj.__module__ == mod_name) and issubclass(obj, utils.SubTest) :
                 if not sub_tests.has_key(mod_name) :
-                    sub_tests[ mod_name ] = []
+                    sub_tests[ obj.__parent_test__.__module__ ] = []
                 sub_tests[ mod_name ].append(obj())
 
         # attaching subtests

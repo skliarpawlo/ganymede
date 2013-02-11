@@ -1,0 +1,23 @@
+<fieldset>
+    <legend>Environment config</legend>
+    <label class="control-label" for="env-script">php скрипт задающий специализированные параметры (например, страну)</label>
+    {% if job.env %}
+        <textarea id="env-script" rows="5">
+            {{ job.env }}
+        </textarea>
+    {% else %}
+        <textarea id="env-script" rows="5">
+            defined('YII_CONFIG') or define('YII_CONFIG', 'ua');
+            defined('YII_DEBUG') or define('YII_DEBUG', false);
+            defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 5);
+            defined('YII_MONGO_CACHE') or define('YII_MONGO_CACHE', false);
+    {#        if (YII_DEBUG)#}
+    {#            error_reporting(E_ALL & ~E_NOTICE);#}
+    {##}
+    {#        defined('ADMIN_MODE') or define('ADMIN_MODE', YII_DEBUG && in_array($_SERVER['REMOTE_ADDR'],#}
+    {#            array('212.90.34.55', '109.197.216.223', '78.27.177.14', '109.197.219.74')));#}
+    {##}
+    {#        require_once('/usr/share/yii/framework/yii.php');#}
+        </textarea>
+    {% endif %}
+</fieldset>

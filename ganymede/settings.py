@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'testlib',
+    'testing_runtime',
 )
 
 ####################
@@ -40,7 +41,7 @@ MIDDLEWARE_CLASSES = (
 #    'django.middleware.csrf.CsrfViewMiddleware',
 #    'django.contrib.auth.middleware.AuthenticationMiddleware',
 #    'django.contrib.messages.middleware.MessageMiddleware',
-     'ganymede.middle.GanymedeMiddleware',
+     'ganymede.middle.DbMiddleware',
     )
 
 ROOT_URLCONF = 'ganymede.urls'

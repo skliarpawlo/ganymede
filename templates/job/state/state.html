@@ -1,0 +1,35 @@
+{% extends "layout/layout.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <table class="table table-striped">
+        <tr>
+            <th>ID задания</th>
+            <th>Задание</th>
+            <th>Статус</th>
+            <th>Время запуска</th>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td>#{{ task.id }}</td>
+                <td>{{ task.name }}</td>
+                <td>
+                    {% if task.status == 'RUNNING' %}
+                        <span class="label label-success">{{ task.status }}</span>
+                    {% elif task.status == 'WAITING' %}
+                        <span class="label label-warning">{{ task.status }}</span>
+                    {% elif task.status == 'ERROR' %}
+                        <span class="label label-info">{{ task.status }}</span>
+                    {% elif task.status == 'FINISHED' %}
+                        <span class="label label">{{ task.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ task.add_time }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

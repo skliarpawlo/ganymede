@@ -4,14 +4,13 @@ from testlib import utils
 
 class NovostroykiMain( utils.PageTest ) :
     "Главная страница новостроек"
-    test_id = 2
 
     url = u"novostroyki.lun.ua/"
     title = u"Новостройки - ЛУН.ua"
 
 class PopularBlockLinks( utils.SubTest ) :
     "Проверка правильности ссылок в блоке 'Популярные новостройки'"
-    test_id = 3
+    __parent_test__ = NovostroykiMain
 
     def run(self):
         popularlink_xpath = '//*[@id="content"]/div[2]/div[2]/table/tbody/tr/td[1]/span/span/noindex/a'
@@ -23,7 +22,7 @@ class PopularBlockLinks( utils.SubTest ) :
 
 class NearMetroLink( utils.SubTest ) :
     "Проверка ссылки 'возле метро'"
-    test_id = 4
+    __parent_test__ = NovostroykiMain
 
     def run(self):
         popularlink_xpath = '//*[@id="third-part-second"]/div/div[2]/ul[1]/li[3]/a'

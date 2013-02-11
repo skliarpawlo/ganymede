@@ -4,6 +4,7 @@
     <link rel='stylesheet' href="/static/bootstrap/css/bootstrap.min.css" />
     <script src="/static/jquery/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/gany.js"></script>
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -16,7 +17,7 @@
         <div class="row-fluid">
             <div class="span2">
                 {% block column %}
-                    {% include "navbar.html" %}
+                    {% include "layout/navbar.html" %}
                 {% endblock %}
             </div>
             <div class="span10">
@@ -26,5 +27,13 @@
             </div>
         </div>
     </div>
+
+    <div class="form-actions navbar navbar-fixed-bottom">
+        {% block bottom-navbar-items %}{% endblock %}
+    </div>
+
+    {% include "modals/error_modal.html" %}
+    {% include "modals/info_modal.html" %}
+    {% include "modals/rusure_modal.html" %}
 </body>
 </html>

@@ -14,7 +14,6 @@ heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
 
 class Test( object ):
-    test_id = 1
 
     def setUp(self):
         path.ensure( self.testDir() )
@@ -71,6 +70,9 @@ class PageTest( FunctionalTest ) :
 
     subtests = []
 
+    def id(self):
+        return self.__module__
+
     def setUp(self):
         super(PageTest, self).setUp()
 
@@ -113,6 +115,11 @@ class SubTest( Test ) :
     "тест может выполнятся только в контексте какого-то PageTest-а"
 
     webpage = None
+
+    __parent_test__ = None
+
+    def id(self):
+        return self.__parent_test__.__module__ + "#" + self.__class__.__name__
 
     def setUp( self, _webpage ) :
         super( SubTest, self ).setUp()
