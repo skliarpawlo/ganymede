@@ -6,10 +6,13 @@ import traceback
 import core.lock
 import core.path
 import core.db
+import core.git
 import ganymede.settings
 import os
 from testing_runtime import models
 from sqlalchemy.orm.exc import NoResultFound
+import json
+from testlib import utils
 
 def run_test(test):
     "запускает PageTest"
@@ -31,9 +34,9 @@ def run_test(test):
         # save result
         status = ''
         if (success) :
-            status = 'ACCEPTED'.format(core.urls.domain)
+            status = 'ACCEPTED'
         else :
-            status = 'FAILED'.format(core.urls.domain)
+            status = 'FAILED'
 
     print status
     return success
@@ -47,13 +50,16 @@ def run(test) :
         run_test(test)
         core.lock.uncapture(pid_file)
 
-def run_all() :
-    for x in tests_config.all_tests:
-        run( tests_config.all_tests[ x ] )
-
 def run_task( task ) :
+    job = task.job
+    core.git.checkout_and_deploy( job.repo, job.branch )
+
+    testcase = get_test_case( job );
+
     import pdb; pdb.set_trace()
-    print "testing"
+
+    for test in testcase :
+        run( test )
 
 def run_any() :
     pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
@@ -65,15 +71,26 @@ def run_any() :
 
         try :
             task = core.db.session.query(models.Task).filter(models.Task.status=='WAITING').limit(1).one()
-            core.db.session.query(models.Task).filter(models.Task.id == task.id).update( {"status" : "RUNNING"} )
+            #core.db.session.query(models.Task).filter(models.Task.id == task.id).update( {"status" : "RUNNING"} )
 
             run_task( task )
 
-            core.db.session.query(models.Task).filter(models.Task.id == task.id).update( {"status" : "FINISHED"} )
+            #core.db.session.query(models.Task).filter(models.Task.id == task.id).update( {"status" : "FINISHED"} )
         except NoResultFound :
             print "Nothing to test"
 
         core.lock.uncapture(pid_file)
 
-if (__name__=="__main__"):
-    run_all()
+def get_test_case( job ) :
+    tests_str_list = json.loads( job.tests )
+    tests = []
+    for i in tests_config.all_tests :
+        pagetest = tests_config.all_tests[i]()
+        if isinstance(pagetest, utils.PageTest) :
+            for j in tests_config.all_tests :
+                subtest = tests_config.all_tests[j]()
+                if isinstance(subtest, utils.SubTest) and\
+                   subtest.__parent_test__ == tests_config.all_tests[i] :
+                    pagetest.addSubtest(subtest)
+            tests.append( pagetest )
+    return tests

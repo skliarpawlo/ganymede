@@ -15,5 +15,10 @@ def init():
 
 def close():
     global session
-    session.commit()
-    session.close()
+    try :
+        session.commit()
+    except :
+        session.rollback()
+        raise
+    finally:
+        session.close()

@@ -1,14 +1,27 @@
 $(function() {
     // git stuff
+    $("#refresh-repo-btn").click(function() {
+        var that = $(this);
+        that.prop("disabled","disabled");
+        gany.git.reset();
+        gany.git.fetch($("#repo-val").val()).done(function(data) {
+            that.prop("disabled",false);
+            if (data.status == "ok") {
+                gany.modals.info( "Репозиторий обновлен : " + data.content );
+            } else {
+                gany.modals.error( "Возникла ошибка:" + data.content );
+            }
+        });
+    });
     $("#repo-val").typeahead({
         source : ["callisto", "huivsto"]
     });
+
     $("#branch-val").typeahead({
         source : function (q, process) {
             gany.git.branches($("#repo-val").val()).done(function(data) {
-                var ans = $.parseJSON(data);
-                if (ans.status == "ok") {
-                    process( ans.content );
+                if ( data.length > 0 ) {
+                    process( data );
                 } else {
                     process( ['master', 'develop'] );
                 }
@@ -18,25 +31,42 @@ $(function() {
 
     // tests stuff
     $("#check-all-tests").change( function() {
-        if ($(this).attr("checked")) {
-            $(this).parents("table").find(".test-chk").attr("checked", "checked");
+        if ($(this).is(":checked")) {
+            $(this)
+                .parents("table")
+                .find(".test-chk")
+                .prop("checked", true);
         } else {
-            $(this).parents("table").find(".test-chk,.subtest-chk,#check-all-subtests").removeAttr("checked");
+            $(this)
+                .parents("table")
+                .find(".test-chk,.subtest-chk,#check-all-subtests")
+                .prop("checked", false);
         }
     });
 
     $("#check-all-subtests").change( function() {
-        if ($(this).attr("checked")) {
-            $(this).parents("table").find(".subtest-chk").attr("checked", "checked").trigger("change");
+        if ($(this).is(":checked")) {
+            $(this)
+                .parents("table")
+                .find(".subtest-chk")
+                .prop("checked", true)
+                .trigger("change");
         } else {
-            $(this).parents("table").find(".subtest-chk").removeAttr("checked");
+            $(this)
+                .parents("table")
+                .find(".subtest-chk")
+                .prop("checked", false);
         }
     });
 
     $(".subtest-chk").change( function() {
         var count = $(this).parents("td").find(".subtest-chk:checked").size();
         if (count > 0) {
-            $(this).parents("tr").find(".test-chk").attr("checked", "checked");
+            $(this).parents("tr").find(".test-chk").prop("checked", true);
         }
+    });
+
+    $(".test-chk").change( function() {
+        $(this).parents("tr").find(".subtest-chk").prop("checked", false);
     });
 });

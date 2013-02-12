@@ -17,11 +17,10 @@ def system_state(request) :
     return render_to_response('job/state/state.html', {'tasks':tasks})
 
 def run_job( request ) :
-    import pdb; pdb.set_trace()
     job_name = request.POST['job_name']
     new_task = Task( job_name = job_name, status='WAITING' )
     db.session.add( new_task )
-    return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/x-javascript" )
+    return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/json" )
 
 def ajax( request, method ) :
-    return HttpResponse( json.dumps( { "method" : method } ), mimetype="application/x-javascript" )
+    return HttpResponse( json.dumps( { "method" : method } ), mimetype="application/json" )

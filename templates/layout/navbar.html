@@ -3,23 +3,23 @@
         <li class="nav-header">Система</li>
         <ul>
             <li>
-                <a href="/job/state">Состояние системы</a>
+                <a href="{% url testing_runtime.web.tasks.system_state %}">Состояние системы</a>
             </li>
             <li class="active">
-                <a href="/job/list">Список заданий</a>
+                <a href="{% url testing_runtime.web.job.list_jobs %}">Список заданий</a>
             </li>
             <li class="active">
-                <a href="/job/create">Создать задание</a>
+                <a href="{% url testing_runtime.web.job.create_job %}">Создать задание</a>
             </li>
         </ul>
 
         <li class="nav-header">Тесты</li>
         <ul>
             <li>
-                <a href="/tests/list">Список тестов</a>
+                <a href="#todo">Список тестов</a>
             </li>
             <li class="active">
-                <a href="/tests/create">Добавить тест</a>
+                <a href="#todo">Добавить тест</a>
             </li>
         </ul>
     </ul>

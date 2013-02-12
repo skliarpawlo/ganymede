@@ -1,9 +1,9 @@
 # coding: utf-8
 
+import json
 from core import browser
 from core import vscreen
 from core import path
-from core import urls
 import os
 import ganymede.settings
 import httplib
@@ -22,10 +22,10 @@ class Test( object ):
         pass
 
     def testDir(self) :
-        return os.path.join(heap_dir, "tests", str(self.test_id))
+        return os.path.join(heap_dir, "tests", test_id(self))
 
     def pidFile(self) :
-        return os.path.join(heap_dir, "tests", str(self.test_id), urls.domain + ".pid")
+        return os.path.join(heap_dir, "tests", test_id(self), "lock.pid")
 
 class FunctionalTest(Test) :
 
@@ -69,9 +69,6 @@ class PageTest( FunctionalTest ) :
     h1_xpath = None
 
     subtests = []
-
-    def id(self):
-        return self.__module__
 
     def setUp(self):
         super(PageTest, self).setUp()
@@ -118,9 +115,6 @@ class SubTest( Test ) :
 
     __parent_test__ = None
 
-    def id(self):
-        return self.__parent_test__.__module__ + "#" + self.__class__.__name__
-
     def setUp( self, _webpage ) :
         super( SubTest, self ).setUp()
         self.webpage = _webpage
@@ -139,3 +133,13 @@ def assert_xpath_content(webpage, xpath, waited_content):
 
 def url_unquote(url) :
     return urllib.unquote( url.encode('utf-8') ).decode('utf-8')
+
+def test_id(test) :
+    if (isinstance(test, Test)) :
+        return test_id(test.__class__)
+    elif (issubclass(test, PageTest)) :
+        return test.__module__
+    elif (issubclass(test, SubTest)) :
+        return test_id(test.__parent_test__) + "#" + test.__name__
+    else :
+        return "not a test"

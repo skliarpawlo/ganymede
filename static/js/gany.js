@@ -9,14 +9,22 @@ var gany = (function() {
     }
 
     var modals = {
-        rusure : {
-            show : function( question, yes ) {
-                $("#rusure-question").text( question );
-                $("#rusure-modal").modal( 'show' );
-                if ( yes ) {
-                    $("#rusure-yes").unbind('click').bind('click', yes);
-                }
+        info : function( info ) {
+            $("#info-message").text(info);
+            return $("#info-modal").modal("show");
+        },
+        error : function( info ) {
+            $("#error-message").text(info);
+            return $("#error-modal").modal("show");
+        },
+        rusure : function( question, yes ) {
+            $("#rusure-question").text( question );
+            if ( yes ) {
+                $("#rusure-yes").unbind('click').bind('click', function() {
+                    yes.apply($("#rusure-modal"));
+                });
             }
+            return $("#rusure-modal").modal( 'show' );
         }
     }
 
@@ -30,14 +38,9 @@ var gany = (function() {
             // env
             var env = $("#env-script").val();
             // tests
-            var tests = {};
-            $("[test_id]").each( function( ind, el ) {
-                var subdata = [];
-                var test_el = $( el );
-                $("[subtest_id]:checked", test_el).each( function( ind, subel ) {
-                    subdata.push( $(subel).attr( "subtest_id" ) );
-                } );
-                tests[ $( el ).attr( "test_id" ) ] = subdata;
+            var tests = [];
+            $("[test_id]:checked").each( function( ind, el ) {
+                tests.push( $(el).attr("test_id") );
             } );
 
             return {
@@ -51,18 +54,57 @@ var gany = (function() {
 
     }
 
+    var boxes = {
+        error : function( block ) {
+            return {
+                show : function (infos) {
+                    block.find(".content").text( infos.push ? infos.join(", ") : infos );
+                    block.find(".close").unbind().bind( 'click', function () {
+                        block.hide();
+                    });
+                    block.slideDown(500);
+                }
+            }
+        }
+    }
+
     var git = {
+        branch_cache : false,
+        reset : function() {
+            this.branch_cache = false
+        },
         clone : function( repo ) {
             return call("core.git", "clone", repo);
         },
+        fetch : function( repo ) {
+            return call("core.git", "fetch", repo);
+        },
         branches : function( repo ) {
-            return call("core.git", "branches", repo);
+            var that = this;
+            var branch_deferred = $.Deferred();
+
+            if (that.branch_cache == false) {
+                var deferred = call("core.git", "branches", repo);
+                deferred.done(function(data) {
+                    if (data.status == "ok") {
+                        that.branch_cache = data.content;
+                        branch_deferred.resolve( that.branch_cache );
+                    } else {
+                        branch_deferred.resolve( [] );
+                    }
+                });
+            } else {
+                branch_deferred.resolve( that.branch_cache );
+            }
+
+            return branch_deferred;
         }
     }
 
     return {
         modals : modals,
         job : job,
-        git : git
+        git : git,
+        boxes : boxes
     }
 })();

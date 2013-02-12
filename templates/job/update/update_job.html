@@ -1,10 +1,15 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
-    <script src="/static/js/update_job.js"></script>
+    <script type="text/javascript">
+        updateJobUrl = "{% url testing_runtime.web.job.update_job job.name %}";
+    </script>
+    <script type="text/javascript" src="/static/js/update_job.js"></script>
 {% endblock %}
 
 {% block content %}
+
+    <legend>Задание "{{ job.name }}" (изменение)</legend>
 
     {% include "job/blocks/job.html" %}
 
@@ -12,5 +17,7 @@
 
 {% block bottom-navbar-items %}
     <input type="button" class="btn btn-primary btn-large" id="update-job-btn" value="Сохранить"/>
-    <a href="/job/list"><input type="button" class="btn btn-primary btn-large" value="Отменить"/></a>
+    <a href="{% url testing_runtime.web.job.list_jobs %}">
+        <input type="button" class="btn btn-primary btn-large" value="Отменить"/>
+    </a>
 {% endblock %}

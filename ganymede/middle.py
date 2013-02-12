@@ -1,4 +1,8 @@
 from core import db
+import json
+import sys
+from django.http import HttpResponse
+import traceback
 
 class DbMiddleware :
     def process_request(self, request):
@@ -7,5 +11,9 @@ class DbMiddleware :
 
     def process_response(self, request, response):
         # release db session
-        db.close()
+        try :
+            db.close()
+        except :
+            json_resp = json.dumps( { "status" : "error", "content" : traceback.format_exc() } )
+            return HttpResponse(json_resp, mimetype="application/json")
         return response

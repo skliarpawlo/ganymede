@@ -15,7 +15,11 @@
         {% for task in tasks %}
             <tr>
                 <td>#{{ task.id }}</td>
-                <td>{{ task.name }}</td>
+                <td>
+                    <a href="{% url testing_runtime.web.job.update_job task.name %}">
+                        {{ task.name }}
+                    </a>
+                </td>
                 <td>
                     {% if task.status == 'RUNNING' %}
                         <span class="label label-success">{{ task.status }}</span>

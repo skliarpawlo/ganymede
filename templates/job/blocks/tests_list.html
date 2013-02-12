@@ -17,10 +17,13 @@
     </thead>
     <tbody>
     {% for test in tests %}
-        <tr test_id="{{ test.id }}">
+        <tr>
             <td>
                 <label class="checkbox">
-                    <input type="checkbox" class="test-chk" />
+                    <input type="checkbox"
+                           test_id="{{ test.id }}"
+                           {% if test.checked %} checked {% endif %}
+                           class="test-chk"/>
                     <a href="#" rel="popover">{{ test.url }}</a>
                     <div class="doc" style="display:none">
                         {{ test.doc }}
@@ -30,7 +33,11 @@
             <td>
                 {% for subtest in test.subtests %}
                     <label class="checkbox">
-                        <input class="subtest-chk" type="checkbox" subtest_id="{{ subtest.id }}"> {{ subtest.doc }}
+                        <input class="subtest-chk"
+                               type="checkbox"
+                               {% if subtest.checked %} checked {% endif %}
+                               test_id="{{ subtest.id }}">
+                        {{ subtest.doc }}
                     </label>
                 {% endfor %}
             </td>

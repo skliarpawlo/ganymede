@@ -10,8 +10,8 @@
         <tr>
             <th>Операции</th>
             <th>Название</th>
-            <th>Репозиторий</th>
             <th>Ветка</th>
+            <th>Репозиторий</th>
         </tr>
         {% for job in jobs %}
             <tr job_name="{{ job.name }}">
@@ -19,16 +19,16 @@
                     <a class="run-job" href="#">
                         <i class="icon-play"></i>
                     </a>
-                    <a class="change-job" href="/job/update?job_name={{ job.name }}">
+                    <a class="change-job" href="{% url testing_runtime.web.job.update_job job.name %}">
                         <i class="icon-wrench"></i>
                     </a>
                     <a class="remove-job" href="#">
                         <i class="icon-trash"></i>
                     </a>
                 </td>
-                <td>{{ job.name }}</td>
-                <td>{{ job.repo }}</td>
+                <td><a href="{% url testing_runtime.web.job.update_job job.name %}">{{ job.name }}</a></td>
                 <td>{{ job.branch }}</td>
+                <td>{{ job.repo }}</td>
             </tr>
         {% endfor %}
     </table>

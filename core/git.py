@@ -14,6 +14,16 @@ def clone(project) :
     with path.cd( os.path.join( config['repos_path'] ) ) :
         subprocess.call( [ "git", "clone", config[ 'projects' ][ project ][ 'repo' ] ] )
 
+def fetch(project) :
+    working_dir = os.path.join( config['repos_path'], project )
+    if not os.path.exists(working_dir) :
+        clone(project)
+    res = 'empty'
+    with path.cd( working_dir ) :
+        pipe = subprocess.Popen( [ "git", "fetch" ], stdout=subprocess.PIPE )
+        res = pipe.stdout.read()
+    return res
+
 def branches(project) :
     working_dir = os.path.join( config['repos_path'], project )
     if not os.path.exists(working_dir) :
@@ -22,7 +32,10 @@ def branches(project) :
     with path.cd( working_dir ) :
         pipe = subprocess.Popen( ["git", "branch", "-r"], stdout=subprocess.PIPE )
         res = pipe.stdout.read()
-        brs = re.findall("t[0-9]+-[a-zA-Z]+", res)
+        brs = re.findall("t[0-9]+-[a-zA-Z\-]+", res)
+
+    brs.append('master')
+    brs.append('develop')
 
     return brs
 
@@ -33,7 +46,8 @@ def checkout_and_deploy(project, branch) :
 
     with path.cd( working_dir ) :
         subprocess.call( ["git", "checkout", branch] )
-        subprocess.call( ["git", "pull", "--rebase"] )
+        subprocess.call( ["git", "fetch"] )
+        subprocess.call( ["git", "reset", "--hard", "origin/" + branch] )
 
         subprocess.call( ["rm -rf " + os.path.join( config['deploy_path'], "*" ) ], shell = True )
         subprocess.call( ["cp -rf * " + config['deploy_path']], shell = True )
