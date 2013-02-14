@@ -1,9 +1,6 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
-    <script type="text/javascript">
-        updateJobUrl = "{% url testing_runtime.web.job.update_job job.name %}";
-    </script>
     <script type="text/javascript" src="/static/js/update_job.js"></script>
 {% endblock %}
 

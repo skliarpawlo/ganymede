@@ -16,10 +16,10 @@
         <li class="nav-header">Тесты</li>
         <ul>
             <li>
-                <a href="#todo">Список тестов</a>
+                <a href="{% url testing_runtime.web.tests.list_tests %}">Список тестов</a>
             </li>
             <li class="active">
-                <a href="#todo">Добавить тест</a>
+                <a href="{% url testing_runtime.web.tests.create_test %}">Добавить тест</a>
             </li>
         </ul>
     </ul>

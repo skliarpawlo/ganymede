@@ -1,0 +1,49 @@
+<p>
+    <div class="btn-group" data-toggle="buttons-radio">
+
+        <button type="button"
+                {% if test.type == "subtest" %}disabled="disabled"{% endif %}
+                class="btn btn-primary btn-large {% if test.type == "pagetest" %}active{% endif %}"
+                id="open-pagetest-block">
+            Тест страницы
+        </button>
+
+        <button type="button"
+                {% if test.type == "pagetest" %}disabled="disabled"{% endif %}
+                class="btn btn-primary btn-large {% if test.type == "subtest" %}active{% endif %}"
+                id="open-subtest-block">
+            Подтест
+        </button>
+
+    </div>
+</p>
+
+<legend>Полный код теста</legend>
+
+<div id="pagetest-code-block"
+     {% if test.type == "subtest" %}
+        style="display: none"
+     {% endif %}
+>
+    <textarea id="pagetest-source-code">
+{#      #}{% if test.code and test.type == "pagetest" %}
+{#          #}{{ test.code }}
+{#      #}{% else %}
+{#          #}{% include "test/blocks/pagetest_code_template.html" %}
+{#      #}{% endif %}
+{# #}</textarea>
+</div>
+
+<div id="subtest-code-block"
+    {% if test.type == "pagetest" %}
+        style="display: none"
+    {% endif %}
+>
+    <textarea id="subtest-source-code">
+{#      #}{% if test.code and test.type == "subtest" %}
+{#          #}{{ test.code }}
+{#      #}{% else %}
+{#          #}{% include "test/blocks/subtest_code_template.html" %}
+{#      #}{% endif %}
+{# #}</textarea>
+</div>

@@ -1,0 +1,54 @@
+{% extends "layout/layout.html" %}
+
+{% block head %}
+    {{ super.block }}
+{% endblock %}
+
+{% block content %}
+
+    <fieldset>
+        <legend>Список тестов</legend>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Тесты страницы
+                </th>
+                <th>
+                    url
+                </th>
+                <th>
+                    Подтесты
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for test in tests %}
+                <tr>
+                    <td>
+                        <a href="{% url testing_runtime.web.tests.update_test test.id %}">
+                            {{ test.id }}
+                        </a>
+                        <div class="doc" style="display:none">
+                            {{ test.doc }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ test.url }}
+                    </td>
+                    <td>
+                        <ul>
+                        {% for subtest in test.subtests %}
+                            <li>
+                                <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </fieldset>
+
+{% endblock %}

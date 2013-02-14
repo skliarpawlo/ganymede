@@ -69,4 +69,20 @@ $(function() {
     $(".test-chk").change( function() {
         $(this).parents("tr").find(".subtest-chk").prop("checked", false);
     });
+
+    // env
+    var editor_env = gany.code.block( "env-script", {
+        mode : {
+            name : "php"
+        },
+        lineNumbers : true
+    });
+
+    // stupid hack to force redraw
+    $(".nav-tabs li").click(function(){
+        setTimeout( function() {
+            editor_env.refresh();
+        }, 500);
+    });
+
 });

@@ -13,6 +13,10 @@ def init():
         _Session = sessionmaker(bind=_engine)
         session = _Session()
 
+def execute(sql):
+    global _engine
+    return _engine.execute(sql)
+
 def close():
     global session
     try :

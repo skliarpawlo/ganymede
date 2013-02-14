@@ -2,6 +2,9 @@ pip install pyvirtualdisplay
 pip install sqlalchemy
 pip install selenium
 
+# for logger
+pip install python-memcached
+
 # wsgi app
 pip install flup
 
@@ -10,3 +13,4 @@ apt-get install iceweasel
 
 # X-server frame buffer
 apt-get install xvfb
+

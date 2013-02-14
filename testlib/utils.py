@@ -1,9 +1,9 @@
 # coding: utf-8
 
-import json
 from core import browser
 from core import vscreen
 from core import path
+from core import logger
 import os
 import ganymede.settings
 import httplib
@@ -97,6 +97,7 @@ class PageTest( FunctionalTest ) :
 
         # execute sub tests
         for subtest in self.subtests :
+            logger.write( "Running subtest '{0}' of '{1}'".format(test_id(subtest),test_id(self)) )
             subtest.setUp( self.webpage )
             subtest.run()
             subtest.tearDown()
@@ -138,8 +139,8 @@ def test_id(test) :
     if (isinstance(test, Test)) :
         return test_id(test.__class__)
     elif (issubclass(test, PageTest)) :
-        return test.__module__
+        return test.__name__
     elif (issubclass(test, SubTest)) :
-        return test_id(test.__parent_test__) + "#" + test.__name__
+        return test.__parent_test__ + "_" + test.__name__
     else :
         return "not a test"

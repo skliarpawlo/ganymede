@@ -1,15 +1,17 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
+    <script type="text/javascript" src="/static/js/state.js"></script>
 {% endblock %}
 
 {% block content %}
 
     <table class="table table-striped">
         <tr>
-            <th>ID задания</th>
+            <th>ID</th>
             <th>Задание</th>
             <th>Статус</th>
+            <th>Лог</th>
             <th>Время запуска</th>
         </tr>
         {% for task in tasks %}
@@ -22,13 +24,19 @@
                 </td>
                 <td>
                     {% if task.status == 'RUNNING' %}
-                        <span class="label label-success">{{ task.status }}</span>
+                        <img src="/static/images/progress.gif"/>
+                        <span class="label label-info">{{ task.status }}</span>
                     {% elif task.status == 'WAITING' %}
                         <span class="label label-warning">{{ task.status }}</span>
-                    {% elif task.status == 'ERROR' %}
-                        <span class="label label-info">{{ task.status }}</span>
-                    {% elif task.status == 'FINISHED' %}
-                        <span class="label label">{{ task.status }}</span>
+                    {% elif task.status == 'FAIL' %}
+                        <span class="label label-important">{{ task.status }}</span>
+                    {% elif task.status == 'SUCCESS' %}
+                        <span class="label label-success">{{ task.status }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if task.status == 'RUNNING' or task.status == 'SUCCESS' or task.status == 'FAIL' %}
+                        <a href="{% url testing_runtime.web.tasks.log task.id %}">log</a>
                     {% endif %}
                 </td>
                 <td>{{ task.add_time }}</td>

@@ -1,0 +1,16 @@
+{% extends "layout/layout.html" %}
+
+{% block head %}
+    <script type="text/javascript">
+        taskId = "{{ task.id }}";
+    </script>
+    <script type="text/javascript" src="/static/js/realtime_log.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <legend>Лог задания #{{ task.id }} {{ task.name }} ({{ task.repo }}:{{ task.branch }}) <img id="log-loader" src="/static/images/progress.gif"/></legend>
+
+    <pre id="log-block"></pre>
+
+{% endblock %}

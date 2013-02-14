@@ -15,6 +15,12 @@ urlpatterns = patterns('',
 
     url(r'^job/state$', 'testing_runtime.web.tasks.system_state'),
     url(r'^job/run$', 'testing_runtime.web.tasks.run_job'),
+
+    url(r'^test/create$', 'testing_runtime.web.tests.create_test'),
+    url(r'^test/list$', 'testing_runtime.web.tests.list_tests'),
+    url(r'^test/update/(?P<test_id>\w+)$', 'testing_runtime.web.tests.update_test'),
+
+    url(r'^task/log/(?P<task_id>\w+)$', 'testing_runtime.web.tasks.log'),
     url(r'^ajax/call$', 'testing_runtime.web.api.call'),
 
     url(r'^.*\.png', 'ganymede.views.screenshot'),

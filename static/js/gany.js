@@ -36,6 +36,7 @@ var gany = (function() {
             var repo = $("#repo-val").val();
             var branch = $("#branch-val").val();
             // env
+            gany.code.block("env-script").save();
             var env = $("#env-script").val();
             // tests
             var tests = [];
@@ -54,6 +55,14 @@ var gany = (function() {
 
     }
 
+    var task = {
+
+        log : function( id, len ) {
+            return call("core.logger", "ajax_read", id, len)
+        }
+
+    }
+
     var boxes = {
         error : function( block ) {
             return {
@@ -65,6 +74,39 @@ var gany = (function() {
                     block.slideDown(500);
                 }
             }
+        }
+    }
+
+    var code_cache = {};
+    var code = {
+        block : function( id, options ) {
+            if (!code_cache[ id ]) {
+                code_cache[ id ] = CodeMirror.fromTextArea(document.getElementById(id), options);
+            }
+            return code_cache[ id ];
+        }
+    }
+
+    var test = {
+        gather_data : function() {
+            res = {};
+            if ($("#open-pagetest-block").hasClass("active")) {
+                var block = gany.code.block("pagetest-source-code");
+                block.save();
+                res["code"] = block.getTextArea().value;
+            }
+            if ($("#open-subtest-block").hasClass("active")) {
+                var block = gany.code.block("subtest-source-code");
+                block.save();
+                res["code"] = block.getTextArea().value;
+            }
+            if ($("#test-status-new").hasClass("active")) {
+                res["status"] = "NEW";
+            }
+            if ($("#test-status-accepted").hasClass("active")) {
+                res["status"] = "ACCEPTED";
+            }
+            return res;
         }
     }
 
@@ -102,8 +144,11 @@ var gany = (function() {
     }
 
     return {
+        test : test,
+        code : code,
         modals : modals,
         job : job,
+        task : task,
         git : git,
         boxes : boxes
     }
