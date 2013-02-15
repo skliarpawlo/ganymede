@@ -26,7 +26,7 @@ def run_test(test):
         core.logger.write( u"Assertion failed: {0}".format(ex.message) )
         success = False
     except Exception as s :
-        core.logger.write( "ERROR: " + s )
+        core.logger.write( u"ERROR: {0}".format(s.message) )
         core.logger.write( traceback.format_exc() )
         success = False
     finally:
@@ -55,7 +55,7 @@ def run_task( task ) :
         testcase = get_test_case( job );
 
         for test in testcase :
-            core.logger.write( "Running test '{0}'".format(utils.test_id(test)) )
+            core.logger.write( u"Running test '{0}'".format(utils.test_id(test)) )
             result = result and run_test( test )
 
     return result
@@ -75,13 +75,13 @@ def run_any() :
             result = run_task( task )
 
             if (result == True) :
-                status = "SUCCESS"
+                status = u"SUCCESS"
             else :
-                status = "FAIL"
+                status = u"FAIL"
 
-            core.db.session.query(models.Task).filter(models.Task.task_id == task.task_id).update( {"status" : status, "log" : core.logger.read(task.task_id).encode('utf-8')} )
+            core.db.session.query(models.Task).filter(models.Task.task_id == task.task_id).update( {"status" : status, "log" : core.logger.read(task.task_id)} )
         except NoResultFound :
-            print "Nothing to test"
+            pass
 
         core.lock.uncapture(pid_file)
 

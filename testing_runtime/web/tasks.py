@@ -3,17 +3,21 @@ from django.http import HttpResponse
 from testing_runtime.models import Job, Task
 from core import db
 import json
+from data import providers
 
 def system_state(request) :
     tasks = []
-    for task in db.session.query( Task ).order_by( Task.add_time.desc() ) :
+    for task in providers.tasks( request.GET ) :
         t = {}
         t["id"] = task.task_id
         t["name"] = task.job.name
         t["status"] = task.status
         t["add_time"] = task.add_time
         tasks.append(t)
-    return render_to_response('job/state/state.html', {'tasks':tasks})
+    if request.is_ajax() :
+        return render_to_response('job/state/table.html', {'tasks':tasks})
+    else :
+        return render_to_response('job/state/state.html', {'tasks':tasks})
 
 def run_job( request ) :
     job_name = request.POST['job_name']

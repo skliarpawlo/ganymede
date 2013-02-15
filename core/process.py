@@ -9,7 +9,7 @@ def output_to_log( proc, shell=False ) :
     pipe = subprocess.Popen( proc, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell )
     out = pipe.stdout.read()
     if (len(out) > 0) :
-        logger.write( "OUT: " + out )
+        logger.write( u"OUT: " + out )
     err = pipe.stderr.read()
     if (len(err) > 0) :
-        logger.write( "ERR: " + err )
+        logger.write( u"ERR: " + err )

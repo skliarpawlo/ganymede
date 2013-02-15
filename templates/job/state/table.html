@@ -1,0 +1,37 @@
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Задание</th>
+        <th>Статус</th>
+        <th>Лог</th>
+        <th>Время запуска</th>
+    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>#{{ task.id }}</td>
+            <td>
+                <a href="{% url testing_runtime.web.job.update_job task.name %}">
+                    {{ task.name }}
+                </a>
+            </td>
+            <td>
+                {% if task.status == 'RUNNING' %}
+                    <img src="/static/images/progress.gif"/>
+                    <span class="label label-info">{{ task.status }}</span>
+                {% elif task.status == 'WAITING' %}
+                    <span class="label label-warning">{{ task.status }}</span>
+                {% elif task.status == 'FAIL' %}
+                    <span class="label label-important">{{ task.status }}</span>
+                {% elif task.status == 'SUCCESS' %}
+                    <span class="label label-success">{{ task.status }}</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if task.status == 'RUNNING' or task.status == 'SUCCESS' or task.status == 'FAIL' %}
+                    <a href="{% url testing_runtime.web.tasks.log task.id %}">log</a>
+                {% endif %}
+            </td>
+            <td>{{ task.add_time }}</td>
+        </tr>
+    {% endfor %}
+</table>

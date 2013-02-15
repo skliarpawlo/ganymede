@@ -25,13 +25,11 @@
         style="display: none"
      {% endif %}
 >
-    <textarea id="pagetest-source-code">
-{#      #}{% if test.code and test.type == "pagetest" %}
-{#          #}{{ test.code }}
-{#      #}{% else %}
-{#          #}{% include "test/blocks/pagetest_code_template.html" %}
-{#      #}{% endif %}
-{# #}</textarea>
+    {% if test.code and test.type == "pagetest" %}
+        <textarea id="pagetest-source-code">{{ test.code }}</textarea>
+    {% else %}
+        <textarea id="pagetest-source-code">{% include "test/blocks/pagetest_code_template.html" %}</textarea>
+    {% endif %}
 </div>
 
 <div id="subtest-code-block"
@@ -39,11 +37,10 @@
         style="display: none"
     {% endif %}
 >
-    <textarea id="subtest-source-code">
-{#      #}{% if test.code and test.type == "subtest" %}
-{#          #}{{ test.code }}
-{#      #}{% else %}
-{#          #}{% include "test/blocks/subtest_code_template.html" %}
-{#      #}{% endif %}
-{# #}</textarea>
+
+    {% if test.code and test.type == "subtest" %}
+        <textarea id="subtest-source-code">{{ test.code }}</textarea>
+    {% else %}
+        <textarea id="subtest-source-code">{% include "test/blocks/subtest_code_template.html" %}</textarea>
+    {% endif %}
 </div>

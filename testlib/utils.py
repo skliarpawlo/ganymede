@@ -68,7 +68,11 @@ class PageTest( FunctionalTest ) :
     h1 = None
     h1_xpath = None
 
-    subtests = []
+    subtests = None
+
+    def __init__(self) :
+        super(PageTest, self).__init__()
+        self.subtests = []
 
     def setUp(self):
         super(PageTest, self).setUp()
@@ -97,7 +101,7 @@ class PageTest( FunctionalTest ) :
 
         # execute sub tests
         for subtest in self.subtests :
-            logger.write( "Running subtest '{0}' of '{1}'".format(test_id(subtest),test_id(self)) )
+            logger.write( u"Running subtest '{0}' of '{1}'".format(test_id(subtest),test_id(self)) )
             subtest.setUp( self.webpage )
             subtest.run()
             subtest.tearDown()

@@ -1,9 +1,10 @@
 <fieldset>
 <legend>Набор тестов</legend>
-<table class="table">
+<table class="table table-striped">
     <thead>
     <tr>
         <th>
+            <input type="text" id="filter-pagetest" placeholder="фильтр по url"/>
             <label class="checkbox">
                 <input type="checkbox" id="check-all-tests" /> Тесты страницы
             </label>
@@ -17,17 +18,14 @@
     </thead>
     <tbody>
     {% for test in tests %}
-        <tr>
+        <tr class="filtered-pagetest-row">
             <td>
                 <label class="checkbox">
                     <input type="checkbox"
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
-                    <a href="#" rel="popover">{{ test.url }}</a>
-                    <div class="doc" style="display:none">
-                        {{ test.doc }}
-                    </div>
+                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.url }}</a>
                 </label>
             </td>
             <td>
@@ -37,7 +35,7 @@
                                type="checkbox"
                                {% if subtest.checked %} checked {% endif %}
                                test_id="{{ subtest.id }}">
-                        {{ subtest.doc }}
+                        <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
                     </label>
                 {% endfor %}
             </td>

@@ -11,14 +11,14 @@ _test_id_to_db = None
 
 def test_id_to_db( test_id ) :
     global _test_id_to_db
-    if _test_id_to_db == None :
+    if _test_id_to_db is None :
         _fetch_tests()
     return _test_id_to_db[ test_id ]
 
 def all_tests() :
     global _all_tests, _test_id_to_db
-    if _all_tests == None :
-            _fetch_tests()
+    if _all_tests is None :
+        _fetch_tests()
     return _all_tests
 
 def _fetch_tests() :
@@ -44,11 +44,10 @@ def _fetch_tests() :
     #    except ImportError, m :
     #        print "Error while importing %s - %s"%(test_path,m)
 
-
     #####################
     #fetch tests from db#
     #####################
-    for stored_test in db.session.query( models.StoredTest ).order_by(models.StoredTest.test_id).all() :
+    for stored_test in db.session.query( models.StoredTest ).all() :
         code = stored_test.code
 
         #remember locals

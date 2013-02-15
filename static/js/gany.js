@@ -1,4 +1,28 @@
 var gany = (function() {
+
+    var urls = {
+        parseHashes : function( hashes ) {
+            if (!hashes)
+                hashes = location.hash;
+            var p = hashes.slice(1).split("&");
+            var res = {};
+            for (x in p) {
+                if (p[x].length > 0) {
+                    var pp = p[x].split("=");
+                    res[pp[0]] = pp[1];
+                }
+            }
+            return res;
+        },
+        dumpHashes : function( params ) {
+            var res = [];
+            for (x in params) {
+                res.push(x + "=" + params[x]);
+            }
+            return "#" + res.join("&");
+        }
+    }
+
     var call = function(method) {
         var args = Array.prototype.slice.call( arguments );
         return $.get( "/ajax/call", {
@@ -144,6 +168,7 @@ var gany = (function() {
     }
 
     return {
+        urls : urls,
         test : test,
         code : code,
         modals : modals,
