@@ -1,6 +1,7 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
+    {{ block.super }}
     <script src="/static/js/jobs_list.js"></script>
 {% endblock %}
 
@@ -11,7 +12,7 @@
             <th>Операции</th>
             <th>Название</th>
             <th>Ветка</th>
-            <th>Репозиторий</th>
+            <th>Последний запуск</th>
         </tr>
         {% for job in jobs %}
             <tr job_name="{{ job.name }}">
@@ -27,10 +28,36 @@
                     </a>
                 </td>
                 <td><a href="{% url testing_runtime.web.job.update_job job.name %}">{{ job.name }}</a></td>
-                <td>{{ job.branch }}</td>
-                <td>{{ job.repo }}</td>
+                <td>{{ job.repo }}:{{ job.branch }}</td>
+                <td>
+                    {% if job.last_status == 'running' %}
+                        <img src="/static/images/progress.gif"/>
+                        <span class="label label-info">{{ job.last_status }}</span>
+                    {% elif job.last_status == 'waiting' %}
+                        <span class="label label-warning">{{ job.last_status }}</span>
+                    {% elif job.last_status == 'fail' %}
+                        <span class="label label-important">{{ job.last_status }}</span>
+                    {% elif job.last_status == 'success' %}
+                        <span class="label label-success">{{ job.last_status }}</span>
+                    {% else %}
+                        не запускалось
+                    {% endif %}
+                    {% if job.last_task_id %}
+                        <a href="{% url testing_runtime.web.tasks.log job.last_task_id %}">
+                            log
+                        </a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
 
+{% endblock %}
+
+{% block bottom-navbar-items %}
+    <a href="{% url testing_runtime.web.job.create_job %}">
+        <button type="button" class="btn btn-primary btn-large">
+            Создать задание
+        </button>
+    </a>
 {% endblock %}

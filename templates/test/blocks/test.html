@@ -24,12 +24,12 @@
          class="btn-group"
          data-toggle="buttons-radio">
         <button type="button"
-                class="btn btn-success btn-large {% if not test or test.status == 'new' %}active{% endif %}"
+                class="btn btn-danger btn-large {% if not test or test.status == 'new' %}active{% endif %}"
                 id="test-status-new">
             new
         </button>
         <button type="button"
-                class="btn btn-danger btn-large {% if test.status == 'accepted' %}active{% endif %}"
+                class="btn btn-success btn-large {% if test.status == 'accepted' %}active{% endif %}"
                 id="test-status-accepted">
             accepted
         </button>

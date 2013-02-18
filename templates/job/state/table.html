@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table">
     <tr>
         <th>ID</th>
         <th>Задание</th>
@@ -7,7 +7,17 @@
         <th>Время запуска</th>
     </tr>
     {% for task in tasks %}
-        <tr>
+        <tr
+            {% if task.status == 'running' %}
+                class="info"
+            {% elif task.status == 'waiting' %}
+                class="warning"
+            {% elif task.status == 'fail' %}
+                class="error"
+            {% elif task.status == 'success' %}
+                class="success"
+            {% endif %}
+        >
             <td>#{{ task.id }}</td>
             <td>
                 <a href="{% url testing_runtime.web.job.update_job task.name %}">
@@ -15,19 +25,19 @@
                 </a>
             </td>
             <td>
-                {% if task.status == 'RUNNING' %}
+                {% if task.status == 'running' %}
                     <img src="/static/images/progress.gif"/>
                     <span class="label label-info">{{ task.status }}</span>
-                {% elif task.status == 'WAITING' %}
+                {% elif task.status == 'waiting' %}
                     <span class="label label-warning">{{ task.status }}</span>
-                {% elif task.status == 'FAIL' %}
+                {% elif task.status == 'fail' %}
                     <span class="label label-important">{{ task.status }}</span>
-                {% elif task.status == 'SUCCESS' %}
+                {% elif task.status == 'success' %}
                     <span class="label label-success">{{ task.status }}</span>
                 {% endif %}
             </td>
             <td>
-                {% if task.status == 'RUNNING' or task.status == 'SUCCESS' or task.status == 'FAIL' %}
+                {% if task.status == 'running' or task.status == 'success' or task.status == 'fail' %}
                     <a href="{% url testing_runtime.web.tasks.log task.id %}">log</a>
                 {% endif %}
             </td>

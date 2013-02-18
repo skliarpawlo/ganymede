@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import ganymede.settings
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from testing_runtime import models
@@ -51,6 +52,8 @@ def verifyTest(test_id=None,code=None) :
     return errors
 
 def gather_tests_info( selected_tests = [] ) :
+    tests_config._fetch_tests()
+
     tests = []
 
     all_tests = tests_config.all_tests()
@@ -63,7 +66,7 @@ def gather_tests_info( selected_tests = [] ) :
             test[ 'doc' ] = pagetest.__doc__
             test[ 'checked' ] = utils.test_id(pagetest) in selected_tests
             test[ 'subtests' ] = []
-#            test[ 'status' ] = tests_config.test_id_to_db( i ).status
+            test[ 'status' ] = tests_config.test_id_to_status( i )
             for j in all_tests :
                 subtest = all_tests[j]()
                 if isinstance(subtest, utils.SubTest) and\
@@ -72,7 +75,7 @@ def gather_tests_info( selected_tests = [] ) :
                     stest[ 'id' ] = utils.test_id(subtest)
                     stest[ 'doc' ] = subtest.__doc__
                     stest[ 'checked' ] = utils.test_id(subtest) in selected_tests
-#                    stest[ 'status' ] = tests_config.test_id_to_db( j ).status
+                    stest[ 'status' ] = tests_config.test_id_to_status( j )
                     test[ 'subtests' ].append( stest )
             tests.append( test )
     return tests
@@ -82,7 +85,7 @@ def create_test(request) :
         err = verifyTest( test_id=None, code=request.POST['code'] )
         if len(err) == 0 :
             code = request.POST['code']
-            test = models.StoredTest( code=code, status='NEW' )
+            test = models.StoredTest( code=code, status='new' )
             db.session.add( test )
             json_resp = json.dumps( { "status" : "ok" } )
             return HttpResponse(json_resp, mimetype="application/json")
@@ -129,3 +132,16 @@ def update_test(request, test_id) :
         else :
             test["type"] = "subtest"
         return render_to_response("test/update/update_test.html",{"test":test})
+
+def screenshot(request) :
+    try :
+        fd = open( ganymede.settings.HEAP_PATH + request.path )
+        resp = HttpResponse( mimetype='image/png' )
+        resp.write( fd.read() )
+        fd.close()
+        return resp
+    except :
+        return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
+
+def index(request) :
+    return render_to_response( 'index.html' )

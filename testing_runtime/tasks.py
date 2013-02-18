@@ -23,11 +23,13 @@ def run_test(test):
         test.setUp()
         test.run()
     except AssertionError as ex :
-        core.logger.write( u"Assertion failed: {0}".format(ex.message) )
+        core.logger.write( u"Assertion failed: {0}".format(ex) )
+        test.snapshot()
         success = False
     except Exception as s :
-        core.logger.write( u"ERROR: {0}".format(s.message) )
+        core.logger.write( u"ERROR: {0}".format(s) )
         core.logger.write( traceback.format_exc() )
+        test.snapshot()
         success = False
     finally:
         test.tearDown()
@@ -35,15 +37,18 @@ def run_test(test):
         # save result
         status = ''
         if (success) :
-            status = 'SUCCESS'
+            status = u'success'
         else :
-            status = 'FAIL'
+            status = u'fail'
 
-    core.logger.write( status )
+        core.logger.write( status )
+
     return success
 
 def run_task( task ) :
     "Запускает таск. Вернет True если все тесты пройдут"
+
+    core.path.ensure( task.artifactsDir() )
     result = True
 
     with core.logger.task_log( task ) :
@@ -56,7 +61,7 @@ def run_task( task ) :
 
         for test in testcase :
             core.logger.write( u"Running test '{0}'".format(utils.test_id(test)) )
-            result = result and run_test( test )
+            result = run_test( test ) and result
 
     return result
 
@@ -67,22 +72,23 @@ def run_any() :
     pid = core.lock.is_free( pid_file )
     if (pid == 0) :
         core.lock.capture(pid_file)
-
         try :
-            task = core.db.session.query(models.Task).filter(models.Task.status=='WAITING').order_by(models.Task.add_time).limit(1).one()
-            core.db.execute( "UPDATE gany_tasks SET status='RUNNING' WHERE task_id=" + str(task.task_id) )
-
-            result = run_task( task )
-
-            if (result == True) :
-                status = u"SUCCESS"
-            else :
-                status = u"FAIL"
-
-            core.db.session.query(models.Task).filter(models.Task.task_id == task.task_id).update( {"status" : status, "log" : core.logger.read(task.task_id)} )
+            task = core.db.session.query(models.Task).filter(models.Task.status=='waiting').order_by(models.Task.add_time).limit(1).one()
+            core.db.execute( "UPDATE gany_tasks SET status='running' WHERE task_id={0}".format( str(task.task_id) ) )
+            try :
+                result = run_task( task )
+            except :
+                result = False
+                core.logger.write(u"Exception raised: " + traceback.format_exc(), task_id=task.task_id)
+            finally :
+                task.artifacts = json.dumps( core.logger.get_artifacts(task.task_id) )
+                task.log = core.logger.read(task.task_id)
+                task.status = u"success" if result else u"fail"
+                core.db.session.query(models.Task)\
+                .filter(models.Task.task_id == task.task_id)\
+                .update( {"status" : task.status, "log" : task.log, "artifacts" : task.artifacts } )
         except NoResultFound :
             pass
-
         core.lock.uncapture(pid_file)
 
 def get_test_case( job ) :

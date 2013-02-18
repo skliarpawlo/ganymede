@@ -1,7 +1,7 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
-    {{ super.block }}
+    {{ block.super }}
     <script type="text/javascript" src="/static/js/tests_list.js"></script>
 {% endblock %}
 
@@ -9,7 +9,7 @@
 
     <fieldset>
         <legend>Список тестов</legend>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>
@@ -35,11 +35,11 @@
                         <div class="doc" style="display:none">
                             {{ test.doc }}
                         </div>
-{#                        {% if test.status == 'NEW' %}#}
-{#                            <span class="label label-important">{{ test.status }}</span>#}
-{#                        {% elif task.status == 'ACCEPTED' %}#}
-{#                            <span class="label label-success">{{ test.status }}</span>#}
-{#                        {% endif %}#}
+                        {% if test.status == 'new' %}
+                            <span class="label label-important">{{ test.status }}</span>
+                        {% elif test.status == 'accepted' %}
+                            <span class="label label-success">{{ test.status }}</span>
+                        {% endif %}
                     </td>
                     <td class="filtered-pagetest-url">
                         {{ test.url }}
@@ -49,11 +49,11 @@
                         {% for subtest in test.subtests %}
                             <li>
                                 <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
-{#                                {% if subtest.status == 'NEW' %}#}
-{#                                    <span class="label label-important">{{ subtest.status }}</span>#}
-{#                                {% elif subtesk.status == 'ACCEPTED' %}#}
-{#                                    <span class="label label-success">{{ subtest.status }}</span>#}
-{#                                {% endif %}#}
+                                {% if subtest.status == 'new' %}
+                                    <span class="label label-important">{{ subtest.status }}</span>
+                                {% elif subtest.status == 'accepted' %}
+                                    <span class="label label-success">{{ subtest.status }}</span>
+                                {% endif %}
                             </li>
                         {% endfor %}
                         </ul>
@@ -64,4 +64,10 @@
         </table>
     </fieldset>
 
+{% endblock %}
+
+{% block bottom-navbar-items %}
+    <a href="{% url testing_runtime.web.tests.create_test %}">
+        <button type="button" class="btn btn-primary btn-large">Добавить тест</button>
+    </a>
 {% endblock %}

@@ -1,6 +1,9 @@
 import os
 import shutil
 
+def copy( _from_file, _to_dir ):
+    shutil.copy( _from_file, _to_dir )
+
 def clean( dir ):
     try :
         for root, dirs, files in os.walk(dir):

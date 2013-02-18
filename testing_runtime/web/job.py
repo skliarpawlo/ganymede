@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from testing_runtime.models import Job, Task
@@ -26,10 +27,18 @@ def create_job(request) :
 def list_jobs(request) :
     jobs = []
     for job in db.session.query(Job).all() :
+        try :
+            last_task = db.session.query(Task).\
+             filter(Task.job_name == job.name).\
+             order_by(Task.add_time.desc()).limit(1).one()
+        except :
+            last_task = None
         jobs.append( {
             "name" : job.name,
             "repo" : job.repo,
-            "branch" : job.branch
+            "branch" : job.branch,
+            "last_status" : u"не запускался" if (last_task is None) else last_task.status,
+            "last_task_id" : None if (last_task is None) else last_task.task_id
         } )
     return render_to_response( 'job/list/list.html', { 'jobs' : jobs } )
 

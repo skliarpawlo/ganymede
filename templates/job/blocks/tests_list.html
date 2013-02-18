@@ -26,6 +26,11 @@
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
                     <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.url }}</a>
+                    {% if test.status == 'new' %}
+                        <span class="label label-important">{{ test.status }}</span>
+                    {% elif test.status == 'accepted' %}
+                        <span class="label label-success">{{ test.status }}</span>
+                    {% endif %}
                 </label>
             </td>
             <td>
@@ -36,6 +41,13 @@
                                {% if subtest.checked %} checked {% endif %}
                                test_id="{{ subtest.id }}">
                         <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
+
+                        {% if subtest.status == 'new' %}
+                            <span class="label label-important">{{ subtest.status }}</span>
+                        {% elif subtest.status == 'accepted' %}
+                            <span class="label label-success">{{ subtest.status }}</span>
+                        {% endif %}
+
                     </label>
                 {% endfor %}
             </td>

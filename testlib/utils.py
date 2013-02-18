@@ -48,11 +48,15 @@ class FunctionalTest(Test) :
 
         super(FunctionalTest, self).tearDown()
 
-    def photosDir(self) :
+    def photosDir(self):
         return os.path.join(self.testDir(), "photos")
 
+    def snapshot(self):
+        img_url = browser.snapshot()
+        logger.add_artifact({u"type":u"snapshot", u"source":test_id(self), u"path":img_url})
+
 class PageTest( FunctionalTest ) :
-    """Тест определенной страници. url задается через переменную url
+    """Тест определенной страницы. url задается через переменную url
     которая переопределяется в подклассах для разных страниц. Браузер с загруженной
     страницей доступен через self.webpage. Переменная класса status задает ожидаемы
     http-код страници. title, h1, title_xpath, h1_xpath - задают полоежение и ожидаемый

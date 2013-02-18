@@ -33,6 +33,8 @@ $(function(){
     });
 
     $("#pagi-next").click(function() {
+        if ($("#pagi-next").parents("li").hasClass('disabled'))
+            return false;
         var x = gany.urls.parseHashes();
         if (!x.page)
             x.page = 1;

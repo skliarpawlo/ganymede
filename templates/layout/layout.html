@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script type="text/javascript" src="/static/jquery/jquery.min.js"></script>
+    {% block head %}
+        <link rel='stylesheet' href="/static/css/layout.css" />
 
-    <link rel='stylesheet' href="/static/bootstrap/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/static/jquery/jquery.tmpl.js"></script>
 
-    <link rel="stylesheet" href="/static/codemirror/lib/codemirror.css">
-    <script type="text/javascript" src="/static/codemirror/lib/codemirror.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/clike/clike.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/javascript/javascript.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/xml/xml.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/htmlmixed/htmlmixed.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/css/css.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/python/python.js" ></script>
-    <script type="text/javascript" src="/static/codemirror/mode/php/php.js" ></script>
+        <link rel='stylesheet' href="/static/bootstrap/css/bootstrap.min.css" />
+        <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="/static/js/gany.js"></script>
-    {% block head %}{% endblock %}
+        <link rel="stylesheet" href="/static/codemirror/lib/codemirror.css">
+        <script type="text/javascript" src="/static/codemirror/lib/codemirror.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/clike/clike.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/javascript/javascript.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/xml/xml.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/htmlmixed/htmlmixed.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/css/css.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/python/python.js" ></script>
+        <script type="text/javascript" src="/static/codemirror/mode/php/php.js" ></script>
+
+        <script type="text/javascript" src="/static/js/gany.js"></script>
+    {% endblock %}
 </head>
 <body>
     <div class="navbar">
@@ -36,11 +40,12 @@
                 {% block content %}
                     empty content
                 {% endblock %}
+                <div id="indent-block"></div>
             </div>
         </div>
     </div>
 
-    <div class="form-actions navbar navbar-fixed-bottom">
+    <div id="navbar-bottom-block" class="form-actions navbar navbar-fixed-bottom">
         {% block bottom-navbar-items %}{% endblock %}
     </div>
 

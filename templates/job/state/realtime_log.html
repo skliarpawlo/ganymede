@@ -1,6 +1,14 @@
 {% extends "layout/layout.html" %}
 
 {% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="/static/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+    <script type="text/javascript" src="/static/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script>
+
+    <link rel="stylesheet" href="/static/fancybox/helpers/jquery.fancybox-thumbs.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="/static/fancybox/helpers/jquery.fancybox-thumbs.js"></script>
+
+    <link rel="stylesheet" href="/static/css/realtime_log.css" type="text/css" media="screen" />
     <script type="text/javascript">
         taskId = "{{ task.id }}";
     </script>
@@ -13,4 +21,9 @@
 
     <pre id="log-block"></pre>
 
+{% endblock %}
+
+{% block bottom-navbar-items %}
+    <span id="artifacts-block">
+    </span>
 {% endblock %}

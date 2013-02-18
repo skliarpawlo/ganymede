@@ -21,10 +21,12 @@ def setHeap( h ) :
     global heap
     heap = h
 
-def save() :
+def snapshot() :
     global errors, heap, inst
-    res = inst.save_screenshot( os.path.join( heap, "sc_" + str( errors ) + ".png" ) )
+    img_path = os.path.join( heap, "sc_" + str( errors ) + ".png" )
+    res = inst.save_screenshot( img_path )
     if not res :
         core.logger.write( u"cannot save screenshot" )
     errors += 1
+    return img_path
 

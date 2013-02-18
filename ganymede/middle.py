@@ -1,6 +1,5 @@
 from core import db
 import json
-import sys
 from django.http import HttpResponse
 import traceback
 

@@ -12,8 +12,12 @@ def set( key, val ) :
         init()
     session.set( key, val )
 
-def get( key ) :
+def get( key, default_val=None ) :
     global session
     if ( session == None ) :
         init()
-    return session.get( key )
+    val = session.get( key )
+    if val is None :
+        return default_val
+    else :
+        return val

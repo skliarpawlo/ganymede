@@ -15,10 +15,11 @@ CREATE TABLE `gany_jobs` (
 CREATE TABLE `gany_tasks` (
   `task_id` int(11) not null auto_increment,
   `job_name` varchar(80),
-  `status` enum('WAITING', 'RUNNING', 'FAIL', 'SUCCESS') not null default 'WAITING',
+  `status` enum('waiting', 'running', 'fail', 'success') not null default 'waiting',
   `add_time` TIMESTAMP,
   `end_time` TIMESTAMP,
-  `log` TEXT,
+  `log` TEXT not null default "",
+  `artifacts` TEXT not null default "[]",
   primary key(`task_id`),
   foreign key(`job_name`) references `gany_jobs`(`name`)
 ) default charset=utf8;

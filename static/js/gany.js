@@ -81,8 +81,8 @@ var gany = (function() {
 
     var task = {
 
-        log : function( id, len ) {
-            return call("core.logger", "ajax_read", id, len)
+        log : function( id, len, img_count ) {
+            return call("core.logger", "ajax_read", id, len, img_count)
         }
 
     }
@@ -125,10 +125,10 @@ var gany = (function() {
                 res["code"] = block.getTextArea().value;
             }
             if ($("#test-status-new").hasClass("active")) {
-                res["status"] = "NEW";
+                res["status"] = "new";
             }
             if ($("#test-status-accepted").hasClass("active")) {
-                res["status"] = "ACCEPTED";
+                res["status"] = "accepted";
             }
             return res;
         }

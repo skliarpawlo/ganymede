@@ -21,7 +21,7 @@ def system_state(request) :
 
 def run_job( request ) :
     job_name = request.POST['job_name']
-    new_task = Task( job_name = job_name, status='WAITING' )
+    new_task = Task( job_name = job_name, status='waiting' )
     db.session.add( new_task )
     return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/json" )
 
