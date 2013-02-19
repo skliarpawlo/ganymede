@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'testing_runtime.web.tests.index'),
 
     url(r'^job/create$', 'testing_runtime.web.job.create_job'),
-    url(r'^job/update/(?P<job_name>\w+)$', 'testing_runtime.web.job.update_job'),
+    url(r'^job/update/(?P<job_name>[\w\ ]+)$', 'testing_runtime.web.job.update_job'),
     url(r'^job/list$', 'testing_runtime.web.job.list_jobs'),
     url(r'^job/remove$', 'testing_runtime.web.job.remove_job'),
 
