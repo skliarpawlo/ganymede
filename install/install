@@ -8,9 +8,13 @@ pip install python-memcached
 # wsgi app
 pip install flup
 
-# firfox comes with webdriver
+# firefox comes with webdriver
 apt-get install iceweasel
 
 # X-server frame buffer
 apt-get install xvfb
 
+# callisto
+apt-get install php5-fpm
+apt-get install php5-memcached
+apt-get install php5-mysql

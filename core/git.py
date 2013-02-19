@@ -1,12 +1,21 @@
-import subprocess
 import json
 import os
 import path
 import re
 import logger
 import process
+import ganymede.settings
 
-config = json.loads( open( os.path.abspath( os.path.dirname(__file__) ) + "/config/git.json", "r" ).read() )
+config = json.loads(
+    open(
+        os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            "config",
+            ganymede.settings.MODE,
+            "git.json"
+        ),
+        "r" ).read()
+)
 path.ensure( config['repos_path'] )
 
 def projects() :

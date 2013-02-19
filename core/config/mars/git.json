@@ -1,0 +1,9 @@
+{
+    "repos_path":"/home/skliar/ganymede.lun.ua/repos",
+    "deploy_path":"/home/skliar/ganymede.lun.ua/lun.ua",
+    "projects" : {
+        "callisto" : {
+            "repo":"git@github.com:skliarovskyi/callisto.git"
+        }
+    }
+}
