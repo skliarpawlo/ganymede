@@ -10,7 +10,8 @@ def system_state(request) :
     for task in providers.tasks( request.GET ) :
         t = {}
         t["id"] = task.task_id
-        t["name"] = task.job.name
+        t["job_name"] = task.job.name
+        t["job_id"] = task.job.job_id
         t["status"] = task.status
         t["add_time"] = task.add_time
         tasks.append(t)
@@ -20,8 +21,8 @@ def system_state(request) :
         return render_to_response('job/state/state.html', {'tasks':tasks})
 
 def run_job( request ) :
-    job_name = request.POST['job_name']
-    new_task = Task( job_name = job_name, status='waiting' )
+    job_id = request.POST['job_id']
+    new_task = Task( job_id = job_id, status='waiting' )
     db.session.add( new_task )
     return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/json" )
 

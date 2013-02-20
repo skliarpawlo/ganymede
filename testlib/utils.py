@@ -9,6 +9,7 @@ import ganymede.settings
 import httplib
 from urlparse import urlparse
 import urllib
+from testing_runtime.web.decorators import html
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
@@ -93,8 +94,11 @@ class PageTest( FunctionalTest ) :
         self.webpage.get( self.url )
 
     def run(self):
+        logger.write( u"Running test '{0}'".format(test_id(self)) )
+        logger.write( u"url: {0}".format(html.link(self.url, self.url)) )
+
         ## check status code
-        assert self.status == self.response.status
+        assert self.status == self.response.status, "HTTP Response status expected {0}, recieved {1}".format(self.status, self.response.status)
 
         ## check title & header
         if not (self.title_xpath == None) and not (self.title == None) :

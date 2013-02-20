@@ -1,8 +1,14 @@
 <fieldset>
     <legend>General config</legend>
+    {% if job.job_id %}
+        <label class="control-label" for="job-name">id задания</label>
+        <input type="text"
+               id="job-id"
+               disabled="disabled"
+               value="{{ job.job_id }}" />
+    {% endif %}
     <label class="control-label" for="job-name">Название задания</label>
     <input type="text" placeholder="my_test_case"
-           {% if job.name %}disabled="disabled"{% endif %}
            id="job-name"
            value="{{ job.name }}" />
 </fieldset>

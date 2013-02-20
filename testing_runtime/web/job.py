@@ -29,11 +29,12 @@ def list_jobs(request) :
     for job in db.session.query(Job).all() :
         try :
             last_task = db.session.query(Task).\
-             filter(Task.job_name == job.name).\
+             filter(Task.job_id == job.job_id).\
              order_by(Task.add_time.desc()).limit(1).one()
         except :
             last_task = None
         jobs.append( {
+            "job_id" : job.job_id,
             "name" : job.name,
             "repo" : job.repo,
             "branch" : job.branch,
@@ -43,15 +44,16 @@ def list_jobs(request) :
     return render_to_response( 'job/list/list.html', { 'jobs' : jobs } )
 
 def remove_job(request) :
-    job_name = request.POST[ 'job_name' ]
-    db.session.query(Job).filter(Job.name == job_name).delete()
+    job_id = request.POST[ 'job_id' ]
+    db.session.query(Job).filter(Job.job_id == job_id).delete()
 
     json_resp = json.dumps( { "status" : "ok" } )
     return HttpResponse(json_resp, mimetype="application/json")
 
-def update_job(request, job_name) :
+def update_job(request, job_id) :
     if request.method == 'POST' :
-        db.session.query(Job).filter( Job.name == job_name ).update( {
+        db.session.query(Job).filter( Job.job_id == job_id ).update( {
+            "name" : request.POST[ 'name' ],
             "env" : request.POST[ 'env' ],
             "repo" : request.POST[ 'repo' ],
             "branch" : request.POST[ 'branch' ],
@@ -61,9 +63,9 @@ def update_job(request, job_name) :
         json_resp = json.dumps( { "status" : "ok" } )
         return HttpResponse(json_resp, mimetype="application/json")
     else :
-        job_name = job_name
-        job_model = db.session.query( Job ).filter( Job.name == job_name ).one()
-        job = { "name" : job_model.name,
+        job_model = db.session.query( Job ).filter( Job.job_id == job_id ).one()
+        job = { "job_id" : job_model.job_id,
+                "name" : job_model.name,
                 "repo" : job_model.repo,
                 "branch" : job_model.branch,
                 "env" : job_model.env,

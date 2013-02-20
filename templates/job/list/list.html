@@ -7,57 +7,52 @@
 
 {% block content %}
 
-    <table class="table table-striped">
-        <tr>
-            <th>Операции</th>
-            <th>Название</th>
-            <th>Ветка</th>
-            <th>Последний запуск</th>
-        </tr>
-        {% for job in jobs %}
-            <tr job_name="{{ job.name }}">
-                <td>
-                    <a class="run-job" href="#">
-                        <i class="icon-play"></i>
-                    </a>
-                    <a class="change-job" href="{% url testing_runtime.web.job.update_job job.name %}">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="remove-job" href="#">
-                        <i class="icon-trash"></i>
-                    </a>
-                </td>
-                <td><a href="{% url testing_runtime.web.job.update_job job.name %}">{{ job.name }}</a></td>
-                <td>{{ job.repo }}:{{ job.branch }}</td>
-                <td>
-                    {% if job.last_status == 'running' %}
-                        <img src="/static/images/progress.gif"/>
-                        <span class="label label-info">{{ job.last_status }}</span>
-                    {% elif job.last_status == 'waiting' %}
-                        <span class="label label-warning">{{ job.last_status }}</span>
-                    {% elif job.last_status == 'fail' %}
-                        <span class="label label-important">{{ job.last_status }}</span>
-                    {% elif job.last_status == 'success' %}
-                        <span class="label label-success">{{ job.last_status }}</span>
-                    {% else %}
-                        не запускалось
-                    {% endif %}
-                    {% if job.last_task_id %}
-                        <a href="{% url testing_runtime.web.tasks.log job.last_task_id %}">
-                            log
-                        </a>
-                    {% endif %}
-                </td>
+    <fieldset>
+        <legend>Задачи</legend>
+        <table class="table table-striped">
+            <tr>
+                <th>Операции</th>
+                <th>Название</th>
+                <th>Ветка</th>
+                <th>Последний запуск</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for job in jobs %}
+                <tr job_id="{{ job.job_id }}" job_name="{{ job.name }}">
+                    <td>
+                        <a class="run-job" href="#">
+                            <i class="icon-play"></i>
+                        </a>
+                        <a class="change-job" href="{% url testing_runtime.web.job.update_job job.job_id %}">
+                            <i class="icon-wrench"></i>
+                        </a>
+                        <a class="remove-job" href="#">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </td>
+                    <td><a href="{% url testing_runtime.web.job.update_job job.job_id %}">#{{ job.job_id }} {{ job.name }}</a></td>
+                    <td>{{ job.repo }}:{{ job.branch }}</td>
+                    <td>
+                        {% if job.last_status == 'running' %}
+                            <img src="/static/images/progress.gif"/>
+                            <span class="label label-info">{{ job.last_status }}</span>
+                        {% elif job.last_status == 'waiting' %}
+                            <span class="label label-warning">{{ job.last_status }}</span>
+                        {% elif job.last_status == 'fail' %}
+                            <span class="label label-important">{{ job.last_status }}</span>
+                        {% elif job.last_status == 'success' %}
+                            <span class="label label-success">{{ job.last_status }}</span>
+                        {% else %}
+                            не запускалось
+                        {% endif %}
+                        {% if job.last_task_id %}
+                            <a href="{% url testing_runtime.web.tasks.log job.last_task_id %}">
+                                log
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </fieldset>
 
-{% endblock %}
-
-{% block bottom-navbar-items %}
-    <a href="{% url testing_runtime.web.job.create_job %}">
-        <button type="button" class="btn btn-primary btn-large">
-            Создать задание
-        </button>
-    </a>
 {% endblock %}

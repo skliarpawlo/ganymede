@@ -3,7 +3,7 @@
 
         <button type="button"
                 {% if test.type == "subtest" %}disabled="disabled"{% endif %}
-                class="btn btn-primary btn-large {% if test.type == "pagetest" %}active{% endif %}"
+                class="btn btn-primary btn-large {% if not test or test.type == "pagetest" %}active{% endif %}"
                 id="open-pagetest-block">
             Тест страницы
         </button>
@@ -33,7 +33,7 @@
 </div>
 
 <div id="subtest-code-block"
-    {% if test.type == "pagetest" %}
+    {% if not test or test.type == "pagetest" %}
         style="display: none"
     {% endif %}
 >

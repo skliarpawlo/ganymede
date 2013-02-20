@@ -9,19 +9,28 @@
 
     <fieldset>
         <legend>Список тестов</legend>
-        <table class="table table-striped">
+        <i id="signs-info" class="icon-warning-sign"></i> - тест не проверен
+        <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>
-                    <input type="text" id="filter-pagetest-id" placeholder="фильтр по id"/>
-                    <label for="filter-pagetest-id" >Тесты страницы</label>
+                    Тесты страницы
                 </th>
                 <th>
-                    <input type="text" id="filter-pagetest-url" placeholder="фильтр по url"/>
-                    <label for="filter-pagetest-url" >url</label>
+                    url
                 </th>
                 <th>
                     Подтесты
+                </th>
+            </tr>
+            <tr class="filters">
+                <th>
+                    <input type="text" id="filter-pagetest-id" placeholder=""/>
+                </th>
+                <th>
+                    <input type="text" id="filter-pagetest-url" placeholder=""/>
+                </th>
+                <th>
                 </th>
             </tr>
             </thead>
@@ -36,13 +45,11 @@
                             {{ test.doc }}
                         </div>
                         {% if test.status == 'new' %}
-                            <span class="label label-important">{{ test.status }}</span>
-                        {% elif test.status == 'accepted' %}
-                            <span class="label label-success">{{ test.status }}</span>
+                            <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                         {% endif %}
                     </td>
                     <td class="filtered-pagetest-url">
-                        {{ test.url }}
+                        {{ test.url_link }}
                     </td>
                     <td>
                         <ul>
@@ -50,9 +57,7 @@
                             <li>
                                 <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
                                 {% if subtest.status == 'new' %}
-                                    <span class="label label-important">{{ subtest.status }}</span>
-                                {% elif subtest.status == 'accepted' %}
-                                    <span class="label label-success">{{ subtest.status }}</span>
+                                    <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                                 {% endif %}
                             </li>
                         {% endfor %}
@@ -64,10 +69,4 @@
         </table>
     </fieldset>
 
-{% endblock %}
-
-{% block bottom-navbar-items %}
-    <a href="{% url testing_runtime.web.tests.create_test %}">
-        <button type="button" class="btn btn-primary btn-large">Добавить тест</button>
-    </a>
 {% endblock %}

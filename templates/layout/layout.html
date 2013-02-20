@@ -24,29 +24,29 @@
     {% endblock %}
 </head>
 <body>
-    <div class="navbar">
+    <div class="navbar navbar-static-top">
         <div class="navbar-inner">
-            <a class="brand" href="/">ЛУН.ua</a>
+            <a class="brand" href="/">Ganymede</a>
+            {% include "layout/navbar.html" %}
         </div>
     </div>
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span2">
-                {% block column %}
-                    {% include "layout/navbar.html" %}
-                {% endblock %}
-            </div>
-            <div class="span10">
+            <div class="span12">
                 {% block content %}
-                    empty content
                 {% endblock %}
-                <div id="indent-block"></div>
             </div>
         </div>
     </div>
 
     <div id="navbar-bottom-block" class="form-actions navbar navbar-fixed-bottom">
-        {% block bottom-navbar-items %}{% endblock %}
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    {% block bottom-navbar-items %}{% endblock %}
+                </div>
+            </div>
+        </div>
     </div>
 
     {% include "modals/error_modal.html" %}

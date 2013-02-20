@@ -15,4 +15,7 @@
 
 {% block bottom-navbar-items %}
     <input type="button" class="btn btn-primary btn-large" id="update-test-btn" value="Сохранить"/>
+    <a href="{% url testing_runtime.web.tests.list_tests %}">
+        <input type="button" class="btn btn-primary btn-large" value="Отменить"/>
+    </a>
 {% endblock %}

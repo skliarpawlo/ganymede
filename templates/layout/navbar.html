@@ -1,20 +1,17 @@
-<div class="well sidebar">
-    <ul class="nav nav-list">
-        <li class="nav-header">Система</li>
-        <ul>
-            <li>
-                <a href="{% url testing_runtime.web.tasks.system_state %}">Состояние системы</a>
-            </li>
-            <li class="active">
-                <a href="{% url testing_runtime.web.job.list_jobs %}">Список заданий</a>
-            </li>
-        </ul>
-
-        <li class="nav-header">Тесты</li>
-        <ul>
-            <li>
-                <a href="{% url testing_runtime.web.tests.list_tests %}">Список тестов</a>
-            </li>
-        </ul>
-    </ul>
-</div>
+<ul class="nav">
+    <li>
+        <a href="{% url testing_runtime.web.tasks.system_state %}">Состояние</a>
+    </li>
+    <li>
+        <a href="{% url testing_runtime.web.job.list_jobs %}">Задачи</a>
+    </li>
+    <li>
+        <a href="{% url testing_runtime.web.job.create_job %}">Создать задачу</a>
+    </li>
+    <li>
+        <a href="{% url testing_runtime.web.tests.list_tests %}">Тесты</a>
+    </li>
+    <li>
+        <a href="{% url testing_runtime.web.tests.create_test %}">Добавить тест</a>
+    </li>
+</ul>

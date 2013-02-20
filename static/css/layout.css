@@ -1,6 +1,26 @@
-#indent-block {
-    height: 230px;
-}
 #navbar-bottom-block {
     max-height: 230px;
+}
+
+body {
+    padding-bottom: 200px;
+}
+
+tr.filters input {
+    width: 90%;
+}
+
+#navbar-bottom-block {
+    padding: 0;
+    margin: 5px;
+}
+
+#navbar-bottom-block .pagination {
+    padding: 0;
+    margin: 5px;
+}
+
+#navbar-bottom-block {
+    padding: 3px;
+    margin: 0px;
 }

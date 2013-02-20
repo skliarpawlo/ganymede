@@ -9,7 +9,8 @@ Base = declarative_base()
 class Job(Base) :
     __tablename__ = "gany_jobs"
 
-    name = Column( Unicode, primary_key=True )
+    job_id = Column( Integer, primary_key=True )
+    name = Column( Unicode, unique=True )
     repo = Column( String )
     branch = Column( String )
     env = Column( Unicode )
@@ -19,7 +20,7 @@ class Task(Base) :
     __tablename__ = "gany_tasks"
 
     task_id = Column( Integer, primary_key=True )
-    job_name = Column( Unicode, ForeignKey("gany_jobs.name") )
+    job_id = Column( Unicode, ForeignKey("gany_jobs.job_id") )
     status = Column( Enum('waiting', 'running', 'success', 'fail'), nullable=False, default='waiting' )
     add_time = Column( DateTime )
     end_time = Column( DateTime )

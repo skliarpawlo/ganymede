@@ -7,15 +7,18 @@
 
 {% block content %}
 
-    <div id="state-table">
-        {% include "job/state/table.html" %}
-    </div>
+    <fieldset>
+        <legend>Состояние</legend>
+        <div id="state-table">
+            {% include "job/state/table.html" %}
+        </div>
+    </fieldset>
 
 {% endblock %}
 
 {% block bottom-navbar-items %}
 
-    <div class="pagination pagination-large">
+    <div class="pagination">
         <ul>
             <li class="disabled">
                 <a id="pagi-prev" href="#">
@@ -32,5 +35,10 @@
             </li>
         </ul>
     </div>
+{#    <div id="page-sizer" class="btn-group" data-toggle="buttons-radio">#}
+{#        <button type="button" class="btn btn-primary">25</button>#}
+{#        <button type="button" class="btn btn-primary">50</button>#}
+{#        <button type="button" class="btn btn-primary">100</button>#}
+{#    </div>#}
 
 {% endblock %}

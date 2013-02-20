@@ -1,26 +1,7 @@
 <script type="text/javascript" src="/static/js/test.js"></script>
 
 <p>
-<div class="btn-group" data-toggle="buttons-radio">
-    <button type="button"
-            {% if test %}disabled="disabled"{% endif %}
-            class="btn btn-primary btn-large"
-            id="open-noob-block">
-        noob
-    </button>
-    <button type="button"
-            class="btn btn-primary btn-large {% if test %}active{% endif %}"
-            id="open-guru-block">
-        guru
-    </button>
-</div>
-</p>
-
-<p>
     <div id="test-status-block"
-            {% if not test %}
-         style="display: none"
-            {% endif %}
          class="btn-group"
          data-toggle="buttons-radio">
         <button type="button"
@@ -36,14 +17,6 @@
     </div>
 </p>
 
-<div id="noob-block" style="display: none">
-    {% include "test/blocks/noob.html" %}
-</div>
-
-<div id="guru-block"
-     {% if not test %}
-     style="display: none"
-     {% endif %}
->
+<div id="guru-block">
     {% include "test/blocks/guru.html" %}
 </div>

@@ -3,7 +3,7 @@ from testing_runtime import models
 
 def tasks( params={} ) :
 
-    limit = 10
+    limit = 25
     if params.has_key('pagesize') :
         limit = int(params['pagesize'])
 

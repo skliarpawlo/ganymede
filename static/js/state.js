@@ -4,7 +4,7 @@ $(function(){
         var x = gany.urls.parseHashes();
         if (!x.page) {
             x.page = 1;
-            x.pagesize = 10;
+            x.pagesize = 25;
             window.location = gany.urls.dumpHashes(x);
         }
         $.get("", {page:x.page, pagesize:x.pagesize}).done(function(data){

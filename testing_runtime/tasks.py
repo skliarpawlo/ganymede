@@ -60,7 +60,6 @@ def run_task( task ) :
         testcase = get_test_case( job );
 
         for test in testcase :
-            core.logger.write( u"Running test '{0}'".format(utils.test_id(test)) )
             result = run_test( test ) and result
 
     return result
