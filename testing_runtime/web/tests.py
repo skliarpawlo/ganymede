@@ -10,7 +10,6 @@ from testing_runtime import tests_config
 from testlib import utils
 import inspect
 import traceback
-from decorators import html
 
 def verifyTest(test_id=None,code=None) :
     errors = []
@@ -45,7 +44,7 @@ def verifyTest(test_id=None,code=None) :
                                 errors.append( u'Уже есть тест "{0}"'.format(utils.test_id(test)) )
 
     except :
-        errors.append( u'exec теста рыгнул exception: {0}'.format(traceback.format_exc()) )
+        errors.append( u'exec теста рыгнул exception: {0}'.format(traceback.format_exc().decode('utf-8')) )
 
     if not present :
         errors.append( u'В коде не обнаружен класс теста' )

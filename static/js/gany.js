@@ -114,16 +114,11 @@ var gany = (function() {
     var test = {
         gather_data : function() {
             res = {};
-            if ($("#open-pagetest-block").hasClass("active")) {
-                var block = gany.code.block("pagetest-source-code");
-                block.save();
-                res["code"] = block.getTextArea().value;
-            }
-            if ($("#open-subtest-block").hasClass("active")) {
-                var block = gany.code.block("subtest-source-code");
-                block.save();
-                res["code"] = block.getTextArea().value;
-            }
+
+            var block = gany.code.block("test-source-code");
+            block.save();
+            res["code"] = block.getTextArea().value;
+
             if ($("#test-status-new").hasClass("active")) {
                 res["status"] = "new";
             }

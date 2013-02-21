@@ -1,7 +1,15 @@
 from testlib import utils
 
-class NovostroykiMain( utils.PageTest ) :
-    "Главная страница новостроек"
+# Название теста - имя класса
+class Test_Template( utils.PageTest ) :
+    # Описание предназначения теста
+    ""
 
-    url = u"novostroyki.lun.ua/"
-    title = u"Новостройки - ЛУН.ua"
+    # полный url страницы
+    # пример: http://novostroyki.lun.ua
+    url = u""
+
+    # ожидаемый заголовок страницы
+    # не обязательный (если убрать не будет проверятся)
+    # пример: title = u"Новостройки - ЛУН.ua"
+    title = u""

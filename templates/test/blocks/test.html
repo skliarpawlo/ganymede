@@ -1,22 +1,56 @@
 <script type="text/javascript" src="/static/js/test.js"></script>
 
+{% if not test %}
 <p>
+    <label for="template-selector">Шаблоны тестов</label>
+    <div id="template-selector" class="btn-group" data-toggle="buttons-radio">
+
+        <button type="button" class="btn btn-primary">
+            Тест страницы
+        </button>
+        <div style="display: none" class="template-content">{% include "test/blocks/pagetest_code_template.html" %}</div>
+
+        <button type="button" class="btn btn-primary">
+            Тест автокомплита
+        </button>
+        <div style="display: none" class="template-content">{% include "test/blocks/typeahead_test_code_template.html" %}</div>
+
+        <button type="button" class="btn btn-primary">
+            Тест подсчета вхождения текста
+        </button>
+        <div style="display: none" class="template-content">{% include "test/blocks/counter_test_code_template.html" %}</div>
+
+        <button type="button" class="btn btn-primary">
+            Тест подгрузки при выборе select-а
+        </button>
+        <div style="display: none" class="template-content">{% include "test/blocks/load_on_select_test_code_template.html" %}</div>
+
+    </div>
+</p>
+{% endif %}
+
+<p>
+    <label for="test-status-block">Статус теста</label>
     <div id="test-status-block"
          class="btn-group"
          data-toggle="buttons-radio">
         <button type="button"
-                class="btn btn-danger btn-large {% if not test or test.status == 'new' %}active{% endif %}"
+                class="btn btn-danger {% if not test or test.status == 'new' %}active{% endif %}"
                 id="test-status-new">
             new
         </button>
         <button type="button"
-                class="btn btn-success btn-large {% if test.status == 'accepted' %}active{% endif %}"
+                class="btn btn-success {% if test.status == 'accepted' %}active{% endif %}"
                 id="test-status-accepted">
             accepted
         </button>
     </div>
 </p>
 
-<div id="guru-block">
-    {% include "test/blocks/guru.html" %}
-</div>
+<legend>Полный код теста</legend>
+
+{% if test.code %}
+    <textarea id="test-source-code">{{ test.code }}</textarea>
+{% else %}
+    <textarea id="test-source-code"></textarea>
+{% endif %}

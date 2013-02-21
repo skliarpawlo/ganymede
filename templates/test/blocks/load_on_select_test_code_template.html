@@ -1,0 +1,22 @@
+from testlib import utils
+
+# Название теста - имя класса
+class Test_Template( utils.LoadOnSelectTest ) :
+    # Описание предназначения теста
+    ""
+
+    # Название класса родительского теста
+    # пример: __parent_test__ = "NovostroykiMain"
+    __parent_test__ = u""
+
+    # xpath select-a
+    # пример: select_xpath = u"//*[@id='city']"
+    select_xpath = u""
+
+    # xpath елемента в который происходит подгрузка
+    # пример: loaded_element_xpath = u"//*[@id='district']"
+    loaded_element_xpath = u""
+
+    #список выбираемого елемента и ожидаемого подгружаемого контента
+    #пример: select = [[u'Киев (414)',[u'Голосеевский', u'Дарницкий', u'Деснянский']]]
+    select = []

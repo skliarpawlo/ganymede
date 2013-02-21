@@ -1,0 +1,23 @@
+from testlib import utils
+
+# Название теста - имя класса
+class Template_Test( utils.TypeaheadTest ) :
+    # Описание предназначения теста
+    ""
+
+    # название класса родительского теста
+    # пример: __parent_test__ = "NovostroykiMain"
+    __parent_test__ = ""
+
+    # xpath поля ввода
+    # пример: input_xpath = u'//*[@id="search-input"]'"
+    input_xpath = u""
+
+    # xpath елемента в котором отображается автокомплит
+    # не обязательный
+    # по умолчанию ac_xpath = u"/html/body/div[@class='ac_results']"
+    ac_xpath = u""
+
+    # список вводимых букв и соответствующего им автокомплита
+    # пример: u'ху' : [ u'ЖК Дом с Ротондами (ул. Сухумская, Харьков)' ]
+    autocomplete = []
