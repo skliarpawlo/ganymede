@@ -11,13 +11,21 @@
         </th>
         <th>
             <label class="checkbox">
+                Url
+            </label>
+        </th>
+        <th>
+            <label class="checkbox">
                 <input type="checkbox" id="check-all-subtests" /> Подтесты
             </label>
         </th>
     </tr>
     <tr>
         <th>
-            <input type="text" id="filter-pagetest" placeholder="фильтр по url"/>
+            <input type="text" id="filter-pagetest" placeholder=""/>
+        </th>
+        <th>
+            <input type="text" id="filter-pagetest-url" placeholder=""/>
         </th>
         <th>
         </th>
@@ -32,11 +40,14 @@
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
-                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.url }}</a>
+                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.id }}</a>
                     {% if test.status == 'new' %}
                         <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                     {% endif %}
                 </label>
+            </td>
+            <td>
+                <a class="filtered-pagetest-url" href="{{ test.url }}">{{ test.url }}</a>
             </td>
             <td>
                 {% for subtest in test.subtests %}

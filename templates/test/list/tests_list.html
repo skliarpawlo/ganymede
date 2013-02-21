@@ -39,17 +39,14 @@
                 <tr class="filtered-pagetest-row">
                     <td>
                         <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
-                            {{ test.id }}
-                        </a>
-                        <div class="doc" style="display:none">
                             {{ test.doc }}
-                        </div>
+                        </a>
                         {% if test.status == 'new' %}
                             <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                         {% endif %}
                     </td>
                     <td class="filtered-pagetest-url">
-                        {{ test.url_link }}
+                        <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>
                     </td>
                     <td>
                         <ul>

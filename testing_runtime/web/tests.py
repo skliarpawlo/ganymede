@@ -64,7 +64,6 @@ def gather_tests_info( selected_tests = [] ) :
             test = {}
             test[ 'id' ] = utils.test_id(pagetest)
             test[ 'url' ] = pagetest.url
-            test[ 'url_link' ] = html.link(pagetest.url, pagetest.url)
             test[ 'doc' ] = pagetest.__doc__
             test[ 'checked' ] = utils.test_id(pagetest) in selected_tests
             test[ 'subtests' ] = []

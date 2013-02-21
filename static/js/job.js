@@ -80,6 +80,16 @@ $(function() {
             }
         });
     });
+    $("#filter-pagetest-url").keyup(function(){
+        var filter = $("#filter-pagetest-url").val();
+        $(".filtered-pagetest-url").each( function(ind,el) {
+            if ($(el).text().search(filter) == -1) {
+                $(el).parents(".filtered-pagetest-row").hide();
+            } else {
+                $(el).parents(".filtered-pagetest-row").show();
+            }
+        });
+    });
 
     // env
     var editor_env = gany.code.block( "env-script", {

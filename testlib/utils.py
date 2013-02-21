@@ -10,6 +10,8 @@ import httplib
 from urlparse import urlparse
 import urllib
 from testing_runtime.web.decorators import html
+import time
+from selenium.webdriver.support.ui import Select
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
@@ -138,6 +140,61 @@ class SubTest( Test ) :
     def tearDown(self) :
         self.webpage = None
         super( SubTest, self ).tearDown()
+
+class TypeaheadTest( SubTest ) :
+
+    input_xpath = None
+    ac_xpath = u"/html/body/div[@class='ac_results']"
+
+    autocomplete = None
+
+    def run(self) :
+        if not (self.input_xpath is None) :
+            elem = self.webpage.find_element_by_xpath(self.input_xpath)
+            for x in self.autocomplete :
+                elem.clear()
+                elem.send_keys(x)
+                time.sleep(3)
+                ac = self.webpage.find_element_by_xpath(self.ac_xpath)
+                for phrase in self.autocomplete[x] :
+                    assert phrase in ac.text, u"Ошибка автокомплита: не найдено {0} в автокомплите {1}".format( phrase, ac.text )
+
+class CounterTest( SubTest ) :
+    texts = None
+
+    def run(self):
+        for item in self.texts :
+            count = self.webpage.page_source.count( item[0] )
+            if item[1] == u'<' :
+                assert count < item[2], \
+                u"Текст '{0}' встречается {1} раз, это не меньше чем {2}".format( item[0], count, item[2] )
+            if item[1] == u'=' :
+                assert count == item[2],\
+                u"Текст '{0}' встречается {1} раз, это не равно {2}".format( item[0], count, item[2] )
+            if item[1] == u'>' :
+                assert count > item[2],\
+                u"Текст '{0}' встречается {1} раз, это не больше чем {2}".format( item[0], count, item[2] )
+
+            if item[1] == u'<=' :
+                assert count <= item[2],\
+                u"Текст '{0}' встречается {1} раз, это бальше чем {2}".format( item[0], count, item[2] )
+            if item[1] == u'>=' :
+                assert count >= item[2],\
+                u"Текст '{0}' встречается {1} раз, это меньше чем {2}".format( item[0], count, item[2] )
+
+class LoadOnSelectTest( SubTest ) :
+    select_xpath = None
+    loaded_element_xpath = None
+    select = None
+
+    def run(self):
+        sel = Select(self.webpage.find_element_by_xpath( self.select_xpath ))
+        for item in self.select :
+            sel.select_by_visible_text( item[0] )
+            time.sleep(2)
+            text = self.webpage.find_element_by_xpath( self.loaded_element_xpath ).text
+            for word in item[1] :
+                assert word in text, u"При выборе '{0}' не подгрузилось поле '{1}', подгруженные элементы: '{2}'".format(item[0], word, text)
 
 ## util functions
 def assert_xpath_content(webpage, xpath, waited_content):
