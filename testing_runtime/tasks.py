@@ -27,7 +27,7 @@ def run_test(test):
         test.snapshot()
         success = False
     except Exception as s :
-        core.logger.write( u"ERROR: {0}".format(s) )
+        core.logger.write( u"Error: {0}".format(s) )
         core.logger.write( traceback.format_exc() )
         test.snapshot()
         success = False
@@ -35,7 +35,6 @@ def run_test(test):
         test.tearDown()
 
         # save result
-        status = ''
         if (success) :
             status = u'success'
         else :

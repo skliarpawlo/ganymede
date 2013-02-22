@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # mars, vm
-MODE = "mars"
+MODE = "vm"
 
 BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")

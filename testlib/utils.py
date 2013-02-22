@@ -196,6 +196,15 @@ class LoadOnSelectTest( SubTest ) :
             for word in item[1] :
                 assert word in text, u"При выборе '{0}' не подгрузилось поле '{1}', подгруженные элементы: '{2}'".format(item[0], word, text)
 
+class TextPresent( SubTest ) :
+    text = None
+    text_xpath = "/html/body"
+
+    def run(self):
+        if not self.text is None :
+            txt = self.webpage.find_element_by_xpath(self.text_xpath).text
+            assert self.text in txt, u"Нету текста '{0}', найден текст '{1}'".format(self.text, txt)
+
 ## util functions
 def assert_xpath_content(webpage, xpath, waited_content):
     real_content = webpage.find_element_by_xpath( xpath ).text
