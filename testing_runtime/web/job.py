@@ -1,10 +1,20 @@
 # coding: utf-8
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from testing_runtime.models import Job, Task
+from testing_runtime.models import Job, Task, StoredTest
 from core import db
 import json
 from testing_runtime.web import tests
+
+def json_to_tests( js ) :
+    tests_ids = json.loads( js )
+
+    tests_collect = []
+    for test_id in tests_ids :
+        tests_collect.append(
+            db.session.query( StoredTest ).filter( StoredTest.test_id == test_id ).one()
+        )
+    return tests_collect
 
 def create_job(request) :
     if request.method == 'POST' :
@@ -12,9 +22,8 @@ def create_job(request) :
         env = request.POST[ 'env' ]
         repo = request.POST[ 'repo' ]
         branch = request.POST[ 'branch' ]
-        tests_json = request.POST[ 'tests' ]
-
-        job = Job( name=name, env=env, repo=repo, branch=branch, tests=tests_json )
+        job_tests = json_to_tests(request.POST[ 'tests' ])
+        job = Job( name=name, env=env, repo=repo, branch=branch, tests=job_tests )
 
         db.session.add(job)
 
@@ -52,13 +61,12 @@ def remove_job(request) :
 
 def update_job(request, job_id) :
     if request.method == 'POST' :
-        db.session.query(Job).filter( Job.job_id == job_id ).update( {
-            "name" : request.POST[ 'name' ],
-            "env" : request.POST[ 'env' ],
-            "repo" : request.POST[ 'repo' ],
-            "branch" : request.POST[ 'branch' ],
-            "tests" : request.POST[ 'tests' ]
-        } )
+        job = db.session.query(Job).filter( Job.job_id == job_id ).one()
+        job.name = request.POST[ 'name' ]
+        job.env = request.POST[ 'env' ]
+        job.repo = request.POST[ 'repo' ]
+        job.branch = request.POST[ 'branch' ]
+        job.tests = json_to_tests( request.POST[ 'tests' ] )
 
         json_resp = json.dumps( { "status" : "ok" } )
         return HttpResponse(json_resp, mimetype="application/json")
@@ -70,7 +78,13 @@ def update_job(request, job_id) :
                 "branch" : job_model.branch,
                 "env" : job_model.env,
                 "tests" : job_model.tests }
-        tests_data = tests.gather_tests_info( json.loads( job_model.tests ) )
+
+        tests_ids = []
+        for x in job_model.tests :
+            tests_ids.append( x.test_id )
+
+        tests_data = tests.gather_tests_info( tests_ids )
+
         return render_to_response(
             'job/update/update_job.html', {
             'job' : job,

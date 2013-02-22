@@ -25,10 +25,10 @@ class Test( object ):
         pass
 
     def testDir(self) :
-        return os.path.join(heap_dir, "tests", test_id(self))
+        return os.path.join(heap_dir, "tests", test_name(self))
 
     def pidFile(self) :
-        return os.path.join(heap_dir, "tests", test_id(self), "lock.pid")
+        return os.path.join(heap_dir, "tests", test_name(self), "lock.pid")
 
 class FunctionalTest(Test) :
 
@@ -56,7 +56,7 @@ class FunctionalTest(Test) :
 
     def snapshot(self):
         img_url = browser.snapshot()
-        logger.add_artifact({u"type":u"snapshot", u"source":test_id(self), u"path":img_url})
+        logger.add_artifact({u"type":u"snapshot", u"source":test_name(self), u"path":img_url})
 
 class PageTest( FunctionalTest ) :
     """Тест определенной страницы. url задается через переменную url
@@ -96,7 +96,7 @@ class PageTest( FunctionalTest ) :
         self.webpage.get( self.url )
 
     def run(self):
-        logger.write( u"Running test '{0}'".format(test_id(self)) )
+        logger.write( u"Running test '{0}'".format(test_name(self)) )
         logger.write( u"url: {0}".format(html.link(self.url, self.url)) )
 
         ## check status code
@@ -111,7 +111,7 @@ class PageTest( FunctionalTest ) :
 
         # execute sub tests
         for subtest in self.subtests :
-            logger.write( u"Running subtest '{0}' of '{1}'".format(test_id(subtest),test_id(self)) )
+            logger.write( u"Running subtest '{0}' of '{1}'".format(test_name(subtest),test_name(self)) )
             subtest.setUp( self.webpage )
             subtest.run()
             subtest.tearDown()
@@ -213,9 +213,9 @@ def assert_xpath_content(webpage, xpath, waited_content):
 def url_unquote(url) :
     return urllib.unquote( url.encode('utf-8') ).decode('utf-8')
 
-def test_id(test) :
+def test_name(test) :
     if (isinstance(test, Test)) :
-        return test_id(test.__class__)
+        return test_name(test.__class__)
     elif (issubclass(test, PageTest)) :
         return test.__name__
     elif (issubclass(test, SubTest)) :

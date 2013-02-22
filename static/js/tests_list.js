@@ -15,4 +15,19 @@ $(function(){
     };
     $("#filter-pagetest-url").keyup(filter_func);
     $("#filter-pagetest-id").keyup(filter_func);
+
+    $(".remove-test").click( function() {
+        var that = $(this);
+        var test_id = $(this).parents("tr").attr("test_id");
+        gany.modals.rusure( "Уверенны что хотите удалить тест " + test_id + " (вместе с подтестами)?", function() {
+            this.modal('hide');
+            $.post("/test/remove", { test_id : test_id }, function(data) {
+                if (data.status == "ok") {
+                    that.parents("tr").remove();
+                } else {
+                    gany.modals.error("Возникла ошибка: " + data.content);
+                }
+            });
+        });
+    });
 });

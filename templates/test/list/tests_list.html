@@ -14,6 +14,9 @@
             <thead>
             <tr>
                 <th>
+                    Операции
+                </th>
+                <th>
                     Тесты страницы
                 </th>
                 <th>
@@ -24,6 +27,7 @@
                 </th>
             </tr>
             <tr class="filters">
+                <th></th>
                 <th>
                     <input type="text" id="filter-pagetest-id" placeholder=""/>
                 </th>
@@ -36,10 +40,18 @@
             </thead>
             <tbody>
             {% for test in tests %}
-                <tr class="filtered-pagetest-row">
+                <tr class="filtered-pagetest-row" test_id="{{test.id}}">
+                    <td>
+                        <a class="change-test" href="{% url testing_runtime.web.tests.update_test test.id %}">
+                            <i class="icon-wrench"></i>
+                        </a>
+                        <a class="remove-test" href="#">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </td>
                     <td>
                         <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
-                            {{ test.doc }}
+                            #{{test.id}} {{ test.doc }}
                         </a>
                         {% if test.status == 'new' %}
                             <a href="#signs-info"><i class="icon-warning-sign"></i></a>
@@ -52,7 +64,7 @@
                         <ul>
                         {% for subtest in test.subtests %}
                             <li>
-                                <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}</a>
+                                <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
                                 {% if subtest.status == 'new' %}
                                     <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                                 {% endif %}

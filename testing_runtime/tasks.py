@@ -90,17 +90,17 @@ def run_any() :
         core.lock.uncapture(pid_file)
 
 def get_test_case( job ) :
-    selected_tests = json.loads( job.tests )
+    selected_tests = [ x.test_id for x in job.tests]
     tests = []
     all_tests = tests_config.all_tests()
     for i in all_tests :
         if issubclass(all_tests[i], utils.PageTest) and\
-           utils.test_id(all_tests[i]) in selected_tests :
+           (i in selected_tests) :
             pagetest = all_tests[i]()
             for j in all_tests :
                 if issubclass(all_tests[j], utils.SubTest) and\
-                   utils.test_id(all_tests[j]) in selected_tests and\
-                   all_tests[j].__parent_test__ == i :
+                   (j in selected_tests) and\
+                   all_tests[j].__parent_test__ == utils.test_name(pagetest) :
                     subtest = all_tests[j]()
                     pagetest.addSubtest(subtest)
             tests.append( pagetest )
