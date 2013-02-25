@@ -17,8 +17,8 @@ class Job(Base) :
 
     job_id = Column( Integer, primary_key=True )
     name = Column( Unicode, unique=True )
-    repo = Column( String )
-    branch = Column( String )
+    repo = Column( Unicode )
+    branch = Column( Unicode )
     env = Column( Unicode )
     tests = relationship( "StoredTest", secondary = jobs_to_tests )
 

@@ -18,12 +18,12 @@ $(function(){
 
     $(".remove-test").click( function() {
         var that = $(this);
-        var test_id = $(this).parents("tr").attr("test_id");
-        gany.modals.rusure( "Уверенны что хотите удалить тест " + test_id + " (вместе с подтестами)?", function() {
+        var test_id = $(this).parents("tr,li").attr("test_id");
+        gany.modals.rusure( "Уверенны что хотите удалить тест " + test_id + " ?", function() {
             this.modal('hide');
             $.post("/test/remove", { test_id : test_id }, function(data) {
                 if (data.status == "ok") {
-                    that.parents("tr").remove();
+                    that.parents("tr,li").first().remove();
                 } else {
                     gany.modals.error("Возникла ошибка: " + data.content);
                 }

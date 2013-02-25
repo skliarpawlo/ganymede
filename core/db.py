@@ -22,7 +22,7 @@ session = None
 def init():
     global _engine, _Session, session, config
     if _engine == None :
-        _engine = create_engine(config["connection"], pool_recycle=0)
+        _engine = create_engine(config["connection"], pool_size=3, pool_recycle=60)
         _Session = sessionmaker(bind=_engine)
         session = _Session()
 

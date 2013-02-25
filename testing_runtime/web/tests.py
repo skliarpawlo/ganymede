@@ -92,7 +92,8 @@ def create_test(request) :
         err = verify_test( test_id=None, code=request.POST['code'] )
         if len(err) == 0 :
             code = request.POST['code']
-            test = models.StoredTest( code=code, status='new' )
+            status = request.POST['status']
+            test = models.StoredTest( code=code, status=status )
             db.session.add( test )
             json_resp = json.dumps( { "status" : "ok" } )
             return HttpResponse(json_resp, mimetype="application/json")
@@ -115,8 +116,8 @@ def update_test(request, test_id) :
             .query(models.StoredTest)\
             .filter( models.StoredTest.test_id == test_id )\
             .update( {
-                "code" : request.POST['code'],
-                "status" : request.POST['status']
+                "code" : request.POST['code'].encode('utf-8'),
+                "status" : request.POST['status'].encode('utf-8')
             } )
 
             json_resp = json.dumps( { "status" : "ok" } )
@@ -142,11 +143,25 @@ def update_test(request, test_id) :
         return render_to_response("test/update/update_test.html",{"test":test})
 
 def remove_test(request) :
-    test_id = request.POST[ 'test_id' ]
+    test_id = int(request.POST[ 'test_id' ])
 
-    db.session.query(models.StoredTest).\
-    filter(models.StoredTest.test_id == test_id).\
-    delete()
+    all_tests = tests_config.all_tests()
+
+    if issubclass( all_tests[test_id], utils.PageTest ) :
+        ids_to_del = [ test_id ]
+        for i in all_tests :
+            if hasattr( all_tests[i], '__parent_test__' ) and\
+            all_tests[i].__parent_test__ == utils.test_name( all_tests[ test_id ] ) :
+                ids_to_del.append( i )
+
+        for id in ids_to_del :
+            db.session.query(models.StoredTest).\
+            filter(models.StoredTest.test_id == id).\
+            delete()
+    else :
+        db.session.query(models.StoredTest).\
+        filter(models.StoredTest.test_id == test_id).\
+        delete()
 
     json_resp = json.dumps( { "status" : "ok" } )
     return HttpResponse(json_resp, mimetype="application/json")

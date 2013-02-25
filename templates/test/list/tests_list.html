@@ -61,9 +61,15 @@
                         <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>
                     </td>
                     <td>
-                        <ul>
+                        <ul class="unstyled">
                         {% for subtest in test.subtests %}
-                            <li>
+                            <li test_id="{{subtest.id}}">
+                                <a class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
+                                    <i class="icon-wrench"></i>
+                                </a>
+                                <a class="remove-test" href="#">
+                                    <i class="icon-trash"></i>
+                                </a>
                                 <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
                                 {% if subtest.status == 'new' %}
                                     <a href="#signs-info"><i class="icon-warning-sign"></i></a>
