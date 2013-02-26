@@ -40,7 +40,7 @@
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
-                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">#{{ test.id }} {{ test.name }}</a>
+                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">#{{ test.id }} {{ test.doc }}</a>
                     {% if test.status == 'new' %}
                         <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                     {% endif %}

@@ -9,6 +9,7 @@ import core.git
 import core.logger
 import core.browser
 import core.vscreen
+import web.decorators.html
 import ganymede.settings
 import os
 from testing_runtime import models
@@ -44,7 +45,7 @@ def run_test(test):
         else :
             status = u'fail'
 
-        core.logger.write( status )
+        core.logger.write( web.decorators.html.status_label( status, status ) )
 
     return success
 
@@ -121,7 +122,7 @@ def get_test_case( job ) :
     tests = []
     all_tests = tests_config.all_tests()
     for i in all_tests :
-        if issubclass(all_tests[i], utils.PageTest) and\
+        if issubclass(all_tests[i], utils.MainTest) and\
            (i in selected_tests) :
             pagetest = all_tests[i]()
             for j in all_tests :

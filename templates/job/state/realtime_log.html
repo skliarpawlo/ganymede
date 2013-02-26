@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/static/fancybox/helpers/jquery.fancybox-thumbs.css" type="text/css" media="screen" />
     <script type="text/javascript" src="/static/fancybox/helpers/jquery.fancybox-thumbs.js"></script>
 
+    <link rel='stylesheet' href="/static/diff/jsdiff.css" />
+    <script type="text/javascript" src="/static/diff/jsdiff.js"></script>
+
     <link rel="stylesheet" href="/static/css/realtime_log.css" type="text/css" media="screen" />
     <script type="text/javascript">
         taskId = "{{ task.id }}";
@@ -20,6 +23,7 @@
     <legend>Лог задания #{{ task.id }} {{ task.name }} ({{ task.repo }}:{{ task.branch }}) <img id="log-loader" src="/static/images/progress.gif"/></legend>
 
     <div id="log-block"></div>
+    <img id="log-loader-bottom" src="/static/images/progress.gif"/>
 
 {% endblock %}
 

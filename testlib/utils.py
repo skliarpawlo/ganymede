@@ -30,7 +30,54 @@ class Test( object ):
     def pidFile(self) :
         return os.path.join(heap_dir, "tests", test_name(self), "lock.pid")
 
-class FunctionalTest(Test) :
+class MainTest(Test) :
+
+    def run(self):
+        logger.write( u"Running test '{0}'".format(test_name(self)) )
+
+    def snapshot(self):
+        pass
+
+class RedirectTest(MainTest) :
+
+    # [ [ url, redirect_status, to_url, to_status ],... ]
+    redirects = []
+
+    def run(self):
+        super(RedirectTest, self).run()
+
+        for (from_url, redirect_status, dest_url, dest_status) in self.redirects :
+            logger.write( u"Редирект: {0}({1}) -> {2}({3})".\
+            format(html.link(from_url,from_url), str(redirect_status),
+                html.link(dest_url,dest_url), str(dest_status) ))
+
+            parsed_url = urlparse( from_url )
+            conn = httplib.HTTPConnection( parsed_url.netloc )
+            conn.request( "HEAD", parsed_url.path.encode('utf-8') )
+            from_response = conn.getresponse()
+
+            assert from_response.status == redirect_status, \
+            u"Статус редиректа не правильный ({0}), ожидался {1}".\
+            format(from_response.status, redirect_status)
+
+            loc = from_response.getheader('location')
+
+            assert loc == dest_url, \
+            u"Редиректит не туда {0}, ожидалось {1}".\
+            format(loc, dest_url)
+
+            parsed_url2 = urlparse( loc )
+            conn2 = httplib.HTTPConnection( parsed_url2.netloc )
+            conn2.request( "HEAD", parsed_url2.path.encode('utf-8') )
+            dest_response = conn2.getresponse()
+
+            assert dest_response.status == dest_status, \
+            u"Статус страницы назначения не правильный ({0}), ожидался {1}".\
+            format(from_response.status, redirect_status)
+
+class FunctionalTest(MainTest) :
+
+    browser = None
 
     def setUp(self):
         super(FunctionalTest, self).setUp()
@@ -44,8 +91,11 @@ class FunctionalTest(Test) :
         vscreen.start()
         browser.start()
         browser.setHeap(self.photosDir())
+        self.browser = browser.inst
 
     def tearDown(self):
+        self.browser = None
+
         browser.stop()
         vscreen.stop()
 
@@ -92,15 +142,15 @@ class PageTest( FunctionalTest ) :
         conn.request("HEAD", self.parsedUrl.path.encode('utf-8'))
         self.response = conn.getresponse()
 
-        self.webpage = browser.inst
+        self.webpage = self.browser
         self.webpage.get( self.url )
 
     def run(self):
-        logger.write( u"Running test '{0}'".format(test_name(self)) )
+        super(PageTest, self).run()
         logger.write( u"url: {0}".format(html.link(self.url, self.url)) )
 
         ## check status code
-        assert self.status == self.response.status, "HTTP Response status expected {0}, recieved {1}".format(self.status, self.response.status)
+        assert self.status == self.response.status, u"HTTP Response status expected {0}, recieved {1}".format(self.status, self.response.status)
 
         ## check title & header
         if not (self.title_xpath == None) and not (self.title == None) :
@@ -216,7 +266,7 @@ def url_unquote(url) :
 def test_name(test) :
     if (isinstance(test, Test)) :
         return test_name(test.__class__)
-    elif (issubclass(test, PageTest)) :
+    elif (issubclass(test, MainTest)) :
         return test.__name__
     elif (issubclass(test, SubTest)) :
         return test.__parent_test__ + "_" + test.__name__

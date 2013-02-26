@@ -27,7 +27,7 @@ def verify_test(test_id=None,code=None) :
         for x in a :
             if not x in b :
                 test = locals()[x]
-                if inspect.isclass(test) and issubclass(test, (utils.PageTest,utils.SubTest)) :
+                if inspect.isclass(test) and issubclass(test, (utils.MainTest,utils.SubTest)) :
                     present = True
 
                     if issubclass(test, utils.SubTest) :
@@ -85,6 +85,17 @@ def gather_tests_info( selected_tests = [] ) :
                     stest[ 'status' ] = tests_config.test_id_to_status( j )
                     test[ 'subtests' ].append( stest )
             tests.append( test )
+        elif isinstance(pagetest, utils.MainTest) :
+            test = {}
+            test[ 'id' ] = i
+            test[ 'name' ] = utils.test_name(pagetest)
+            test[ 'url' ] = ""
+            test[ 'doc' ] = pagetest.__doc__
+            test[ 'checked' ] = i in selected_tests
+            test[ 'subtests' ] = []
+            test[ 'status' ] = tests_config.test_id_to_status( i )
+            tests.append(test)
+
     return tests
 
 def create_test(request) :
