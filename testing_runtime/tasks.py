@@ -107,6 +107,7 @@ def run_any() :
                 result = False
                 core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()), task_id=task.task_id)
             finally :
+                core.db.reconnect()
                 task.artifacts = json.dumps( core.logger.get_artifacts(task.task_id) )
                 task.log = core.logger.read(task.task_id)
                 task.status = u"success" if result else u"fail"

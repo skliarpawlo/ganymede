@@ -9,10 +9,12 @@ class DbMiddleware :
         db.init()
 
     def process_response(self, request, response):
-        # release db session
         try :
-            db.close()
+            db.session.commit()
         except :
-            json_resp = json.dumps( { "status" : "error", "content" : traceback.format_exc() } )
-            return HttpResponse(json_resp, mimetype="application/json")
+            db.session.rollback()
+            raise
         return response
+
+    def process_exception(self, request, exception):
+        db.session.rollback()
