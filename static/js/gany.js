@@ -83,6 +83,10 @@ var gany = (function() {
 
         log : function( id, len, img_count ) {
             return call("core.logger", "ajax_read", id, len, img_count)
+        },
+
+        stop_current_task : function() {
+            return call("testing_runtime.tasks", "stop_current_task")
         }
 
     }

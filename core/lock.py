@@ -8,7 +8,7 @@ def is_free(pid_file):
         old_pid = pidf.readline()
         pidf.close()
         if os.path.exists("/proc/{0}".format(old_pid)) and not (old_pid==os.getpid()):
-            return old_pid
+            return int(old_pid)
         else:
             return 0
     else :

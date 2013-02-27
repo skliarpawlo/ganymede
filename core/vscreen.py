@@ -8,6 +8,6 @@ def start() :
         display = Display( visible = 0, size=( 800, 600 ) )
     display.start()
         
-def stop() :    
+def stop() :
     display.stop()
     

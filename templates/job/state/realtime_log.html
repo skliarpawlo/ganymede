@@ -20,7 +20,13 @@
 
 {% block content %}
 
-    <legend>Лог задания #{{ task.id }} {{ task.name }} ({{ task.repo }}:{{ task.branch }}) <img id="log-loader" src="/static/images/progress.gif"/></legend>
+    <legend>
+        Лог задания #{{ task.id }} {{ task.name }} ({{ task.repo }}:{{ task.branch }})
+        <a href="#" id="stop-task" task_id="{{ task.id }}" title="Остановить задание">
+            <img src="/static/images/stop.png" />
+        </a>
+        <img id="log-loader" src="/static/images/progress.gif"/>
+    </legend>
 
     <div id="log-block"></div>
     <img id="log-loader-bottom" src="/static/images/progress.gif"/>

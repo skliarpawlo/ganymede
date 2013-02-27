@@ -4,6 +4,7 @@ from core import browser
 from core import vscreen
 from core import path
 from core import logger
+from core import db
 import os
 import ganymede.settings
 import httplib
@@ -20,6 +21,7 @@ class Test( object ):
 
     def setUp(self):
         path.ensure( self.testDir() )
+        db.reconnect()
 
     def tearDown(self):
         pass

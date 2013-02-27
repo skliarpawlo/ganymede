@@ -70,6 +70,7 @@ def run_task( task ) :
 
 def signal_handler( task ) :
     def stop_me( signum, frame ) :
+        core.db.reconnect()
         core.logger.write("task interrupted!", task_id=task.task_id)
         task.artifacts = json.dumps( core.logger.get_artifacts(task.task_id) )
         task.log = core.logger.read(task.task_id)
@@ -134,3 +135,11 @@ def get_test_case( job ) :
                     pagetest.addSubtest(subtest)
             tests.append( pagetest )
     return tests
+
+def stop_current_task() :
+    pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
+    core.path.ensure( pid_dir )
+    pid_file = os.path.join( pid_dir, "cron.pid" )
+    pid = core.lock.is_free( pid_file )
+    if not pid == 0 :
+        os.kill(pid, signal.SIGUSR1)

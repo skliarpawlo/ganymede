@@ -16,7 +16,9 @@ def clean( dir ):
 
 def ensure( path ):
     if not os.path.exists( path ) :
-        os.makedirs( path, 0777 )
+        oldmask = os.umask(0000)
+        os.makedirs(path,0777)
+        os.umask(oldmask)
 
 class cd:
     def __init__(self, newPath):

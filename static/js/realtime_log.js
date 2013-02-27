@@ -49,6 +49,7 @@ $(function(){
                 $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
                 $.tmpl( "artefact_markup", data.content.artifacts).css("display", "none").appendTo("#artifacts-block").fadeIn(1300);
                 if (data.content.state == "final") {
+                    $("#stop-task").hide();
                     $("#log-loader").hide();
                     $("#log-loader-bottom").hide();
                     clearInterval(t);
@@ -58,5 +59,9 @@ $(function(){
     };
     var t = setInterval( log_func, 1200);
     log_func();
+
+    $("#stop-task").click( function() {
+        gany.task.stop_current_task()
+    });
 
 });
