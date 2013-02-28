@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 
+{% load i18n %}
+
 {% block head %}
     {{ block.super }}
     <script src="/static/js/create_job.js"></script>
@@ -7,12 +9,12 @@
 
 {% block content %}
 
-    <legend>Новое задание</legend>
+    <legend>{% trans "New job" %}</legend>
 
     {% include "job/blocks/job.html" %}
 
 {% endblock %}
 
 {% block bottom-navbar-items %}
-        <input type="button" class="btn btn-primary" id="сreate-job-btn" value="Создать"/>
+        <input type="button" class="btn btn-primary" id="сreate-job-btn" value="{% trans "Create" %}"/>
 {% endblock %}

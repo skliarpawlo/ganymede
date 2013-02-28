@@ -25,3 +25,19 @@ tr.filters input {
     padding: 3px;
     margin: 0px;
 }
+
+a.lang-chooser:not(.active) img {
+    opacity: 0.4;
+}
+
+a.lang-chooser img {
+    border:1px solid rgba(116, 109, 114, 0.90);
+}
+
+a.lang-chooser:hover img {
+    opacity: 1;
+}
+
+#lang-panel {
+    text-align: right;
+}

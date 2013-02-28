@@ -1,0 +1,238 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-27 17:24+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ganymede/settings.py:65
+msgid "Russian"
+msgstr "Russian"
+
+#: ganymede/settings.py:66
+msgid "English"
+msgstr "English"
+
+#: templates/index.html:12
+#, fuzzy
+msgid "Lun.ua testing system"
+msgstr "Lun.ua testing system"
+
+#: templates/job/blocks/environment.html:4
+msgid "Environment config"
+msgstr "Environment config"
+
+#: templates/job/blocks/environment.html:6
+msgid "Environment php script"
+msgstr "Environment php script"
+
+#: templates/job/blocks/general.html:4
+msgid "General config"
+msgstr "General config"
+
+#: templates/job/blocks/general.html:6
+msgid "Job id"
+msgstr "Job id"
+
+#: templates/job/blocks/general.html:12
+msgid "Job name"
+msgstr ""
+
+#: templates/job/blocks/git_tab.html:4
+msgid "GIT config"
+msgstr ""
+
+#: templates/job/blocks/git_tab.html:6
+msgid "Project"
+msgstr ""
+
+#: templates/job/blocks/git_tab.html:15
+msgid "Sync with github"
+msgstr ""
+
+#: templates/job/blocks/git_tab.html:19
+msgid "Branch"
+msgstr ""
+
+#: templates/job/blocks/job.html:8 templates/modals/error_modal.html:6
+msgid "Error"
+msgstr ""
+
+#: templates/job/blocks/job.html:15
+msgid "General"
+msgstr ""
+
+#: templates/job/blocks/job.html:18
+msgid "Git"
+msgstr ""
+
+#: templates/job/blocks/job.html:21 templates/layout/navbar.html:13
+msgid "Tests"
+msgstr ""
+
+#: templates/job/blocks/job.html:24
+msgid "Environment"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:4
+msgid "Test case"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:5
+#: templates/test/list/tests_list.html:14
+msgid "Test is not checked"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:11
+#: templates/test/list/tests_list.html:22
+msgid "Main tests"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:21
+#: templates/test/list/tests_list.html:28
+msgid "Subtests"
+msgstr ""
+
+#: templates/job/create/create_job.html:12
+msgid "New job"
+msgstr ""
+
+#: templates/job/create/create_job.html:19
+msgid "Create"
+msgstr ""
+
+#: templates/job/state/realtime_log.html:26
+msgid "Task log"
+msgstr ""
+
+#: templates/job/state/realtime_log.html:27
+msgid "Stop task"
+msgstr ""
+
+#: templates/job/state/state.html:13 templates/layout/navbar.html:4
+msgid "System state"
+msgstr ""
+
+#: templates/job/state/table.html:5
+msgid "Status"
+msgstr ""
+
+#: templates/job/state/table.html:6
+msgid "Id"
+msgstr ""
+
+#: templates/job/state/table.html:6 templates/job/update/update_job.html:12
+msgid "Job"
+msgstr ""
+
+#: templates/job/state/table.html:7 templates/job/state/table.html.py:41
+#: templates/modals/log_modal.html:6
+msgid "Log"
+msgstr ""
+
+#: templates/job/state/table.html:8
+msgid "Start time"
+msgstr ""
+
+#: templates/job/update/update_job.html:12
+msgid "changing"
+msgstr ""
+
+#: templates/job/update/update_job.html:19
+#: templates/test/update/update_test.html:19
+msgid "Save"
+msgstr ""
+
+#: templates/job/update/update_job.html:21
+#: templates/modals/rusure_modal.html:13
+#: templates/test/update/update_test.html:21
+msgid "Cancel"
+msgstr ""
+
+#: templates/layout/navbar.html:7
+msgid "Jobs"
+msgstr ""
+
+#: templates/layout/navbar.html:10
+msgid "Create job"
+msgstr ""
+
+#: templates/layout/navbar.html:16
+msgid "Add test"
+msgstr ""
+
+#: templates/modals/info_modal.html:5
+msgid "Info"
+msgstr ""
+
+#: templates/modals/rusure_modal.html:6
+msgid "Are you sure?"
+msgstr ""
+
+#: templates/modals/rusure_modal.html:12
+msgid "Yes"
+msgstr ""
+
+#: templates/test/blocks/test.html:7
+msgid "Test templates"
+msgstr ""
+
+#: templates/test/blocks/test.html:11
+msgid "Page test"
+msgstr ""
+
+#: templates/test/blocks/test.html:16
+msgid "Typeahead test"
+msgstr ""
+
+#: templates/test/blocks/test.html:21
+msgid "Text count test"
+msgstr ""
+
+#: templates/test/blocks/test.html:26
+msgid "Load on select test"
+msgstr ""
+
+#: templates/test/blocks/test.html:31
+msgid "Text present test"
+msgstr ""
+
+#: templates/test/blocks/test.html:36
+msgid "Redirect check test"
+msgstr ""
+
+#: templates/test/blocks/test.html:45
+msgid "Test status"
+msgstr ""
+
+#: templates/test/blocks/test.html:62
+msgid "Test source code"
+msgstr ""
+
+#: templates/test/create/create_test.html:12
+msgid "New test"
+msgstr ""
+
+#: templates/test/list/tests_list.html:13
+msgid "Tests list"
+msgstr ""
+
+#: templates/test/list/tests_list.html:19
+msgid "Operations"
+msgstr ""
+
+#: templates/test/update/update_test.html:12
+msgid "Test"
+msgstr ""

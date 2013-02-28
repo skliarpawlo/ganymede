@@ -1,7 +1,9 @@
-<fieldset>
-<legend>GIT config</legend>
+{% load i18n %}
 
-<label class="control-label" for="branch-val">Проэкт</label>
+<fieldset>
+<legend>{% trans "GIT config" %}</legend>
+
+<label class="control-label" for="branch-val">{% trans "Project" %}</label>
 <input id="repo-val" type="text" autocomplete="off"
         {% if job.repo %}
            value="{{ job.repo }}"
@@ -9,9 +11,13 @@
            value="callisto"
        {% endif %}
 />
-<button type="button" class="btn btn-primary" id="refresh-repo-btn">sync with github</button>
+<button type="button" class="btn btn-primary" id="refresh-repo-btn">
+    {% trans "Sync with github" %}
+</button>
 
-<label class="control-label" for="branch-val">Ветка</label>
+<label class="control-label" for="branch-val">
+    {% trans "Branch" %}
+</label>
 <input id="branch-val" type="text" autocomplete="off"
         {% if job.branch %}
            value="{{ job.branch }}"

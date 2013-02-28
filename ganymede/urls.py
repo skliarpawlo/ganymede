@@ -25,4 +25,6 @@ urlpatterns = patterns('',
     url(r'^task/log/(?P<task_id>\w+)$', 'testing_runtime.web.tasks.log'),
     url(r'^ajax/call$', 'testing_runtime.web.api.call'),
 
+    (r'^i18n/', include('django.conf.urls.i18n')),
+
 )

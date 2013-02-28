@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 
+{% load i18n %}
+
 {% block head %}
     {{ block.super }}
     <script type="text/javascript" src="/static/js/state.js"></script>
@@ -8,7 +10,7 @@
 {% block content %}
 
     <fieldset>
-        <legend>Состояние</legend>
+        <legend>{% trans "System state" %}</legend>
         <div id="state-table">
             {% include "job/state/table.html" %}
         </div>

@@ -1,9 +1,11 @@
+{% load i18n %}
+
 <table class="table table-striped">
     <tr>
-        <th>Статус</th>
-        <th>ID + Задание</th>
-        <th>Лог</th>
-        <th>Время запуска</th>
+        <th>{% trans "Status" %}</th>
+        <th>{% trans "Id" %} + {% trans "Job" %}</th>
+        <th>{% trans "Log" %}</th>
+        <th>{% trans "Start time" %}</th>
     </tr>
     {% for task in tasks %}
         <tr
@@ -36,7 +38,7 @@
             </td>
             <td>
                 {% if task.status == 'running' or task.status == 'success' or task.status == 'fail' %}
-                    <a href="{% url testing_runtime.web.tasks.log task.id %}">log</a>
+                    <a href="{% url testing_runtime.web.tasks.log task.id %}">{% trans "Log" %}</a>
                 {% endif %}
             </td>
             <td>{{ task.add_time }}</td>

@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 
+{% load i18n %}
+
 {% block head %}
     {{ block.super }}
     <script type="text/javascript" src="/static/js/tests_list.js"></script>
@@ -8,22 +10,22 @@
 {% block content %}
 
     <fieldset>
-        <legend>Список тестов</legend>
-        <i id="signs-info" class="icon-warning-sign"></i> - тест не проверен
+        <legend>{% trans "Tests list" %}</legend>
+        <i id="signs-info" class="icon-warning-sign"></i> - {% trans "Test is not checked" %}
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>
-                    Операции
+                    {% trans "Operations" %}
                 </th>
                 <th>
-                    Тесты страницы
+                    {% trans "Main tests" %}
                 </th>
                 <th>
                     url
                 </th>
                 <th>
-                    Подтесты
+                    {% trans "Subtests" %}
                 </th>
             </tr>
             <tr class="filters">

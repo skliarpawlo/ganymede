@@ -1,13 +1,15 @@
+{% load i18n %}
+
 <fieldset>
-    <legend>General config</legend>
+    <legend>{% trans "General config" %}</legend>
     {% if job.job_id %}
-        <label class="control-label" for="job-name">id задания</label>
+        <label class="control-label" for="job-name">{% trans "Job id" %}</label>
         <input type="text"
                id="job-id"
                disabled="disabled"
                value="{{ job.job_id }}" />
     {% endif %}
-    <label class="control-label" for="job-name">Название задания</label>
+    <label class="control-label" for="job-name">{% trans "Job name" %}</label>
     <input type="text" placeholder="my_test_case"
            id="job-name"
            value="{{ job.name }}" />

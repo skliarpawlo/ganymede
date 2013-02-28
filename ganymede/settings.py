@@ -34,10 +34,15 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
     )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.i18n'
+)
 MIDDLEWARE_CLASSES = (
+#    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-     'ganymede.middle.DbMiddleware',
-    )
+    'ganymede.middle.DbMiddleware',
+)
 
 ROOT_URLCONF = 'ganymede.urls'
 
@@ -45,17 +50,27 @@ WSGI_APPLICATION = 'ganymede.wsgi.application'
 
 ADMINS = (
     ('Pavlo Skliar', 'skliarpawlo@rambler.ru'),
-    )
+)
 
-TIME_ZONE = 'Europe/Riga'
+TIME_ZONE = 'Europe/Kiev'
 
-LANGUAGE_CODE = 'ua-uk'
+LANGUAGE_CODE = 'en'
+
+LOCALE_PATHS = (
+    os.path.join( BASE_PATH, 'locale' ),
+)
+
+_ = lambda s: s
+LANGUAGES = (
+    ('ru', _('Russian')),
+    ('en', _('English')),
+)
 
 SITE_ID = 1
 
-USE_I18N = False
+USE_I18N = True
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = True
 

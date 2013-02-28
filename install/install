@@ -14,6 +14,9 @@ apt-get install iceweasel
 # X-server frame buffer
 apt-get install xvfb
 
+# django i18n
+apt-get install gettext
+
 # callisto
 apt-get install php5-fpm
 apt-get install php5-memcached

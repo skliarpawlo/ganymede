@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 
+{% load i18n %}
+
 {% block head %}
     {{ block.super }}
 {% endblock %}
@@ -7,7 +9,7 @@
 {% block content %}
 
     <fieldset>
-        <legend>Система для тестирования lun.ua</legend>
+        <legend>{% trans "Lun.ua testing system" %}</legend>
     </fieldset>
 
 {% endblock %}

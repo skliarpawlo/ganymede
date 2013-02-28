@@ -1,5 +1,17 @@
 var gany = (function() {
 
+    $(function() {
+        $(".lang-chooser").click( function() {
+            var lang = $(this).attr("lang_id");
+            $.post("/i18n/setlang/", {
+                next : "",
+                language : lang
+            }, function(data) {
+                document.location.reload();
+            } );
+        });
+    });
+
     var urls = {
         parseHashes : function( hashes ) {
             if (!hashes)

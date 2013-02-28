@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+
+<div id="lang-panel">
+    {% for lang in LANGUAGES %}
+        <a class="lang-chooser {% if LANGUAGE_CODE == lang.0 %}active{% endif %}"
+           lang_id="{{ lang.0 }}">
+            <img title="{{ lang.1 }}"
+                 src="/static/images/{{ lang.0 }}.jpg" />
+        </a>
+    {% endfor %}
+</div>

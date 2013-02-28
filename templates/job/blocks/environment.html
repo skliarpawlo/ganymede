@@ -1,6 +1,10 @@
+{% load i18n %}
+
 <fieldset>
-    <legend>Environment config</legend>
-    <label class="control-label" for="env-script">php скрипт задающий специализированные параметры (например, страну)</label>
+    <legend>{% trans "Environment config" %}</legend>
+    <label class="control-label" for="env-script">
+        {% trans "Environment php script" %}
+    </label>
     {% if job.env %}
         <textarea id="env-script" rows="5">{{ job.env }}</textarea>
     {% else %}

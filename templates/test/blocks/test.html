@@ -1,37 +1,39 @@
+{% load i18n %}
+
 <script type="text/javascript" src="/static/js/test.js"></script>
 
 {% if not test %}
 <p>
-    <label for="template-selector">Шаблоны тестов</label>
+    <label for="template-selector">{% trans "Test templates" %}</label>
     <div id="template-selector" class="btn-group" data-toggle="buttons-radio">
 
         <button type="button" class="btn btn-primary">
-            Тест страницы
+            {% trans "Page test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/pagetest_code_template.html" %}</div>
 
         <button type="button" class="btn btn-primary">
-            Тест автокомплита
+            {% trans "Typeahead test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/typeahead_test_code_template.html" %}</div>
 
         <button type="button" class="btn btn-primary">
-            Тест подсчета вхождения текста
+            {% trans "Text count test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/counter_test_code_template.html" %}</div>
 
         <button type="button" class="btn btn-primary">
-            Тест подгрузки при выборе select-а
+            {% trans "Load on select test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/load_on_select_test_code_template.html" %}</div>
 
         <button type="button" class="btn btn-primary">
-            Текст есть на странице
+            {% trans "Text present test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/text_present_test_code_template.html" %}</div>
 
         <button type="button" class="btn btn-primary">
-            Проверка редиректа
+            {% trans "Redirect check test" %}
         </button>
         <div style="display: none" class="template-content">{% include "test/blocks/redirect_test_code_template.html" %}</div>
 
@@ -40,7 +42,7 @@
 {% endif %}
 
 <p>
-    <label for="test-status-block">Статус теста</label>
+    <label for="test-status-block">{% trans "Test status" %}</label>
     <div id="test-status-block"
          class="btn-group"
          data-toggle="buttons-radio">
@@ -57,7 +59,7 @@
     </div>
 </p>
 
-<legend>Полный код теста</legend>
+<legend>{% trans "Test source code" %}</legend>
 
 {% if test.code %}
     <textarea id="test-source-code">{{ test.code }}</textarea>
