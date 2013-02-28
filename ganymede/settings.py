@@ -10,10 +10,6 @@ BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
 STATIC_ROOT = os.path.join(BASE_PATH, "static")
 
-TEMPLATE_DIRS = (
-    os.path.join( BASE_PATH, 'templates' ),
-)
-
 DATABASES = {
     'default': { # not used (sql alchemy instead)
         'ENGINE' : 'django.db.backends.sqlite3',
@@ -25,6 +21,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'testlib',
     'testing_runtime',
+    'testing_runtime.web',
 )
 
 ####################
@@ -55,10 +52,6 @@ ADMINS = (
 TIME_ZONE = 'Europe/Kiev'
 
 LANGUAGE_CODE = 'en'
-
-LOCALE_PATHS = (
-    os.path.join( BASE_PATH, 'locale' ),
-)
 
 _ = lambda s: s
 LANGUAGES = (

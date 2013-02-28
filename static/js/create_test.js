@@ -4,9 +4,9 @@ $(function(){
         var data = gany.test.gather_data();
         $.post("", data).done(function(data) {
             if (data.status == "ok") {
-                gany.modals.info("Тест успешно добавлен");
+                gany.modals.info( gettext('Test was successfully added') );
             } else {
-                gany.modals.error("Возникла ошибка:" + data.content);
+                gany.modals.error(gettext('Error occured') + ": " + data.content);
             }
         });
     });

@@ -24,7 +24,7 @@ def init():
     if _engine == None :
         _engine = create_engine(config["connection"], pool_size=3, pool_recycle=30)
         _Session = sessionmaker(bind=_engine)
-        session = _Session()
+    session = _Session()
 
 def reconnect():
     global session, _Session

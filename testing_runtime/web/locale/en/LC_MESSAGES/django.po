@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-27 17:24+0200\n"
+"POT-Creation-Date: 2013-02-28 13:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ganymede/settings.py:65
-msgid "Russian"
-msgstr "Russian"
+#: locale/js.py:2
+msgid "Error occured"
+msgstr ""
 
-#: ganymede/settings.py:66
-msgid "English"
-msgstr "English"
+#: locale/js.py:3
+msgid "Name cannot be empty"
+msgstr ""
+
+#: locale/js.py:4
+msgid "Job created"
+msgstr ""
+
+#: locale/js.py:5
+msgid "Test was successfully added"
+msgstr ""
+
+#: locale/js.py:6
+msgid "Repository synchronized"
+msgstr ""
+
+#: locale/js.py:7
+msgid "Are you sure want to delete job"
+msgstr ""
+
+#: locale/js.py:8
+msgid "Are you sure want to delete test"
+msgstr ""
+
+#: locale/js.py:9
+msgid "Changes saved"
+msgstr ""
 
 #: templates/index.html:12
-#, fuzzy
 msgid "Lun.ua testing system"
 msgstr "Lun.ua testing system"
 
@@ -110,6 +133,7 @@ msgid "New job"
 msgstr ""
 
 #: templates/job/create/create_job.html:19
+#: templates/test/create/create_test.html:19
 msgid "Create"
 msgstr ""
 
@@ -236,3 +260,9 @@ msgstr ""
 #: templates/test/update/update_test.html:12
 msgid "Test"
 msgstr ""
+
+#~ msgid "Russian"
+#~ msgstr "Russian"
+
+#~ msgid "English"
+#~ msgstr "English"

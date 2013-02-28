@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-27 17:24+0200\n"
+"POT-Creation-Date: 2013-02-28 13:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,13 +19,37 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ganymede/settings.py:65
-msgid "Russian"
-msgstr "Русский"
+#: locale/js.py:2
+msgid "Error occured"
+msgstr "Возникла ошибка"
 
-#: ganymede/settings.py:66
-msgid "English"
-msgstr "Английский"
+#: locale/js.py:3
+msgid "Name cannot be empty"
+msgstr "Имя не может быть пустым"
+
+#: locale/js.py:4
+msgid "Job created"
+msgstr "Задание созданно"
+
+#: locale/js.py:5
+msgid "Test was successfully added"
+msgstr "Тест успешно добавлен"
+
+#: locale/js.py:6
+msgid "Repository synchronized"
+msgstr "Репозиторий синхронизирован"
+
+#: locale/js.py:7
+msgid "Are you sure want to delete job"
+msgstr "Вы уверенны что хотите удалить задачу"
+
+#: locale/js.py:8
+msgid "Are you sure want to delete test"
+msgstr "Вы уверенны что хотите удалить тест"
+
+#: locale/js.py:9
+msgid "Changes saved"
+msgstr "Изменения сохранены"
 
 #: templates/index.html:12
 #, fuzzy
@@ -112,6 +136,7 @@ msgid "New job"
 msgstr "Новое задание"
 
 #: templates/job/create/create_job.html:19
+#: templates/test/create/create_test.html:19
 msgid "Create"
 msgstr "Создать"
 
@@ -238,3 +263,9 @@ msgstr "Операции"
 #: templates/test/update/update_test.html:12
 msgid "Test"
 msgstr "Тест"
+
+#~ msgid "Russian"
+#~ msgstr "Русский"
+
+#~ msgid "English"
+#~ msgstr "Английский"

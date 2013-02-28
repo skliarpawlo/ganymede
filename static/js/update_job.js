@@ -5,9 +5,9 @@ $(function() {
         // submit
         $.post("",params).done( function(data) {
             if (data.status == "ok") {
-                gany.modals.info("Изменения сохранены");
+                gany.modals.info(gettext('Changes saved'));
             } else {
-                gany.modals.error("Возникла ошибка: " + data.content);
+                gany.modals.error(gettext('Error occured') + ": " + data.content);
             }
         });
     });

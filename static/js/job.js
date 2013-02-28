@@ -7,9 +7,9 @@ $(function() {
         gany.git.fetch($("#repo-val").val()).done(function(data) {
             that.prop("disabled",false);
             if (data.status == "ok") {
-                gany.modals.info( "Репозиторий обновлен : " + data.content );
+                gany.modals.info( gettext('Repository synchronized') + ": " + data.content );
             } else {
-                gany.modals.error( "Возникла ошибка:" + data.content );
+                gany.modals.error( gettext('Error occured') + ": " + data.content );
             }
         });
     });

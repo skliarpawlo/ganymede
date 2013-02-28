@@ -1,20 +1,29 @@
 from core import db
-import json
 from django.http import HttpResponse
-import traceback
 
 class DbMiddleware :
+
+    def is_static(self, request):
+        return request.path.startswith("/static/") or \
+               request.path.startswith("/favicon.ico") or \
+               request.path.startswith("/jsi18n")
+
     def process_request(self, request):
+        if self.is_static( request ) :
+            return
+
         # init db
         db.init()
 
     def process_response(self, request, response):
-        try :
-            db.session.commit()
-        except :
-            db.session.rollback()
-            raise
+        if self.is_static( request ) :
+            return response
+
+        db.close()
         return response
 
     def process_exception(self, request, exception):
-        db.session.rollback()
+        if self.is_static( request ) :
+            return
+
+        db.close()

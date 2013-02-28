@@ -3,7 +3,7 @@ $( function() {
     var verifyData = function (data) {
         var errors = [];
         if (data.name == '')
-            errors.push( "Имя не может быть пустым" );
+            errors.push( gettext('Name cannot be empty') );
         return errors;
     };
 
@@ -16,11 +16,11 @@ $( function() {
             var defered = $.post("/job/create",data);
             defered.done( function(data) {
                 if (data.status == "ok") {
-                    gany.modals.info("Задание созданно").bind("hidden", function() {
+                    gany.modals.info(gettext('Job created')).bind("hidden", function() {
                         document.location.href = "/job/list";
                     });
                 } else {
-                    gany.modals.error("Возникла ошибка: " + data.content);
+                    gany.modals.error(gettext('Error occured') + ": " + data.content);
                 }
             });
         } else {
