@@ -8,8 +8,7 @@ $(function(){
             window.location = gany.urls.dumpHashes(x);
         }
         $.get("", {page:x.page, pagesize:x.pagesize}).done(function(data){
-            console.log($(data).find("tr").size());
-            if ($(data).find("tr").size() - 1 < x.pagesize) {
+            if ($($.trim(data)).find("tr").size() - 1 < x.pagesize) {
                 $("#pagi-next").parents("li").addClass("disabled");
             } else {
                 $("#pagi-next").parents("li").removeClass("disabled");
