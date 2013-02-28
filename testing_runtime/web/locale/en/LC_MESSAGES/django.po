@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 13:55+0200\n"
+"POT-Creation-Date: 2013-02-28 16:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,6 +147,14 @@ msgstr ""
 
 #: templates/job/state/state.html:13 templates/layout/navbar.html:4
 msgid "System state"
+msgstr ""
+
+#: templates/job/state/state.html:27
+msgid "Prev"
+msgstr ""
+
+#: templates/job/state/state.html:35
+msgid "Next"
 msgstr ""
 
 #: templates/job/state/table.html:5

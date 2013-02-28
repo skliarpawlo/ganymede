@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 13:55+0200\n"
+"POT-Creation-Date: 2013-02-28 16:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "Имя не может быть пустым"
 
 #: locale/js.py:4
 msgid "Job created"
-msgstr "Задание созданно"
+msgstr "Задача созданна"
 
 #: locale/js.py:5
 msgid "Test was successfully added"
@@ -151,6 +151,14 @@ msgstr "Остановить задание"
 #: templates/job/state/state.html:13 templates/layout/navbar.html:4
 msgid "System state"
 msgstr "Состояние системы"
+
+#: templates/job/state/state.html:27
+msgid "Prev"
+msgstr "Пред."
+
+#: templates/job/state/state.html:35
+msgid "Next"
+msgstr "След."
 
 #: templates/job/state/table.html:5
 msgid "Status"
