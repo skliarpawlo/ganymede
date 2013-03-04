@@ -70,26 +70,27 @@ $(function() {
         $(this).parents("tr").find(".subtest-chk").prop("checked", false);
     });
 
-    $("#filter-pagetest").keyup(function(){
-        var filter = $("#filter-pagetest").val();
-        $(".filtered-pagetest").each( function(ind,el) {
-            if ($(el).text().search(filter) == -1) {
-                $(el).parents(".filtered-pagetest-row").hide();
+    var filter_func = function() {
+        var url_filter = $("#filter-pagetest-url").val().toLowerCase();
+        var id_filter = $("#filter-pagetest-id").val().toLowerCase();
+        var sub_id_filter = $("#filter-subtest-id").val().toLowerCase();
+        $(".filtered-pagetest-row").each( function(ind,el) {
+            var url = $(el).find(".filtered-pagetest-url").text().toLowerCase();
+            var id = $(el).find(".filtered-pagetest-id").text().toLowerCase();
+            var sub_id = $(el).find(".filtered-subtest-id").text().toLowerCase();
+            if ((url.search(url_filter) == -1) ||
+                (id.search(id_filter) == -1) ||
+                (sub_id.search(sub_id_filter) == -1)) {
+                $(el).hide();
             } else {
-                $(el).parents(".filtered-pagetest-row").show();
+                $(el).show();
             }
         });
-    });
-    $("#filter-pagetest-url").keyup(function(){
-        var filter = $("#filter-pagetest-url").val();
-        $(".filtered-pagetest-url").each( function(ind,el) {
-            if ($(el).text().search(filter) == -1) {
-                $(el).parents(".filtered-pagetest-row").hide();
-            } else {
-                $(el).parents(".filtered-pagetest-row").show();
-            }
-        });
-    });
+    };
+
+    $("#filter-pagetest").keyup(filter_func);
+    $("#filter-pagetest-url").keyup(filter_func);
+    $("#filter-subtest-id").keyup(filter_func);
 
     // env
     var editor_env = gany.code.block( "env-script", {

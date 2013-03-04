@@ -24,12 +24,13 @@
     </tr>
     <tr>
         <th>
-            <input type="text" id="filter-pagetest" placeholder=""/>
+            <input type="text" id="filter-pagetest-id" placeholder=""/>
         </th>
         <th>
             <input type="text" id="filter-pagetest-url" placeholder=""/>
         </th>
         <th>
+            <input type="text" id="filter-subtest-id" placeholder=""/>
         </th>
     </tr>
     </thead>
@@ -42,7 +43,7 @@
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
-                    <a class="filtered-pagetest" href="{% url testing_runtime.web.tests.update_test test.id %}">#{{ test.id }} {{ test.doc }}</a>
+                    <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">#{{ test.id }} {{ test.doc }}</a>
                     {% if test.status == 'new' %}
                         <a href="#signs-info"><i class="icon-warning-sign"></i></a>
                     {% endif %}
@@ -58,7 +59,7 @@
                                type="checkbox"
                                {% if subtest.checked %} checked {% endif %}
                                test_id="{{ subtest.id }}">
-                        <a href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
+                        <a class="filtered-subtest-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
 
                         {% if subtest.status == 'new' %}
                             <a href="#signs-info"><i class="icon-warning-sign"></i></a>
