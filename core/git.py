@@ -40,14 +40,17 @@ def branches(project) :
     if not os.path.exists(working_dir) :
         clone(project)
 
+    result = []
     with path.cd( working_dir ) :
         res = process.get_output( ["git", "branch", "-r"] )
-        brs = re.findall("t[0-9]+-[a-zA-Z\-]+", res)
+        brs = re.findall("origin/[\w\-]+", res)
+        for x in brs :
+            result.append(x[7:])
 
-    brs.append('master')
-    brs.append('develop')
+    result.append('master')
+    result.append('develop')
 
-    return brs
+    return result
 
 def checkout_and_deploy(job) :
     project = job.repo

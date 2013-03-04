@@ -69,15 +69,19 @@ def run_task( task ) :
     return result
 
 def signal_handler( task ) :
+    task_id = task.task_id
+
     def stop_me( signum, frame ) :
         core.db.reconnect()
-        core.logger.write("task interrupted!", task_id=task.task_id)
-        task.artifacts = json.dumps( core.logger.get_artifacts(task.task_id) )
-        task.log = core.logger.read(task.task_id)
-        task.status = u"fail"
-        core.db.session.query(models.Task)\
-        .filter(models.Task.task_id == task.task_id)\
-        .update( {"status" : task.status, "log" : task.log, "artifacts" : task.artifacts } )
+
+        core.logger.write("task interrupted!", task_id=task_id)
+
+        artifacts = json.dumps( core.logger.get_artifacts(task_id) )
+        log = core.logger.read( task_id )
+        status = u"fail"
+        core.db.session.query( models.Task )\
+        .filter( models.Task.task_id == task_id )\
+        .update( { "status" : status, "log" : log, "artifacts" : artifacts } )
 
         pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
         pid_file = os.path.join( pid_dir, "cron.pid" )
@@ -100,24 +104,25 @@ def run_any() :
         core.lock.capture(pid_file)
         try :
             task = core.db.session.query(models.Task).filter(models.Task.status=='waiting').order_by(models.Task.add_time).limit(1).one()
+            task_id = task.task_id
             core.db.execute( "UPDATE gany_tasks SET status='running' WHERE task_id={0}".format( str(task.task_id) ) )
             try :
                 signal_handler( task )
                 result = run_task( task )
             except :
                 result = False
-                core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()), task_id=task.task_id)
+                core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()), task_id=task_id)
             finally :
                 core.db.reconnect()
-                task.artifacts = json.dumps( core.logger.get_artifacts(task.task_id) )
-                task.log = core.logger.read(task.task_id)
-                task.status = u"success" if result else u"fail"
-                core.db.session.query(models.Task)\
-                .filter(models.Task.task_id == task.task_id)\
-                .update( {"status" : task.status, "log" : task.log, "artifacts" : task.artifacts } )
+                artifacts = json.dumps( core.logger.get_artifacts( task_id ) )
+                log = core.logger.read( task_id )
+                status = u"success" if result else u"fail"
+                core.db.session.query( models.Task )\
+                .filter( models.Task.task_id == task_id )\
+                .update( { "status" : status, "log" : log, "artifacts" : artifacts } )
         except NoResultFound :
             pass
-        core.lock.uncapture(pid_file)
+        core.lock.uncapture( pid_file )
 
 def get_test_case( job ) :
     selected_tests = [ x.test_id for x in job.tests]

@@ -41,3 +41,7 @@ a.lang-chooser:hover img {
 #lang-panel {
     text-align: right;
 }
+
+.code-block {
+    border: 1px solid #bcb5ba; padding: 0px;
+}

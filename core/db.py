@@ -33,6 +33,8 @@ def reconnect():
             session.commit()
         except :
             session.rollback()
+        finally:
+            session.close()
     session = _Session()
 
 def execute(sql):
@@ -47,4 +49,5 @@ def close():
         session.rollback()
         raise
     finally:
+        session.close()
         session = None

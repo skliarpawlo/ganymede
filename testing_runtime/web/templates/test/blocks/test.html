@@ -61,8 +61,10 @@
 
 <legend>{% trans "Test source code" %}</legend>
 
-{% if test.code %}
-    <textarea id="test-source-code">{{ test.code }}</textarea>
-{% else %}
-    <textarea id="test-source-code"></textarea>
-{% endif %}
+<div class="code-block">
+    {% if test.code %}
+        <textarea id="test-source-code">{{ test.code }}</textarea>
+    {% else %}
+        <textarea id="test-source-code"></textarea>
+    {% endif %}
+</div>
