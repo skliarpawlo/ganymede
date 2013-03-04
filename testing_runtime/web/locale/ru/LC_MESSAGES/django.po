@@ -246,7 +246,7 @@ msgstr "Тест присутствия текста"
 
 #: templates/test/blocks/test.html:36
 msgid "Redirect check test"
-msgstr "Тест перенапривления"
+msgstr "Тест перенаправления"
 
 #: templates/test/blocks/test.html:45
 msgid "Test status"

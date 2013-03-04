@@ -129,6 +129,12 @@ class PageTest( FunctionalTest ) :
 
     subtests = None
 
+    #text present merge
+    texts_present = None
+
+    #counter test merge
+    texts_count = None
+
     def __init__(self) :
         super(PageTest, self).__init__()
         self.subtests = []
@@ -160,6 +166,33 @@ class PageTest( FunctionalTest ) :
 
         if not (self.h1_xpath == None) and not (self.h1 == None) :
             assert_xpath_content( self.webpage, self.h1_xpath, self.h1 )
+
+        # text present merge
+        if not self.texts_present is None :
+            for ( xpath, text ) in self.texts_present :
+                txt = self.webpage.find_element_by_xpath(xpath).text
+                assert text in txt, u"Нету текста '{0}', найден текст '{1}'".format(text, txt)
+
+        # text count merge
+        if not self.texts_count is None :
+            for item in self.texts_count :
+                count = self.webpage.page_source.count( item[0] )
+                if item[1] == u'<' :
+                    assert count < item[2],\
+                    u"Текст '{0}' встречается {1} раз, это не меньше чем {2}".format( item[0], count, item[2] )
+                if item[1] == u'=' :
+                    assert count == item[2],\
+                    u"Текст '{0}' встречается {1} раз, это не равно {2}".format( item[0], count, item[2] )
+                if item[1] == u'>' :
+                    assert count > item[2],\
+                    u"Текст '{0}' встречается {1} раз, это не больше чем {2}".format( item[0], count, item[2] )
+
+                if item[1] == u'<=' :
+                    assert count <= item[2],\
+                    u"Текст '{0}' встречается {1} раз, это бальше чем {2}".format( item[0], count, item[2] )
+                if item[1] == u'>=' :
+                    assert count >= item[2],\
+                    u"Текст '{0}' встречается {1} раз, это меньше чем {2}".format( item[0], count, item[2] )
 
         # execute sub tests
         for subtest in self.subtests :
@@ -211,29 +244,6 @@ class TypeaheadTest( SubTest ) :
                 for phrase in self.autocomplete[x] :
                     assert phrase in ac.text, u"Ошибка автокомплита: не найдено {0} в автокомплите {1}".format( phrase, ac.text )
 
-class CounterTest( SubTest ) :
-    texts = None
-
-    def run(self):
-        for item in self.texts :
-            count = self.webpage.page_source.count( item[0] )
-            if item[1] == u'<' :
-                assert count < item[2], \
-                u"Текст '{0}' встречается {1} раз, это не меньше чем {2}".format( item[0], count, item[2] )
-            if item[1] == u'=' :
-                assert count == item[2],\
-                u"Текст '{0}' встречается {1} раз, это не равно {2}".format( item[0], count, item[2] )
-            if item[1] == u'>' :
-                assert count > item[2],\
-                u"Текст '{0}' встречается {1} раз, это не больше чем {2}".format( item[0], count, item[2] )
-
-            if item[1] == u'<=' :
-                assert count <= item[2],\
-                u"Текст '{0}' встречается {1} раз, это бальше чем {2}".format( item[0], count, item[2] )
-            if item[1] == u'>=' :
-                assert count >= item[2],\
-                u"Текст '{0}' встречается {1} раз, это меньше чем {2}".format( item[0], count, item[2] )
-
 class LoadOnSelectTest( SubTest ) :
     select_xpath = None
     loaded_element_xpath = None
@@ -247,15 +257,6 @@ class LoadOnSelectTest( SubTest ) :
             text = self.webpage.find_element_by_xpath( self.loaded_element_xpath ).text
             for word in item[1] :
                 assert word in text, u"При выборе '{0}' не подгрузилось поле '{1}', подгруженные элементы: '{2}'".format(item[0], word, text)
-
-class TextPresent( SubTest ) :
-    text = None
-    text_xpath = "/html/body"
-
-    def run(self):
-        if not self.text is None :
-            txt = self.webpage.find_element_by_xpath(self.text_xpath).text
-            assert self.text in txt, u"Нету текста '{0}', найден текст '{1}'".format(self.text, txt)
 
 ## util functions
 def assert_xpath_content(webpage, xpath, waited_content):

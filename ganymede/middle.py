@@ -21,9 +21,3 @@ class DbMiddleware :
 
         db.close()
         return response
-
-    def process_exception(self, request, exception):
-        if self.is_static( request ) :
-            return
-
-        db.close()
