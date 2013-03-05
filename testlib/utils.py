@@ -5,14 +5,17 @@ from core import vscreen
 from core import path
 from core import logger
 from core import db
+import time
+import re
 import os
 import ganymede.settings
 import httplib
 from urlparse import urlparse
 import urllib
 from testing_runtime.web.decorators import html
-import time
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
@@ -109,6 +112,41 @@ class FunctionalTest(MainTest) :
     def snapshot(self):
         img_url = browser.snapshot()
         logger.add_artifact({u"type":u"snapshot", u"source":test_name(self), u"path":img_url})
+
+class SeleniumIDETest( FunctionalTest ) :
+
+    def setUp(self):
+        super(SeleniumIDETest, self).setUp()
+        self.browser.implicitly_wait(30)
+        self.verificationErrors = []
+        self.accept_next_alert = True
+
+    def is_element_present(self, how, what):
+        try:
+            self.browser.find_element(by=how, value=what)
+        except NoSuchElementException, e:
+            return False
+        return True
+
+    def close_alert_and_get_its_text(self):
+        try:
+            alert = self.driver.switch_to_alert()
+            if self.accept_next_alert:
+                alert.accept()
+            else:
+                alert.dismiss()
+            return alert.text
+        finally: self.accept_next_alert = True
+
+    def assertEqual(self, need, have):
+        need = to_unicode( need )
+        have =  to_unicode( have )
+        assert need == have, u"Error: {0} != {1}".format( need, have )
+
+    def tearDown(self):
+        super(SeleniumIDETest, self).tearDown()
+        assert len(self.verificationErrors) == 0
+
 
 class PageTest( FunctionalTest ) :
     """Тест определенной страницы. url задается через переменную url
@@ -275,3 +313,9 @@ def test_name(test) :
         return test.__parent_test__ + "_" + test.__name__
     else :
         return "not a test"
+
+def to_unicode( s ) :
+    if not isinstance( s, unicode ):
+        return s.decode('utf-8')
+    else :
+        return s

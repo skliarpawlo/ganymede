@@ -1,0 +1,9 @@
+class ${className}(utils.SeleniumIDETest):
+    def setUp(self):
+        utils.SeleniumIDETest.setUp(self)
+        self.base_url = "${baseURL}"
+
+    def run(self):
+        utils.SeleniumIDETest.run(self)
+        ${receiver} = self.browser
+
