@@ -55,6 +55,7 @@ LANGUAGE_CODE = 'en'
 
 _ = lambda s: s
 LANGUAGES = (
+    ('uk', _('Ukrainian')),
     ('ru', _('Russian')),
     ('en', _('English')),
 )

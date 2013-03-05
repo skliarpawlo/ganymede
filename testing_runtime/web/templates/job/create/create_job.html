@@ -9,12 +9,12 @@
 
 {% block content %}
 
-    <legend>{% trans "New job" %}</legend>
+    <legend>{% trans "Creating job" %}</legend>
 
     {% include "job/blocks/job.html" %}
 
 {% endblock %}
 
 {% block bottom-navbar-items %}
-        <input type="button" class="btn btn-primary" id="сreate-job-btn" value="{% trans "Create" %}"/>
+        <input type="button" class="btn" id="сreate-job-btn" value="{% trans "Create" %}"/>
 {% endblock %}

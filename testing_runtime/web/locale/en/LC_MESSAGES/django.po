@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 16:12+0200\n"
+"POT-Creation-Date: 2013-03-05 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid "Name cannot be empty"
 msgstr ""
 
 #: locale/js.py:4
-msgid "Job created"
+msgid "Task created"
 msgstr ""
 
 #: locale/js.py:5
@@ -49,9 +49,21 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: templates/index.html:12
-msgid "Lun.ua testing system"
-msgstr "Lun.ua testing system"
+#: locale/js.py:10
+msgid "Ukrainian"
+msgstr "Ukrainian"
+
+#: locale/js.py:11
+msgid "Russian"
+msgstr "Russian"
+
+#: locale/js.py:12
+msgid "English"
+msgstr "English"
+
+#: templates/index.html:13
+msgid "Ganymede title"
+msgstr "LUN testing system"
 
 #: templates/job/blocks/environment.html:4
 msgid "Environment config"
@@ -85,7 +97,7 @@ msgstr ""
 msgid "Sync with github"
 msgstr ""
 
-#: templates/job/blocks/git_tab.html:19
+#: templates/job/blocks/git_tab.html:19 templates/job/list/list.html:18
 msgid "Branch"
 msgstr ""
 
@@ -113,28 +125,54 @@ msgstr ""
 msgid "Test case"
 msgstr ""
 
-#: templates/job/blocks/tests_list.html:5
-#: templates/test/list/tests_list.html:14
-msgid "Test is not checked"
-msgstr ""
-
-#: templates/job/blocks/tests_list.html:11
-#: templates/test/list/tests_list.html:22
+#: templates/job/blocks/tests_list.html:10
+#: templates/test/list/tests_list.html:21
 msgid "Main tests"
 msgstr ""
 
-#: templates/job/blocks/tests_list.html:21
-#: templates/test/list/tests_list.html:28
+#: templates/job/blocks/tests_list.html:20
+#: templates/test/list/tests_list.html:27
 msgid "Subtests"
 msgstr ""
 
+#: templates/job/blocks/tests_list.html:47
+#: templates/job/blocks/tests_list.html:62
+#: templates/test/list/tests_list.html:58
+#: templates/test/list/tests_list.html:74
+msgid "in development"
+msgstr ""
+
 #: templates/job/create/create_job.html:12
-msgid "New job"
+msgid "Creating job"
 msgstr ""
 
 #: templates/job/create/create_job.html:19
-#: templates/test/create/create_test.html:19
 msgid "Create"
+msgstr ""
+
+#: templates/job/list/list.html:13 templates/layout/navbar.html:7
+msgid "Jobs"
+msgstr ""
+
+#: templates/job/list/list.html:16 templates/test/list/tests_list.html:18
+msgid "Operations"
+msgstr ""
+
+#: templates/job/list/list.html:17
+msgid "Name"
+msgstr ""
+
+#: templates/job/list/list.html:19
+msgid "Last run"
+msgstr ""
+
+#: templates/job/list/list.html:47
+msgid "Not executed"
+msgstr ""
+
+#: templates/job/list/list.html:51 templates/job/state/table.html:7
+#: templates/job/state/table.html.py:41 templates/modals/log_modal.html:6
+msgid "Log"
 msgstr ""
 
 #: templates/job/state/realtime_log.html:26
@@ -169,11 +207,6 @@ msgstr ""
 msgid "Job"
 msgstr ""
 
-#: templates/job/state/table.html:7 templates/job/state/table.html.py:41
-#: templates/modals/log_modal.html:6
-msgid "Log"
-msgstr ""
-
 #: templates/job/state/table.html:8
 msgid "Start time"
 msgstr ""
@@ -193,15 +226,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: templates/layout/navbar.html:7
-msgid "Jobs"
-msgstr ""
-
 #: templates/layout/navbar.html:10
 msgid "Create job"
 msgstr ""
 
-#: templates/layout/navbar.html:16
+#: templates/layout/navbar.html:16 templates/test/create/create_test.html:19
 msgid "Add test"
 msgstr ""
 
@@ -221,7 +250,11 @@ msgstr ""
 msgid "Test templates"
 msgstr ""
 
-#: templates/test/blocks/test.html:11
+#: templates/test/blocks/test.html:10
+msgid "Empty test"
+msgstr ""
+
+#: templates/test/blocks/test.html:13
 msgid "Page test"
 msgstr ""
 
@@ -229,48 +262,34 @@ msgstr ""
 msgid "Typeahead test"
 msgstr ""
 
-#: templates/test/blocks/test.html:21
-msgid "Text count test"
-msgstr ""
-
-#: templates/test/blocks/test.html:26
+#: templates/test/blocks/test.html:19
 msgid "Load on select test"
 msgstr ""
 
-#: templates/test/blocks/test.html:31
-msgid "Text present test"
-msgstr ""
-
-#: templates/test/blocks/test.html:36
+#: templates/test/blocks/test.html:22
 msgid "Redirect check test"
 msgstr ""
 
-#: templates/test/blocks/test.html:45
-msgid "Test status"
+#: templates/test/blocks/test.html:36
+msgid "Test in development"
 msgstr ""
 
-#: templates/test/blocks/test.html:62
+#: templates/test/blocks/test.html:42
 msgid "Test source code"
 msgstr ""
 
 #: templates/test/create/create_test.html:12
-msgid "New test"
+msgid "Adding test"
 msgstr ""
 
 #: templates/test/list/tests_list.html:13
 msgid "Tests list"
 msgstr ""
 
-#: templates/test/list/tests_list.html:19
-msgid "Operations"
-msgstr ""
-
 #: templates/test/update/update_test.html:12
 msgid "Test"
 msgstr ""
 
-#~ msgid "Russian"
-#~ msgstr "Russian"
-
-#~ msgid "English"
-#~ msgstr "English"
+#, fuzzy
+#~ msgid "Lun ua testing system"
+#~ msgstr "Lun testing system"

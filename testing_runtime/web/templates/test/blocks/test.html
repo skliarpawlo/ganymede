@@ -5,48 +5,38 @@
 {% if not test %}
 <p>
     <label for="template-selector">{% trans "Test templates" %}</label>
-    <div id="template-selector" class="btn-group" data-toggle="buttons-radio">
-
-        <button type="button" class="btn btn-primary">
+    <select id="template-selector">
+        <option selected="selected">
+            {% trans "Empty test" %}
+        </option>
+        <option>
             {% trans "Page test" %}
-        </button>
-        <div style="display: none" class="template-content">{% include "test/blocks/pagetest_code_template.html" %}</div>
-
-        <button type="button" class="btn btn-primary">
+        </option>
+        <option>
             {% trans "Typeahead test" %}
-        </button>
-        <div style="display: none" class="template-content">{% include "test/blocks/typeahead_test_code_template.html" %}</div>
-
-        <button type="button" class="btn btn-primary">
+        </option>
+        <option>
             {% trans "Load on select test" %}
-        </button>
-        <div style="display: none" class="template-content">{% include "test/blocks/load_on_select_test_code_template.html" %}</div>
-
-        <button type="button" class="btn btn-primary">
+        </option>
+        <option>
             {% trans "Redirect check test" %}
-        </button>
-        <div style="display: none" class="template-content">{% include "test/blocks/redirect_test_code_template.html" %}</div>
-
+        </option>
+    </select>
+    <div id="template-block">
+        <div class="template-content"></div>
+        <div class="template-content">{% include "test/blocks/pagetest_code_template.html" %}</div>
+        <div class="template-content">{% include "test/blocks/typeahead_test_code_template.html" %}</div>
+        <div class="template-content">{% include "test/blocks/load_on_select_test_code_template.html" %}</div>
+        <div class="template-content">{% include "test/blocks/redirect_test_code_template.html" %}</div>
     </div>
 </p>
 {% endif %}
 
 <p>
-    <label for="test-status-block">{% trans "Test status" %}</label>
-    <div id="test-status-block"
-         class="btn-group"
-         data-toggle="buttons-radio">
-        <button type="button"
-                class="btn btn-danger {% if not test or test.status == 'new' %}active{% endif %}"
-                id="test-status-new">
-            new
-        </button>
-        <button type="button"
-                class="btn btn-success {% if test.status == 'accepted' %}active{% endif %}"
-                id="test-status-accepted">
-            accepted
-        </button>
-    </div>
+    <label for="test-status">{% trans "Test in development" %}</label>
+    <input type="checkbox" id="test-status"
+        {% if not test or test.status == 'new' %}checked="checked"{% endif %}
+    >
 </p>
 
 <legend>{% trans "Test source code" %}</legend>

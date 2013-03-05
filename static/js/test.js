@@ -9,8 +9,9 @@ $(function() {
         indentUnit: 4
     });
 
-    $("#template-selector button").click(function() {
-        editor_test.setValue($(this).next().text());
+    $("#template-selector").change(function() {
+        var ind = $(this).find("option").index($(this).find(":selected"));
+        editor_test.setValue($("#template-block").find('.template-content').eq(ind).text());
         editor_test.refresh();
     });
 

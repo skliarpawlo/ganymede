@@ -135,10 +135,9 @@ var gany = (function() {
             block.save();
             res["code"] = block.getTextArea().value;
 
-            if ($("#test-status-new").hasClass("active")) {
+            if ($("#test-status").is(":checked")) {
                 res["status"] = "new";
-            }
-            if ($("#test-status-accepted").hasClass("active")) {
+            } else {
                 res["status"] = "accepted";
             }
             return res;

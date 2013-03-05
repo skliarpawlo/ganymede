@@ -26,11 +26,11 @@
     {% endblock %}
 </head>
 <body>
+    {#    {% load gany_title %}#}
     <div class="navbar navbar-static-top">
         <div class="navbar-inner">
             <a class="brand" href="/">Ganymede</a>
             {% include "layout/navbar.html" %}
-            {% include "layout/lang.html" %}
         </div>
     </div>
     <div class="container-fluid">
@@ -45,8 +45,11 @@
     <div id="navbar-bottom-block" class="form-actions navbar navbar-fixed-bottom">
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="span12">
+                <div class="span5">
                     {% block bottom-navbar-items %}{% endblock %}
+                </div>
+                <div class="span7">
+                    {% include "layout/lang.html" %}
                 </div>
             </div>
         </div>

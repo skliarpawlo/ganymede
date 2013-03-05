@@ -9,12 +9,12 @@
 
 {% block content %}
 
-    <legend>{% trans "New test" %}</legend>
+    <legend>{% trans "Adding test" %}</legend>
 
     {% include "test/blocks/test.html" %}
 
 {% endblock %}
 
 {% block bottom-navbar-items %}
-    <input type="button" class="btn btn-primary" id="сreate-test-btn" value="{% trans "Create" %}"/>
+    <input type="button" class="btn" id="сreate-test-btn" value="{% trans "Add test" %}"/>
 {% endblock %}

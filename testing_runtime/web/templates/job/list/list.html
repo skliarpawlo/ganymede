@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 
+{% load i18n %}
+
 {% block head %}
     {{ block.super }}
     <script src="/static/js/jobs_list.js"></script>
@@ -8,13 +10,13 @@
 {% block content %}
 
     <fieldset>
-        <legend>Задачи</legend>
+        <legend>{% trans "Jobs" %}</legend>
         <table class="table table-striped">
             <tr>
-                <th>Операции</th>
-                <th>Название</th>
-                <th>Ветка</th>
-                <th>Последний запуск</th>
+                <th>{% trans "Operations" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Branch" %}</th>
+                <th>{% trans "Last run" %}</th>
             </tr>
             {% for job in jobs %}
                 <tr job_id="{{ job.job_id }}" job_name="{{ job.name }}">
@@ -42,11 +44,11 @@
                         {% elif job.last_status == 'success' %}
                             <span class="label label-success">{{ job.last_status }}</span>
                         {% else %}
-                            не запускалось
+                            {% trans "Not executed" %}
                         {% endif %}
                         {% if job.last_task_id %}
                             <a href="{% url testing_runtime.web.tasks.log job.last_task_id %}">
-                                log
+                                {% trans "Log" %}
                             </a>
                         {% endif %}
                     </td>

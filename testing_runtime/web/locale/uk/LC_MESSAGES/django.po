@@ -16,101 +16,98 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: locale/js.py:2
 msgid "Error occured"
-msgstr "Возникла ошибка"
+msgstr "Виникла помилка"
 
 #: locale/js.py:3
 msgid "Name cannot be empty"
-msgstr "Имя не может быть пустым"
+msgstr "Ім'я не може бути порожнім"
 
 #: locale/js.py:4
-#, fuzzy
 msgid "Task created"
-msgstr "Задача созданна"
+msgstr "Завдання створене"
 
 #: locale/js.py:5
 msgid "Test was successfully added"
-msgstr "Тест успешно добавлен"
+msgstr "Тест було успішно додано"
 
 #: locale/js.py:6
 msgid "Repository synchronized"
-msgstr "Репозиторий синхронизирован"
+msgstr "Репозіторій синхронізовано"
 
 #: locale/js.py:7
 msgid "Are you sure want to delete job"
-msgstr "Вы уверенны что хотите удалить задачу"
+msgstr "Ви впевнені, що хочете видалити задачу"
 
 #: locale/js.py:8
 msgid "Are you sure want to delete test"
-msgstr "Вы уверенны что хотите удалить тест"
+msgstr "Ви впевнені, що хочете видалити тест"
 
 #: locale/js.py:9
 msgid "Changes saved"
-msgstr "Изменения сохранены"
+msgstr "Зміни збережено"
 
 #: locale/js.py:10
 msgid "Ukrainian"
-msgstr "Украинский"
+msgstr "Українська"
 
 #: locale/js.py:11
 msgid "Russian"
-msgstr "Русский"
+msgstr "Російська"
 
 #: locale/js.py:12
 msgid "English"
-msgstr "Английский"
+msgstr "Англійська"
 
 #: templates/index.html:13
 msgid "Ganymede title"
-msgstr "Тестирующая система ЛУН"
+msgstr "Тестуюча система ЛУН"
 
 #: templates/job/blocks/environment.html:4
 msgid "Environment config"
-msgstr "Настройки окружения"
+msgstr "Налаштування оточення"
 
 #: templates/job/blocks/environment.html:6
 msgid "Environment php script"
-msgstr "PHP-скрипт окружения"
+msgstr "php-скрипт оточення"
 
 #: templates/job/blocks/general.html:4
 msgid "General config"
-msgstr "Общие настройки"
+msgstr "Загальні налаштування"
 
 #: templates/job/blocks/general.html:6
 msgid "Job id"
-msgstr "Id задачи"
+msgstr "Id задачі"
 
 #: templates/job/blocks/general.html:12
 msgid "Job name"
-msgstr "Название задачи"
+msgstr "Назва задачі"
 
 #: templates/job/blocks/git_tab.html:4
 msgid "GIT config"
-msgstr "Настроки Git"
+msgstr "Налаштування GIT"
 
 #: templates/job/blocks/git_tab.html:6
 msgid "Project"
-msgstr "Проэкт"
+msgstr "Проект"
 
 #: templates/job/blocks/git_tab.html:15
 msgid "Sync with github"
-msgstr "Синхронизировать"
+msgstr "Синхронізувати"
 
 #: templates/job/blocks/git_tab.html:19 templates/job/list/list.html:18
 msgid "Branch"
-msgstr "Ветка"
+msgstr "Гілка"
 
 #: templates/job/blocks/job.html:8 templates/modals/error_modal.html:6
 msgid "Error"
-msgstr "Ошибка"
+msgstr "Помилка"
 
 #: templates/job/blocks/job.html:15
 msgid "General"
-msgstr "Общий"
+msgstr "Загальне"
 
 #: templates/job/blocks/job.html:18
 msgid "Git"
@@ -118,60 +115,60 @@ msgstr "Git"
 
 #: templates/job/blocks/job.html:21 templates/layout/navbar.html:13
 msgid "Tests"
-msgstr "Тесты"
+msgstr "Тести"
 
 #: templates/job/blocks/job.html:24
 msgid "Environment"
-msgstr "Окружение"
+msgstr "Оточення"
 
 #: templates/job/blocks/tests_list.html:4
 msgid "Test case"
-msgstr "Набор тестов"
+msgstr "Набір тестів"
 
 #: templates/job/blocks/tests_list.html:10
 #: templates/test/list/tests_list.html:21
 msgid "Main tests"
-msgstr "Основные тесты"
+msgstr "Основні тести"
 
 #: templates/job/blocks/tests_list.html:20
 #: templates/test/list/tests_list.html:27
 msgid "Subtests"
-msgstr "Подтесты"
+msgstr "Підтести"
 
 #: templates/job/blocks/tests_list.html:47
 #: templates/job/blocks/tests_list.html:62
 #: templates/test/list/tests_list.html:58
 #: templates/test/list/tests_list.html:74
 msgid "in development"
-msgstr "в разработке"
+msgstr "у розробці"
 
 #: templates/job/create/create_job.html:12
 msgid "Creating job"
-msgstr "Создание задачи"
+msgstr "Створення задачі"
 
 #: templates/job/create/create_job.html:19
 msgid "Create"
-msgstr "Создать"
+msgstr "Створити"
 
 #: templates/job/list/list.html:13 templates/layout/navbar.html:7
 msgid "Jobs"
-msgstr "Задачи"
+msgstr "Задачі"
 
 #: templates/job/list/list.html:16 templates/test/list/tests_list.html:18
 msgid "Operations"
-msgstr "Операции"
+msgstr "Операції"
 
 #: templates/job/list/list.html:17
 msgid "Name"
-msgstr "Название"
+msgstr "Назва"
 
 #: templates/job/list/list.html:19
 msgid "Last run"
-msgstr "Последний запуск"
+msgstr "Останній запуск"
 
 #: templates/job/list/list.html:47
 msgid "Not executed"
-msgstr "Не запускалось"
+msgstr "Не запускалося"
 
 #: templates/job/list/list.html:51 templates/job/state/table.html:7
 #: templates/job/state/table.html.py:41 templates/modals/log_modal.html:6
@@ -180,23 +177,23 @@ msgstr "Лог"
 
 #: templates/job/state/realtime_log.html:26
 msgid "Task log"
-msgstr "Лог задания"
+msgstr "Лог завдання"
 
 #: templates/job/state/realtime_log.html:27
 msgid "Stop task"
-msgstr "Остановить задание"
+msgstr "Зупинити завдання"
 
 #: templates/job/state/state.html:13 templates/layout/navbar.html:4
 msgid "System state"
-msgstr "Состояние системы"
+msgstr "Стан системи"
 
 #: templates/job/state/state.html:27
 msgid "Prev"
-msgstr "Пред."
+msgstr "Назад"
 
 #: templates/job/state/state.html:35
 msgid "Next"
-msgstr "След."
+msgstr "Вперед"
 
 #: templates/job/state/table.html:5
 msgid "Status"
@@ -212,102 +209,90 @@ msgstr "Задача"
 
 #: templates/job/state/table.html:8
 msgid "Start time"
-msgstr "Время запуска"
+msgstr "Час запуску"
 
 #: templates/job/update/update_job.html:12
 msgid "changing"
-msgstr "изменение"
+msgstr "змінюється"
 
 #: templates/job/update/update_job.html:19
 #: templates/test/update/update_test.html:19
 msgid "Save"
-msgstr "Сохранить"
+msgstr "Зберегти"
 
 #: templates/job/update/update_job.html:21
 #: templates/modals/rusure_modal.html:13
 #: templates/test/update/update_test.html:21
 msgid "Cancel"
-msgstr "Отменить"
+msgstr "Відмінити"
 
 #: templates/layout/navbar.html:10
 msgid "Create job"
-msgstr "Создать задачу"
+msgstr "Створити задачу"
 
 #: templates/layout/navbar.html:16 templates/test/create/create_test.html:19
 msgid "Add test"
-msgstr "Добавить тест"
+msgstr "Додати тест"
 
 #: templates/modals/info_modal.html:5
 msgid "Info"
-msgstr "Информация"
+msgstr "Информація"
 
 #: templates/modals/rusure_modal.html:6
 msgid "Are you sure?"
-msgstr "Вы уверенны?"
+msgstr "Ви впевнені?"
 
 #: templates/modals/rusure_modal.html:12
 msgid "Yes"
-msgstr "Да"
+msgstr "Так"
 
 #: templates/test/blocks/test.html:7
 msgid "Test templates"
-msgstr "Шаблоны тестов"
+msgstr "Зразки тестів"
 
 #: templates/test/blocks/test.html:10
 msgid "Empty test"
-msgstr "Пустой тест"
+msgstr "Пустий тест"
 
 #: templates/test/blocks/test.html:13
 msgid "Page test"
-msgstr "Тест страницы"
+msgstr "Тест сторінки"
 
 #: templates/test/blocks/test.html:16
 msgid "Typeahead test"
-msgstr "Тест автокомплита"
+msgstr "Тест автодоповнення"
 
 #: templates/test/blocks/test.html:19
 msgid "Load on select test"
-msgstr "Тест подгрузки при выборе"
+msgstr "Тест завантаження при виборі"
 
 #: templates/test/blocks/test.html:22
 msgid "Redirect check test"
-msgstr "Тест перенаправления"
+msgstr "Перевірка перенаправлення"
 
 #: templates/test/blocks/test.html:36
 msgid "Test in development"
-msgstr "Тест в разработке"
+msgstr "Тест розробляєтся"
 
 #: templates/test/blocks/test.html:42
 msgid "Test source code"
-msgstr "Исходный код теста"
+msgstr "Вихідний код тесту"
 
 #: templates/test/create/create_test.html:12
 msgid "Adding test"
-msgstr "Добавление теста"
+msgstr "Додавання тесту"
 
 #: templates/test/list/tests_list.html:13
 msgid "Tests list"
-msgstr "Список тестов"
+msgstr "Список тестів"
 
 #: templates/test/update/update_test.html:12
 msgid "Test"
 msgstr "Тест"
 
 #~ msgid "New job"
-#~ msgstr "Новая задача"
+#~ msgstr "Нова задача"
 
 #, fuzzy
 #~ msgid "Lun ua testing system"
-#~ msgstr "Тестирующая система LUN"
-
-#~ msgid "Test is not checked"
-#~ msgstr "Тест не проверен"
-
-#~ msgid "Text count test"
-#~ msgstr "Тест на подсчет вхождений текста"
-
-#~ msgid "Text present test"
-#~ msgstr "Тест присутствия текста"
-
-#~ msgid "Test status"
-#~ msgstr "Статус теста"
+#~ msgstr "Тестуюча система ЛУН"

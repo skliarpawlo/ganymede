@@ -30,18 +30,22 @@ a.lang-chooser:not(.active) img {
     opacity: 0.4;
 }
 
-a.lang-chooser img {
-    border:1px solid rgba(116, 109, 114, 0.90);
+#lang-panel {
+    margin-top: 5px;
+}
+
+a.lang-chooser:hover {
+    cursor: hand; cursor: pointer;
 }
 
 a.lang-chooser:hover img {
     opacity: 1;
 }
 
-#lang-panel {
-    text-align: right;
-}
-
 .code-block {
     border: 1px solid #bcb5ba; padding: 0px;
+}
+
+#template-block {
+    display: none;
 }

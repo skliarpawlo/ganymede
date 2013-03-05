@@ -2,7 +2,6 @@
 
 <fieldset>
 <legend>{% trans "Test case" %}</legend>
-<i id="signs-info" class="icon-warning-sign"></i> - {% trans "Test is not checked" %}
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -43,9 +42,9 @@
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
                            class="test-chk"/>
-                    <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">#{{ test.id }} {{ test.doc }}</a>
+                    <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
                     {% if test.status == 'new' %}
-                        <a href="#signs-info"><i class="icon-warning-sign"></i></a>
+                        [{% trans "in development" %}]
                     {% endif %}
                 </label>
             </td>
@@ -59,12 +58,8 @@
                                type="checkbox"
                                {% if subtest.checked %} checked {% endif %}
                                test_id="{{ subtest.id }}">
-                        <a class="filtered-subtest-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
-
-                        {% if subtest.status == 'new' %}
-                            <a href="#signs-info"><i class="icon-warning-sign"></i></a>
-                        {% endif %}
-
+                        <a class="filtered-subtest-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
+                        {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
                     </label>
                 {% endfor %}
             </td>

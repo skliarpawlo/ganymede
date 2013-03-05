@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block bottom-navbar-items %}
-    <input type="button" class="btn btn-primary" id="update-job-btn" value="{% trans "Save" %}"/>
+    <input type="button" class="btn" id="update-job-btn" value="{% trans "Save" %}"/>
     <a href="{% url testing_runtime.web.job.list_jobs %}">
-        <input type="button" class="btn btn-primary" value="{% trans "Cancel" %}"/>
+        <input type="button" class="btn" value="{% trans "Cancel" %}"/>
     </a>
 {% endblock %}
