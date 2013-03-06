@@ -31,7 +31,8 @@ a.lang-chooser:not(.active) img {
 }
 
 #lang-panel {
-    margin-top: 5px;
+    text-align: right;
+    margin-top: 7px;
 }
 
 a.lang-chooser:hover {

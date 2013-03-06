@@ -20,7 +20,7 @@ import sys
 import signal
 
 def run_test(test):
-    "запускает PageTest"
+    """запускает PageTest"""
     core.path.ensure(test.testDir())
 
     success = True
@@ -46,11 +46,12 @@ def run_test(test):
             status = u'fail'
 
         core.logger.write( web.decorators.html.status_label( status, status ) )
+        core.logger.add_test_result( test, status )
 
     return success
 
 def run_task( task ) :
-    "Запускает таск. Вернет True если все тесты пройдут"
+    """Запускает таск. Вернет True если все тесты пройдут"""
 
     core.path.ensure( task.artifactsDir() )
     result = True
@@ -61,7 +62,7 @@ def run_task( task ) :
         job = task.job
         core.git.checkout_and_deploy( job )
 
-        testcase = get_test_case( job );
+        testcase = get_test_case( job )
 
         for test in testcase :
             result = run_test( test ) and result
@@ -114,12 +115,15 @@ def run_any() :
                 core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()), task_id=task_id)
             finally :
                 core.db.reconnect()
+
                 artifacts = json.dumps( core.logger.get_artifacts( task_id ) )
                 log = core.logger.read( task_id )
                 status = u"success" if result else u"fail"
+                result = json.dumps( core.logger.read_test_results( task_id ) )
+
                 core.db.session.query( models.Task )\
                 .filter( models.Task.task_id == task_id )\
-                .update( { "status" : status, "log" : log, "artifacts" : artifacts } )
+                .update( { "status" : status, "log" : log, "artifacts" : artifacts, "result" : result } )
         except NoResultFound :
             pass
         core.lock.uncapture( pid_file )

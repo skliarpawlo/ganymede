@@ -1,8 +1,6 @@
 from selenium import webdriver
 import os
 
-import core.logger
-
 inst = None
 
 errors = 0
@@ -27,7 +25,7 @@ def snapshot() :
     img_path = os.path.join( heap, "sc_" + str( errors ) + ".png" )
     res = inst.save_screenshot( img_path )
     if not res :
-        core.logger.write( u"cannot save screenshot" )
+        return False
     errors += 1
     return img_path
 

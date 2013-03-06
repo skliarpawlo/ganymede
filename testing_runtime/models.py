@@ -31,6 +31,7 @@ class Task(Base) :
     add_time = Column( DateTime )
     end_time = Column( DateTime )
     log = Column( Unicode, nullable=False, default=u"" )
+    result = Column( Unicode, nullable=False, default=u"[]" )
     artifacts = Column( Unicode, nullable=False, default=u"[]" )
     job = relationship("Job", backref=backref('gany_tasks'))
 

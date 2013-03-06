@@ -1,6 +1,7 @@
 $(function(){
 
     log_size = 0;
+    results_count = 0;
 
     $(".fancybox").fancybox({
         fitToView : false,
@@ -22,7 +23,15 @@ $(function(){
             "</a>" +
         "</span>";
 
+    var result_markup =
+        "<tr class='test-result-row'>" +
+            "<td>${status}</td>" +
+            "<td>${name}</td>"+
+            "<td></td>" +
+        "</span>";
+
     $.template( "artefact_markup", artefact_markup );
+    $.template( "result_markup", result_markup );
 
     var process_diffs = function( data ) {
         var res = $("<div>" + data + "</div>");
@@ -42,12 +51,18 @@ $(function(){
     }
 
     var log_func = function() {
-        gany.task.log( taskId, log_size, $("#artifacts-block .fancybox").size() ).done( function(data) {
+        gany.task.log( taskId, log_size, $("#artifacts-block .fancybox").size(), results_count ).done( function(data) {
             if (data.status == "ok") {
                 log_size += data.content.text.length;
+                results_count += data.content.result.length;
+
                 data.content.text = process_diffs(data.content.text);
                 $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
+
+                $.tmpl( "result_markup", data.content.result).appendTo("#result-data");
+
                 $.tmpl( "artefact_markup", data.content.artifacts).css("display", "none").appendTo("#artifacts-block").fadeIn(1300);
+
                 if (data.content.state == "final") {
                     $("#stop-task").hide();
                     $("#log-loader").hide();

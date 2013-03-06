@@ -30,7 +30,20 @@
         <img id="log-loader" src="/static/images/progress.gif"/>
     </legend>
 
+    <table id="result-table" class="table">
+        <thead>
+            <tr>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Test name" %}</th>
+                <th>{% trans "Additional info" %}</th>
+            </tr>
+        </thead>
+        <tbody id="result-data">
+        </tbody>
+    </table>
+
     <div id="log-block"></div>
+
     <img id="log-loader-bottom" src="/static/images/progress.gif"/>
 
 {% endblock %}

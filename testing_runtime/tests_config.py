@@ -18,6 +18,13 @@ def all_tests() :
         _fetch_tests()
     return _all_tests
 
+def test_to_id( test ) :
+    class_name = utils.test_name(test)
+    all_t = all_tests()
+    for x in all_t :
+        if utils.test_name(all_t[x]) == class_name :
+            return x
+
 def _fetch_tests() :
     global _all_tests, _test_id_to_status
 

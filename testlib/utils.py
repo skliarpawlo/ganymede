@@ -143,6 +143,12 @@ class SeleniumIDETest( FunctionalTest ) :
         have =  to_unicode( have )
         assert need == have, u"Error: {0} != {1}".format( need, have )
 
+    def assertRegexpMatches(self, text, regexp, msg=None) :
+        text = to_unicode( text )
+        regexp = to_unicode( regexp )
+        x = re.compile(regexp)
+        assert x.search(text), u"Не найден {0} по регулярке {1}".format(text, regexp)
+
     def tearDown(self):
         super(SeleniumIDETest, self).tearDown()
         assert len(self.verificationErrors) == 0
@@ -209,7 +215,7 @@ class PageTest( FunctionalTest ) :
         if not self.texts_present is None :
             for ( xpath, text ) in self.texts_present :
                 txt = self.webpage.find_element_by_xpath(xpath).text
-                assert text in txt, u"Нету текста '{0}', найден текст '{1}'".format(text, txt)
+                assert text in txt, u"Text '{0}' not found, present '{1}'".format(text, txt)
 
         # text count merge
         if not self.texts_count is None :
@@ -217,27 +223,34 @@ class PageTest( FunctionalTest ) :
                 count = self.webpage.page_source.count( item[0] )
                 if item[1] == u'<' :
                     assert count < item[2],\
-                    u"Текст '{0}' встречается {1} раз, это не меньше чем {2}".format( item[0], count, item[2] )
+                    u"Text '{0}' occurs {1} times >= {2}".format( item[0], count, item[2] )
                 if item[1] == u'=' :
                     assert count == item[2],\
-                    u"Текст '{0}' встречается {1} раз, это не равно {2}".format( item[0], count, item[2] )
+                    u"Text '{0}' occurs {1} times != {2}".format( item[0], count, item[2] )
                 if item[1] == u'>' :
                     assert count > item[2],\
-                    u"Текст '{0}' встречается {1} раз, это не больше чем {2}".format( item[0], count, item[2] )
+                    u"Text '{0}' occurs {1} times <= {2}".format( item[0], count, item[2] )
 
                 if item[1] == u'<=' :
                     assert count <= item[2],\
-                    u"Текст '{0}' встречается {1} раз, это бальше чем {2}".format( item[0], count, item[2] )
+                    u"Text '{0}' occurs {1} times > {2}".format( item[0], count, item[2] )
                 if item[1] == u'>=' :
                     assert count >= item[2],\
-                    u"Текст '{0}' встречается {1} раз, это меньше чем {2}".format( item[0], count, item[2] )
+                    u"Text '{0}' occurs {1} times < {2}".format( item[0], count, item[2] )
 
         # execute sub tests
         for subtest in self.subtests :
-            logger.write( u"Running subtest '{0}' of '{1}'".format(test_name(subtest),test_name(self)) )
-            subtest.setUp( self.webpage )
-            subtest.run()
-            subtest.tearDown()
+            logger.write( u"Running test '{0}' of '{1}'".format( subtest.__doc__.decode("utf-8"), self.__doc__.decode("utf-8") ) )
+            try :
+                subtest.setUp( self.webpage )
+                subtest.run()
+                status = 'success'
+            except :
+                status = 'fail'
+                raise
+            finally:
+                logger.add_test_result( subtest, status )
+                subtest.tearDown()
 
     def tearDown(self):
         self.webpage = None

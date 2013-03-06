@@ -17,6 +17,7 @@ CREATE TABLE `gany_tasks` (
   `add_time` TIMESTAMP,
   `end_time` TIMESTAMP,
   `log` TEXT not null,
+  `result` TEXT not null,
   `artifacts` TEXT not null,
   primary key(`task_id`),
   foreign key(`job_id`) references `gany_jobs`(`job_id`) on delete cascade
