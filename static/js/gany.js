@@ -46,7 +46,7 @@ var gany = (function() {
 
     var modals = {
         info : function( info ) {
-            $("#info-message").text(info);
+            $("#info-message").html(info);
             return $("#info-modal").modal("show");
         },
         error : function( info ) {
@@ -93,8 +93,8 @@ var gany = (function() {
 
     var task = {
 
-        log : function( id, len, img_count, result_count ) {
-            return call("core.logger", "ajax_read", id, len, img_count, result_count)
+        log : function( id, len, result_count ) {
+            return call( "core.logger", "ajax_read", id, len, result_count )
         },
 
         stop_current_task : function() {

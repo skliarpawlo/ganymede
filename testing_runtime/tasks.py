@@ -23,30 +23,33 @@ def run_test(test):
     """запускает PageTest"""
     core.path.ensure(test.testDir())
 
-    success = True
-    try :
-        test.setUp()
-        test.run()
-    except AssertionError as ex :
-        core.logger.write( u"Assertion failed: {0}".format(ex) )
-        test.snapshot()
-        success = False
-    except Exception as s :
-        core.logger.write( u"Error: {0}".format(s) )
-        core.logger.write( traceback.format_exc() )
-        test.snapshot()
-        success = False
-    finally:
-        test.tearDown()
+    with core.logger.current_test( test ) :
 
-        # save result
-        if (success) :
-            status = u'success'
-        else :
-            status = u'fail'
+        success = True
+        try :
+            test.setUp()
+            test.run()
+        except AssertionError as ex :
+            core.logger.write( u"Assertion failed: {0}".format(ex) )
+            test.snapshot()
+            success = False
+        except Exception as s :
+            core.logger.write( u"Error: {0}".format(s) )
+            core.logger.write( traceback.format_exc() )
+            test.snapshot()
+            success = False
+        finally:
+            test.tearDown()
 
-        core.logger.write( web.decorators.html.status_label( status, status ) )
-        core.logger.add_test_result( test, status )
+            # save result
+            if (success) :
+                status = u'success'
+            else :
+                status = u'fail'
+
+            core.logger.set_status( status )
+            core.logger.write( web.decorators.html.status_label( status, status ) )
+            core.logger.save_test_result()
 
     return success
 
@@ -56,7 +59,7 @@ def run_task( task ) :
     core.path.ensure( task.artifactsDir() )
     result = True
 
-    with core.logger.task_log( task ) :
+    with core.logger.current_task( task ) :
         core.logger.reset()
 
         job = task.job
@@ -75,14 +78,15 @@ def signal_handler( task ) :
     def stop_me( signum, frame ) :
         core.db.reconnect()
 
-        core.logger.write("task interrupted!", task_id=task_id)
+        with core.logger.current_task( task_id ) :
+            core.logger.write("task interrupted!")
+            log = core.logger.get_task_log()
 
-        artifacts = json.dumps( core.logger.get_artifacts(task_id) )
-        log = core.logger.read( task_id )
+        result = json.dumps( core.logger.get_all_results() )
         status = u"fail"
         core.db.session.query( models.Task )\
         .filter( models.Task.task_id == task_id )\
-        .update( { "status" : status, "log" : log, "artifacts" : artifacts } )
+        .update( { "status" : status, "result" : result, "log" : log } )
 
         pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
         pid_file = os.path.join( pid_dir, "cron.pid" )
@@ -112,18 +116,20 @@ def run_any() :
                 result = run_task( task )
             except :
                 result = False
-                core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()), task_id=task_id)
+                with core.logger.current_task( task_id ) :
+                    core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()))
             finally :
                 core.db.reconnect()
 
-                artifacts = json.dumps( core.logger.get_artifacts( task_id ) )
-                log = core.logger.read( task_id )
                 status = u"success" if result else u"fail"
-                result = json.dumps( core.logger.read_test_results( task_id ) )
+
+                with core.logger.current_task( task_id ) :
+                    res = json.dumps( core.logger.get_all_results() )
+                    log = core.logger.get_task_log()
 
                 core.db.session.query( models.Task )\
-                .filter( models.Task.task_id == task_id )\
-                .update( { "status" : status, "log" : log, "artifacts" : artifacts, "result" : result } )
+                    .filter( models.Task.task_id == task_id )\
+                    .update( { "status" : status, "result" : res, "log" : log } )
         except NoResultFound :
             pass
         core.lock.uncapture( pid_file )

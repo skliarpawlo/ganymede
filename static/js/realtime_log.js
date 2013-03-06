@@ -16,27 +16,34 @@ $(function(){
         }
     });
 
-    var artefact_markup =
-        "<span class='fancy-boxed'>" +
-            "<a title='${source}' class='fancybox' rel='group' href='${path}'>" +
-                "<img class='fancy-boxed' src='${path}' />" +
-            "</a>" +
-        "</span>";
+    $(document).bind("data-appended", function() {
+        $(".show-log").unbind("click").bind( "click", function() {
+            gany.modals.info( $(this).next().html().split("\n").join("<br/>") );
+        });
+    });
 
     var result_markup =
         "<tr class='test-result-row'>" +
             "<td>${status}</td>" +
             "<td>${name}</td>"+
-            "<td></td>" +
+            "<td>" +
+                "<a href='/test/update/${test_id}'><i class='icon-file' title='test' /></a>" +
+                "<a href='#' class='show-log'>" +
+                    "<i class='icon-tasks' title='log' />" +
+                "</a>" +
+                "<div class='log'>{{html log}}</div>" +
+                "{{each artifacts}}" +
+                    "<a href='${$value.path}' title='screenshot'><i class='icon-picture' /></a>" +
+                "{{/each}}" +
+            "</td>" +
         "</span>";
 
-    $.template( "artefact_markup", artefact_markup );
     $.template( "result_markup", result_markup );
 
     var process_diffs = function( data ) {
         var res = $("<div>" + data + "</div>");
         var diff_blocks = res.find(".textdiff");
-        diff_blocks.each( function( ind ,el ) {
+        diff_blocks.each( function( ind, el ) {
             var t1 = $(el).find(".base").text();
             var t2 = $(el).find(".changed").text();
 
@@ -51,32 +58,30 @@ $(function(){
     }
 
     var log_func = function() {
-        gany.task.log( taskId, log_size, $("#artifacts-block .fancybox").size(), results_count ).done( function(data) {
+        gany.task.log( taskId, log_size, results_count ).done( function(data) {
             if (data.status == "ok") {
-                log_size += data.content.text.length;
                 results_count += data.content.result.length;
+                log_size += data.content.text.length;
 
                 data.content.text = process_diffs(data.content.text);
                 $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
 
-                $.tmpl( "result_markup", data.content.result).appendTo("#result-data");
-
-                $.tmpl( "artefact_markup", data.content.artifacts).css("display", "none").appendTo("#artifacts-block").fadeIn(1300);
+                $.tmpl( "result_markup", data.content.result).css("display", "none").appendTo("#result-data").fadeIn(360);
 
                 if (data.content.state == "final") {
                     $("#stop-task").hide();
-                    $("#log-loader").hide();
-                    $("#log-loader-bottom").hide();
+                    $(".log-loader").hide();
                     clearInterval(t);
                 }
+                $(document).trigger( "data-appended" );
             }
         });
     };
-    var t = setInterval( log_func, 1200);
+    var t = setInterval( log_func, 1200 );
     log_func();
 
     $("#stop-task").click( function() {
         gany.task.stop_current_task()
-    });
+    } );
 
 });

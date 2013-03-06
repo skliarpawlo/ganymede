@@ -7,10 +7,11 @@ errors = 0
 heap = ''
 
 def start() :
-    global inst
+    global inst, errors
     ffb = webdriver.firefox.firefox_binary.FirefoxBinary( firefox_path = '/usr/bin/firefox' )
     inst = webdriver.Firefox( firefox_binary=ffb )
     inst.implicitly_wait(5)
+    errors = 0
 
 def stop() :
     if not inst is None :
@@ -28,4 +29,18 @@ def snapshot() :
         return False
     errors += 1
     return img_path
+
+class current_screenshot_dir:
+    def __init__(self, d):
+        self._dir = d
+
+    def __enter__(self):
+        global heap
+        self._old_heap = heap
+        heap = self._dir
+
+    def __exit__(self, etype, value, traceback):
+        global heap
+        heap = self._old_heap
+
 

@@ -5,9 +5,11 @@ from core import vscreen
 from core import path
 from core import logger
 from core import db
+from testing_runtime.web.decorators import html
 import time
 import re
 import os
+import traceback
 import ganymede.settings
 import httplib
 from urlparse import urlparse
@@ -24,6 +26,10 @@ class Test( object ):
 
     def setUp(self):
         path.ensure( self.testDir() )
+
+        path.clean( self.artifactsDir() )
+        path.ensure( self.artifactsDir() )
+
         db.reconnect()
 
     def tearDown(self):
@@ -35,13 +41,13 @@ class Test( object ):
     def pidFile(self) :
         return os.path.join(heap_dir, "tests", test_name(self), "lock.pid")
 
+    def artifactsDir(self):
+        return os.path.join(self.testDir(), "photos")
+
 class MainTest(Test) :
 
     def run(self):
         logger.write( u"Running test '{0}'".format(test_name(self)) )
-
-    def snapshot(self):
-        pass
 
 class RedirectTest(MainTest) :
 
@@ -87,15 +93,10 @@ class FunctionalTest(MainTest) :
     def setUp(self):
         super(FunctionalTest, self).setUp()
 
-        path.clean( self.photosDir() )
-
-        # ensure paths
-        path.ensure( self.photosDir() )
-
         # functional tests setup
         vscreen.start()
         browser.start()
-        browser.setHeap(self.photosDir())
+        browser.setHeap(self.artifactsDir())
         self.browser = browser.inst
 
     def tearDown(self):
@@ -106,12 +107,8 @@ class FunctionalTest(MainTest) :
 
         super(FunctionalTest, self).tearDown()
 
-    def photosDir(self):
-        return os.path.join(self.testDir(), "photos")
-
     def snapshot(self):
-        img_url = browser.snapshot()
-        logger.add_artifact({u"type":u"snapshot", u"source":test_name(self), u"path":img_url})
+        snapshot()
 
 class SeleniumIDETest( FunctionalTest ) :
 
@@ -152,7 +149,6 @@ class SeleniumIDETest( FunctionalTest ) :
     def tearDown(self):
         super(SeleniumIDETest, self).tearDown()
         assert len(self.verificationErrors) == 0
-
 
 class PageTest( FunctionalTest ) :
     """Тест определенной страницы. url задается через переменную url
@@ -241,16 +237,23 @@ class PageTest( FunctionalTest ) :
         # execute sub tests
         for subtest in self.subtests :
             logger.write( u"Running test '{0}' of '{1}'".format( subtest.__doc__.decode("utf-8"), self.__doc__.decode("utf-8") ) )
-            try :
-                subtest.setUp( self.webpage )
-                subtest.run()
-                status = 'success'
-            except :
-                status = 'fail'
-                raise
-            finally:
-                logger.add_test_result( subtest, status )
-                subtest.tearDown()
+            with logger.current_test( subtest ) :
+                with browser.current_screenshot_dir( subtest.artifactsDir() ) :
+                    try :
+                        subtest.setUp( self.webpage )
+                        subtest.run()
+                        status = 'success'
+                    except Exception as s :
+                        logger.write( u"Error: {0}".format(s) )
+                        logger.write( traceback.format_exc() )
+                        snapshot()
+                        status = 'fail'
+                        raise SubTestFail( subtest.__doc__ )
+                    finally:
+                        subtest.tearDown()
+                        logger.set_status( status )
+                        logger.write( html.status_label( status, status ) )
+                        logger.save_test_result()
 
     def tearDown(self):
         self.webpage = None
@@ -309,6 +312,9 @@ class LoadOnSelectTest( SubTest ) :
             for word in item[1] :
                 assert word in text, u"При выборе '{0}' не подгрузилось поле '{1}', подгруженные элементы: '{2}'".format(item[0], word, text)
 
+class SubTestFail( Exception ) :
+    pass
+
 ## util functions
 def assert_xpath_content(webpage, xpath, waited_content):
     real_content = webpage.find_element_by_xpath( xpath ).text
@@ -332,3 +338,7 @@ def to_unicode( s ) :
         return s.decode('utf-8')
     else :
         return s
+
+def snapshot():
+    img_url = browser.snapshot()
+    logger.add_artifact({u"type":u"snapshot", u"path":img_url})

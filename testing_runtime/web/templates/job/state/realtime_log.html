@@ -27,7 +27,7 @@
         <a href="#" id="stop-task" task_id="{{ task.id }}" title="{% trans "Stop task" %}">
             <img src="/static/images/stop.png" />
         </a>
-        <img id="log-loader" src="/static/images/progress.gif"/>
+        <img class="log-loader" src="/static/images/progress.gif"/>
     </legend>
 
     <table id="result-table" class="table">
@@ -44,11 +44,6 @@
 
     <div id="log-block"></div>
 
-    <img id="log-loader-bottom" src="/static/images/progress.gif"/>
+    <img class="log-loader" src="/static/images/progress.gif"/>
 
-{% endblock %}
-
-{% block bottom-navbar-items %}
-    <span id="artifacts-block">
-    </span>
 {% endblock %}
