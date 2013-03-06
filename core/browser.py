@@ -11,7 +11,6 @@ def start() :
     ffb = webdriver.firefox.firefox_binary.FirefoxBinary( firefox_path = '/usr/bin/firefox' )
     inst = webdriver.Firefox( firefox_binary=ffb )
     inst.implicitly_wait(5)
-    errors = 0
 
 def stop() :
     if not inst is None :

@@ -47,7 +47,7 @@ class Test( object ):
 class MainTest(Test) :
 
     def run(self):
-        logger.write( u"Running test '{0}'".format(test_name(self)) )
+        logger.write( u"Running test '{0}'".format( self.__doc__.decode("utf-8") ) )
 
 class RedirectTest(MainTest) :
 
@@ -248,7 +248,7 @@ class PageTest( FunctionalTest ) :
                         logger.write( traceback.format_exc() )
                         snapshot()
                         status = 'fail'
-                        raise SubTestFail( subtest.__doc__ )
+                        raise SubTestFail( subtest.__doc__.decode("utf-8") )
                     finally:
                         subtest.tearDown()
                         logger.set_status( status )

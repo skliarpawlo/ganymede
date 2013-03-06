@@ -22,9 +22,19 @@ $(function(){
         });
     });
 
+    $("#toggle-task-log").click(function(){
+        $("#log-block").toggle();
+    });
+
     var result_markup =
         "<tr class='test-result-row'>" +
-            "<td>${status}</td>" +
+            "<td>" +
+                "{{if status=='success'}}" +
+                    "<span class='label label-success'>Success</span>" +
+                "{{else}}" +
+                    "<span class='label label-important'>Fail</span>" +
+                "{{/if}}" +
+            "</td>" +
             "<td>${name}</td>"+
             "<td>" +
                 "<a href='/test/update/${test_id}'><i class='icon-file' title='test' /></a>" +

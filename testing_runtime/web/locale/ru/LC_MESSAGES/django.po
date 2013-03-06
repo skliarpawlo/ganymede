@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-05 16:52+0200\n"
+"POT-Creation-Date: 2013-03-06 18:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,8 +173,9 @@ msgstr "Последний запуск"
 msgid "Not executed"
 msgstr "Не запускалось"
 
-#: templates/job/list/list.html:51 templates/job/state/table.html:7
-#: templates/job/state/table.html.py:41 templates/modals/log_modal.html:6
+#: templates/job/list/list.html:51 templates/job/state/realtime_log.html:45
+#: templates/job/state/table.html:7 templates/job/state/table.html.py:41
+#: templates/modals/log_modal.html:6
 msgid "Log"
 msgstr "Лог"
 
@@ -185,6 +186,18 @@ msgstr "Лог задания"
 #: templates/job/state/realtime_log.html:27
 msgid "Stop task"
 msgstr "Остановить задание"
+
+#: templates/job/state/realtime_log.html:36 templates/job/state/table.html:5
+msgid "Status"
+msgstr "Статус"
+
+#: templates/job/state/realtime_log.html:37
+msgid "Test name"
+msgstr "Название теста"
+
+#: templates/job/state/realtime_log.html:38
+msgid "Additional info"
+msgstr "Дополнительная информация"
 
 #: templates/job/state/state.html:13 templates/layout/navbar.html:4
 msgid "System state"
@@ -197,10 +210,6 @@ msgstr "Пред."
 #: templates/job/state/state.html:35
 msgid "Next"
 msgstr "След."
-
-#: templates/job/state/table.html:5
-msgid "Status"
-msgstr "Статус"
 
 #: templates/job/state/table.html:6
 msgid "Id"

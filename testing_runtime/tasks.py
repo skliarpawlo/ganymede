@@ -33,6 +33,9 @@ def run_test(test):
             core.logger.write( u"Assertion failed: {0}".format(ex) )
             test.snapshot()
             success = False
+        except utils.SubTestFail as subtestfail :
+            core.logger.write( u"Error in subtest: {0}".format(subtestfail) )
+            success = False
         except Exception as s :
             core.logger.write( u"Error: {0}".format(s) )
             core.logger.write( traceback.format_exc() )

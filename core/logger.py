@@ -94,20 +94,17 @@ def set_status( status ) :
 
 # RAW LOG WRITE
 def write( s, append=True ) :
-    if type(s) == unicode :
-        s = s.encode('utf-8')
     test = get_test()
     if test is None :
         if append == True :
-            was = memcached.get( derive_task_log_key(), "" )
-            memcached.set( derive_task_log_key(), was + "\n" + s )
+            was = memcached.get( derive_task_log_key(), u"" )
+            memcached.set( derive_task_log_key(), was + u"\n" + s )
         else :
             memcached.set( derive_task_log_key(), s )
     else :
         if append == True :
-            import pdb; pdb.set_trace()
             obj = get_result()
-            obj["log"] += "\n".encode("utf-8") + s
+            obj["log"] += u"\n" + s
             set_result(obj)
         else :
             obj = get_result()

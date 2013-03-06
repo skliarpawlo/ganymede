@@ -11,3 +11,8 @@ img.fancy-boxed {
 .log {
     display: none;
 }
+
+#log-block {
+    display: none;
+    border: 1px solid #bcb5ba; padding: 0px;
+}
