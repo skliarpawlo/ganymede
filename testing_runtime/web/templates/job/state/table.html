@@ -12,8 +12,8 @@
         <tr>
             <td>
                 {% if task.status == 'Running' %}
-                    <img src="/static/images/progress.gif"/>
                     <span class="label label-info">{{ task.status }}</span>
+                    <img src="/static/images/progress.gif"/>
                 {% elif task.status == 'Waiting' %}
                     <span class="label label-warning">{{ task.status }}</span>
                 {% elif task.status == 'Fail' %}

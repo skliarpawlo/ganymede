@@ -93,8 +93,8 @@ var gany = (function() {
 
     var task = {
 
-        log : function( id, len, result_count ) {
-            return call( "core.logger", "ajax_read", id, len, result_count )
+        log : function( id, len, result_count, cur_log_len ) {
+            return call( "core.logger", "ajax_read", id, len, result_count, cur_log_len )
         },
 
         stop_current_task : function() {

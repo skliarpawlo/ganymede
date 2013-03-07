@@ -14,6 +14,7 @@ _all = None
 def reset() :
     global _all
     _all = []
+    memcached.set( derive_prev_request_test_id_key(), "0" )
 
 def save_test_result() :
     global _all
@@ -60,6 +61,12 @@ def set_result(obj) :
 
 # KEYS
 
+def derive_current_test_key() :
+    _task = get_task()
+    if _task == None :
+        return "GANY_CURRENT_TEST"
+    return "GANY_CURRENT_TEST_" + str(_task.task_id)
+
 def derive_task_log_key() :
     _task = get_task()
     if _task == None :
@@ -73,6 +80,9 @@ def derive_test_results_key() :
     if _task == None :
         return "GANY_TEST_RESULT_LOG"
     return "GANY_TEST_RESULT_" + str(_task.task_id) + "_" + str( tests_config.test_to_id( _test ) )
+
+def derive_prev_request_test_id_key() :
+    return "GANY_PREV_TEST_LOG_REQUESTED"
 
 # ARTIFACTS ADDER
 def add_artifact( artifact ) :
@@ -114,18 +124,69 @@ def write( s, append=True ) :
 def get_task_log() :
     return memcached.get( derive_task_log_key(), "" )
 
-def ajax_read( task_id=None, log_len = 0, tests_count = 0 ) :
+def get_current_test_id() :
+    return int( memcached.get( derive_current_test_key(), "0" ) )
+
+def get_current_test_result( log_offset = 0 ) :
+    global _task
+    from testing_runtime import tests_config
+
+    curr_id = get_current_test_id()
+    if curr_id == 0 :
+        return False
+
+    with current_test( curr_id, False ) :
+        obj = json.loads( memcached.get( derive_test_results_key(), "{}" ) )
+
+    if not obj.has_key( "artifacts" ) :
+        obj["artifacts"] = []
+    if not obj.has_key( "log" ) :
+        obj["log"] = ""
+    if not obj.has_key( "status" ) :
+        obj["status"] = "unknown"
+    if not obj.has_key( "name" ) :
+        obj["name"] = tests_config.all_tests()[curr_id].__doc__
+    if not obj.has_key( "test_id" ) :
+        from testing_runtime import tests_config
+        obj["test_id"] = curr_id
+
+    return obj
+
+def ajax_read( task_id=None, log_len = 0, tests_count = 0, cur_log_offset = 0 ) :
+    log_len = int( log_len )
+    tests_count = int( tests_count )
+    cur_log_offset = int( cur_log_offset )
     with current_task( int(task_id) ) :
         _task = get_task()
 
         if (_task.status == u"success" or _task.status == u"fail") :
             return { "state" : "final",
                      "text" : _task.log[log_len:],
-                     "result" : json.loads( _task.result )[tests_count:] }
+                     "result" : json.loads( _task.result )[tests_count:],
+                     "current" : False
+            }
+
+        # prev cur id compare
+        cur_test_id = get_current_test_id()
+        last_test_res = get_current_test_result()
+
+        if ( last_test_res != False ) :
+            prev_id = int( memcached.get( derive_prev_request_test_id_key(), "0" ) )
+            state = "same"
+            if prev_id <> cur_test_id :
+                cur_log_offset = 0
+                state = "new"
+            last_test_res[ "log" ] = last_test_res[ "log" ][ cur_log_offset: ]
+            last_test_res[ "state" ] = state
+
+            memcached.set( derive_prev_request_test_id_key(), cur_test_id )
+            # prev cur id compare
 
         return { "state" : "continue",
                  "text" : get_task_log()[log_len:],
-                 "result" : get_all_results()[tests_count:] }
+                 "result" : get_all_results()[tests_count:],
+                 "current" : last_test_res
+                }
 
 # WITH STATEMENT
 class current_task:
@@ -145,15 +206,28 @@ class current_task:
         _task_id = self._old_task
 
 class current_test:
-    def __init__(self, test):
+    def __init__(self, test, update_current_test_value = True):
+        if type(test) == int :
+            from testing_runtime import tests_config
+            test = tests_config.all_tests()[test]
+
         self._test = test
+        self._update_current_test_value = update_current_test_value
 
     def __enter__(self):
         global _test
         self._old_test = _test
         _test = self._test
 
+        if self._update_current_test_value :
+            from testing_runtime import tests_config
+            self._old_current = memcached.get( derive_current_test_key(), "0" )
+            memcached.set( derive_current_test_key(), tests_config.test_to_id( _test ) )
+
     def __exit__(self, etype, value, traceback):
         global _test
         _test = self._old_test
 
+        if self._update_current_test_value :
+            from testing_runtime import tests_config
+            memcached.set( derive_current_test_key(), self._old_current )

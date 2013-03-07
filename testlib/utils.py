@@ -298,7 +298,7 @@ class TypeaheadTest( SubTest ) :
                 time.sleep(3)
                 ac = self.webpage.find_element_by_xpath(self.ac_xpath)
                 for phrase in self.autocomplete[x] :
-                    assert phrase in ac.text, u"Ошибка автокомплита: не найдено {0} в автокомплите {1}".format( phrase, ac.text )
+                    assert phrase in ac.text, u"Ошибка автокомплита: не найдено: {0} в автокомплите: {1}, предложенный автокомплит: {2}".format( phrase, x, ac.text )
 
 class LoadOnSelectTest( SubTest ) :
     select_xpath = None
