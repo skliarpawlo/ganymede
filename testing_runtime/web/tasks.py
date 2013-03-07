@@ -9,7 +9,7 @@ from decorators import html
 import datetime
 
 def system_state(request) :
-    title = html.title( [ _('Create'), _('Test'), _('Ganymede') ] )
+    title = html.title( [ _('Create'), _('Test'), 'Ganymede' ] )
 
     tasks = []
     for task in providers.tasks( request.GET ) :
@@ -36,7 +36,7 @@ def run_job( request ) :
     return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/json" )
 
 def log( request, task_id ) :
-    title = html.title( [ _('Log'), _('Task'), _('Ganymede') ] )
+    title = html.title( [ _('Log'), _('Task'), 'Ganymede' ] )
 
     task_model = db.session.query( Task ).filter( Task.task_id == task_id ).one()
     task = {}

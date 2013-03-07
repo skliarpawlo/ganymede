@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-07 10:31+0200\n"
+"POT-Creation-Date: 2013-03-07 11:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,23 +27,22 @@ msgstr "Задача"
 
 #: job.py:22 job.py:44 job.py:74 tasks.py:12 tasks.py:39 tests.py:106
 #: tests.py:124 tests.py:129 tests.py:196
-#, fuzzy
 msgid "Ganymede"
 msgstr "Тестуюча система ЛУН"
 
 #: job.py:44 tests.py:124
 msgid "List"
-msgstr ""
+msgstr "Список"
 
 #: job.py:60 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr "Не запускалося"
 
-#: job.py:74 tests.py:129 tests.py:196
+#: job.py:74 tests.py:129
 msgid "Update"
 msgstr "Редагування"
 
-#: tasks.py:12 tests.py:106 tests.py:124 tests.py:129 tests.py:196
+#: tasks.py:12 tests.py:106 tests.py:124 tests.py:129
 msgid "Test"
 msgstr "Тест"
 
@@ -56,6 +55,14 @@ msgstr "Лог"
 #: tasks.py:39 templates/job/state/table.html:6
 msgid "Task"
 msgstr "Завдання"
+
+#: tests.py:196
+msgid "Main"
+msgstr "Головна"
+
+#: tests.py:196
+msgid "Index"
+msgstr "Index"
 
 #: locale/js.py:2
 msgid "Error occured"

@@ -19,7 +19,7 @@ def json_to_tests( js ) :
     return tests_collect
 
 def create_job(request) :
-    title = html.title([ _('Create'), _('Job'), _('Ganymede') ])
+    title = html.title([ _('Create'), _('Job'), 'Ganymede' ])
 
     if request.method == 'POST' :
         name = request.POST[ 'name' ]
@@ -41,7 +41,7 @@ def create_job(request) :
                                                                    'branches' : ['develop', 't-kz'] } )
 
 def list_jobs(request) :
-    title = html.title( [ _('List'), _('Job'), _('Ganymede') ] )
+    title = html.title( [ _('List'), _('Job'), 'Ganymede' ] )
 
     jobs = []
     for job in db.session.query(Job).all() :
@@ -71,7 +71,7 @@ def remove_job(request) :
     return HttpResponse(json_resp, mimetype="application/json")
 
 def update_job(request, job_id) :
-    title = html.title( [ _('Update'), _('Job'), _('Ganymede') ] )
+    title = html.title( [ _('Update'), _('Job'), 'Ganymede' ] )
 
     if request.method == 'POST' :
         job = db.session.query(Job).filter( Job.job_id == job_id ).one()

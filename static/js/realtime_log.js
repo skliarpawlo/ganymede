@@ -37,9 +37,9 @@ $(function(){
             "</td>" +
             "<td>${name}</td>"+
             "<td>" +
-                "<a href='/test/update/${test_id}'><i class='icon-file' title='test' /></a>" +
+                "<a href='/test/update/${test_id}'><i class='icon-file' title='" + gettext('Test') + "' /></a>" +
                 "<a class='show-log cursor-hand'>" +
-                    "<i class='icon-tasks' title='log' />" +
+                    "<i class='icon-tasks' title='" + gettext('Log') + "' />" +
                 "</a>" +
                 "<div class='log'>{{html log}}</div>" +
                 "{{each artifacts}}" +
@@ -73,7 +73,9 @@ $(function(){
                 results_count += data.content.result.length;
                 log_size += data.content.text.length;
 
-                data.content.text = process_diffs(data.content.text);
+                for ( x in data.content.result ) {
+                    data.content.result[ x ].log = process_diffs(data.content.result[ x ].log);
+                }
                 $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
 
                 $.tmpl( "result_markup", data.content.result).css("display", "none").appendTo("#result-data").fadeIn(360);
