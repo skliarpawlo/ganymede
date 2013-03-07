@@ -15,55 +15,52 @@
                 Url
             </label>
         </th>
-        <th>
-            <label class="checkbox">
-                <input type="checkbox" id="check-all-subtests" /> {% trans "Subtests" %}
-            </label>
-        </th>
     </tr>
     <tr>
         <th>
-            <input type="text" id="filter-pagetest-id" placeholder=""/>
+            <input type="text" id="filter-test-id" placeholder=""/>
         </th>
         <th>
-            <input type="text" id="filter-pagetest-url" placeholder=""/>
-        </th>
-        <th>
-            <input type="text" id="filter-subtest-id" placeholder=""/>
+            <input type="text" id="filter-test-url" placeholder=""/>
         </th>
     </tr>
     </thead>
     <tbody>
     {% for test in tests %}
-        <tr class="filtered-pagetest-row">
+        <tr class="filtered-test-row">
             <td>
                 <label class="checkbox">
                     <input type="checkbox"
                            test_id="{{ test.id }}"
                            {% if test.checked %} checked {% endif %}
-                           class="test-chk"/>
-                    <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
+                           class="test-chk maintest-chk"/>
+                    <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
                     {% if test.status == 'new' %}
                         [{% trans "in development" %}]
                     {% endif %}
                 </label>
             </td>
             <td>
-                <a class="filtered-pagetest-url" href="{{ test.url }}">{{ test.url }}</a>
-            </td>
-            <td>
-                {% for subtest in test.subtests %}
-                    <label class="checkbox">
-                        <input class="subtest-chk"
-                               type="checkbox"
-                               {% if subtest.checked %} checked {% endif %}
-                               test_id="{{ subtest.id }}">
-                        <a class="filtered-subtest-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
-                        {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
-                    </label>
-                {% endfor %}
+                <a class="filtered-test-url" href="{{ test.url }}">{{ test.url }}</a>
             </td>
         </tr>
+        {% for subtest in test.subtests %}
+            <tr class="filtered-test-row">
+                <td>
+                    <label class="checkbox">
+                        <input main_test="{{ test.id }}" class="test-chk subtest-chk"
+                               type="checkbox"
+                                {% if subtest.checked %} checked {% endif %}
+                               test_id="{{ subtest.id }}">
+                        ↳<a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
+                        {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
+                    </label>
+                </td>
+                <td>
+                    &nbsp
+                </td>
+            </tr>
+        {% endfor %}
     {% endfor %}
     </tbody>
 </table>

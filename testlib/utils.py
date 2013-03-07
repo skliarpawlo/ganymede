@@ -49,6 +49,9 @@ class MainTest(Test) :
     def run(self):
         logger.write( u"Running test '{0}'".format( self.__doc__.decode("utf-8") ) )
 
+    def snapshot(self):
+        pass
+
 class RedirectTest(MainTest) :
 
     # [ [ url, redirect_status, to_url, to_status ],... ]
@@ -244,15 +247,14 @@ class PageTest( FunctionalTest ) :
                         subtest.run()
                         status = 'success'
                     except Exception as s :
-                        logger.write( u"Error: {0}".format(s) )
-                        logger.write( traceback.format_exc() )
-                        snapshot()
                         status = 'fail'
+                        logger.write( u"Error: {0}".format(s) )
+                        snapshot()
                         raise SubTestFail( subtest.__doc__.decode("utf-8") )
                     finally:
                         subtest.tearDown()
                         logger.set_status( status )
-                        logger.write( html.status_label( status, status ) )
+                        logger.write( html.status_label( status ) )
                         logger.save_test_result()
 
     def tearDown(self):

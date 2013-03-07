@@ -24,7 +24,7 @@
 
     <legend>
         {% trans "Task log" %} #{{ task.id }} {{ task.name }} ({{ task.repo }}:{{ task.branch }})
-        <a href="#" id="stop-task" task_id="{{ task.id }}" title="{% trans "Stop task" %}">
+        <a class="cursor-hand" id="stop-task" task_id="{{ task.id }}" title="{% trans "Stop task" %}">
             <img src="/static/images/stop.png" />
         </a>
         <img class="log-loader" src="/static/images/progress.gif"/>

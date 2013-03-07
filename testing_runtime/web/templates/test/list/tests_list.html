@@ -23,60 +23,57 @@
                 <th>
                     url
                 </th>
-                <th>
-                    {% trans "Subtests" %}
-                </th>
             </tr>
             <tr class="filters">
                 <th></th>
                 <th>
-                    <input type="text" id="filter-pagetest-id" placeholder=""/>
+                    <input type="text" id="filter-test-id" placeholder=""/>
                 </th>
                 <th>
-                    <input type="text" id="filter-pagetest-url" placeholder=""/>
-                </th>
-                <th>
-                    <input type="text" id="filter-subtest-id" placeholder=""/>
+                    <input type="text" id="filter-test-url" placeholder=""/>
                 </th>
             </tr>
             </thead>
             <tbody>
             {% for test in tests %}
-                <tr class="filtered-pagetest-row" test_id="{{test.id}}">
+                <tr class="filtered-test-row" test_id="{{test.id}}">
                     <td>
                         <a class="change-test" href="{% url testing_runtime.web.tests.update_test test.id %}">
                             <i class="icon-wrench"></i>
                         </a>
-                        <a class="remove-test" href="#">
+                        <a class="remove-test cursor-hand">
                             <i class="icon-trash"></i>
                         </a>
                     </td>
                     <td>
-                        <a class="filtered-pagetest-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
+                        <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
                             {{ test.doc }} (#{{test.id}})
                         </a>
                         {% if test.status == 'new' %}[{% trans "in development" %}]{% endif %}
                     </td>
-                    <td class="filtered-pagetest-url">
+                    <td class="filtered-test-url">
                         <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>
                     </td>
-                    <td>
-                        <ul class="unstyled">
-                        {% for subtest in test.subtests %}
-                            <li test_id="{{subtest.id}}">
-                                <a class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
-                                    <i class="icon-wrench"></i>
-                                </a>
-                                <a class="remove-test" href="#">
-                                    <i class="icon-trash"></i>
-                                </a>
-                                <a class="filtered-subtest-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">#{{ subtest.id }} {{ subtest.doc }}</a>
-                                {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
-                            </li>
-                        {% endfor %}
-                        </ul>
-                    </td>
                 </tr>
+                {% for subtest in test.subtests %}
+                    <tr class="filtered-test-row" test_id="{{subtest.id}}">
+                        <td>
+                            <a class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
+                                <i class="icon-wrench"></i>
+                            </a>
+                            <a class="remove-test cursor-hand">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+                            ↳<a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}(#{{ subtest.id }})</a>
+                            {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
+                        </td>
+                        <td>
+                            &nbsp
+                        </td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>

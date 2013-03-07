@@ -38,12 +38,12 @@ $(function(){
             "<td>${name}</td>"+
             "<td>" +
                 "<a href='/test/update/${test_id}'><i class='icon-file' title='test' /></a>" +
-                "<a href='#' class='show-log'>" +
+                "<a class='show-log cursor-hand'>" +
                     "<i class='icon-tasks' title='log' />" +
                 "</a>" +
                 "<div class='log'>{{html log}}</div>" +
                 "{{each artifacts}}" +
-                    "<a href='${$value.path}' title='screenshot'><i class='icon-picture' /></a>" +
+                    "<a class='fancybox' rel='group1' href='${$value.path}' title='${name}'><i class='icon-picture' /></a>" +
                 "{{/each}}" +
             "</td>" +
         "</span>";

@@ -39,48 +39,30 @@ $(function() {
         } else {
             $(this)
                 .parents("table")
-                .find("tr:visible .test-chk,tr:visible .subtest-chk,#check-all-subtests")
-                .prop("checked", false);
-        }
-    });
-
-    $("#check-all-subtests").change( function() {
-        if ($(this).is(":checked")) {
-            $(this)
-                .parents("table")
-                .find("tr:visible .subtest-chk")
-                .prop("checked", true)
-                .trigger("change");
-        } else {
-            $(this)
-                .parents("table")
-                .find("tr:visible .subtest-chk")
+                .find("tr:visible .test-chk")
                 .prop("checked", false);
         }
     });
 
     $(".subtest-chk").change( function() {
-        var count = $(this).parents("td").find(".subtest-chk:checked").size();
+        var count = $(this).parents("table").find(".subtest-chk:checked").size();
         if (count > 0) {
-            $(this).parents("tr").find(".test-chk").prop("checked", true);
+            $(this).parents("table").find(".maintest-chk[test_id='" + $(this).attr("main_test") + "']").prop("checked", true);
         }
     });
 
-    $(".test-chk").change( function() {
-        $(this).parents("tr").find(".subtest-chk").prop("checked", false);
+    $(".maintest-chk").change( function() {
+        $(this).parents("table").find(".subtest-chk[main_test='" + $(this).attr("test_id") + "']").prop("checked", false);
     });
 
     var filter_func = function() {
-        var url_filter = $("#filter-pagetest-url").val().toLowerCase();
-        var id_filter = $("#filter-pagetest-id").val().toLowerCase();
-        var sub_id_filter = $("#filter-subtest-id").val().toLowerCase();
-        $(".filtered-pagetest-row").each( function(ind,el) {
-            var url = $(el).find(".filtered-pagetest-url").text().toLowerCase();
-            var id = $(el).find(".filtered-pagetest-id").text().toLowerCase();
-            var sub_id = $(el).find(".filtered-subtest-id").text().toLowerCase();
+        var url_filter = $("#filter-test-url").val().toLowerCase();
+        var id_filter = $("#filter-test-id").val().toLowerCase();
+        $(".filtered-test-row").each( function(ind,el) {
+            var url = $(el).find(".filtered-test-url").text().toLowerCase();
+            var id = $(el).find(".filtered-test-id").text().toLowerCase();
             if ((url.search(url_filter) == -1) ||
-                (id.search(id_filter) == -1) ||
-                (sub_id.search(sub_id_filter) == -1)) {
+                (id.search(id_filter) == -1)) {
                 $(el).hide();
             } else {
                 $(el).show();
@@ -88,9 +70,8 @@ $(function() {
         });
     };
 
-    $("#filter-pagetest").keyup(filter_func);
-    $("#filter-pagetest-url").keyup(filter_func);
-    $("#filter-subtest-id").keyup(filter_func);
+    $("#filter-test-id").keyup(filter_func);
+    $("#filter-test-url").keyup(filter_func);
 
     // env
     var editor_env = gany.code.block( "env-script", {

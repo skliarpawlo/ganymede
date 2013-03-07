@@ -30,6 +30,7 @@ class Task(Base) :
     status = Column( Enum('waiting', 'running', 'success', 'fail'), nullable=False, default='waiting' )
     add_time = Column( DateTime )
     end_time = Column( DateTime )
+    total_time = Column( Integer, default=-1 )
     log = Column( Unicode, nullable=False, default=u"" )
     result = Column( Unicode, nullable=False, default=u"[]" )
     artifacts = Column( Unicode, nullable=False, default=u"[]" )

@@ -48,6 +48,6 @@ def _fetch_tests() :
         for x in a :
             if not x in b :
                 test = locals()[x]
-                if inspect.isclass(test) and issubclass(test, (utils.MainTest,utils.SubTest)) :
+                if inspect.isclass(test) and issubclass(test, utils.Test) :
                     _all_tests[ stored_test.test_id ] = test
                     _test_id_to_status[ stored_test.test_id ] = stored_test.status

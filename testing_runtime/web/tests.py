@@ -11,6 +11,9 @@ from testlib import utils
 import inspect
 import traceback
 
+from django.utils.translation import ugettext as _
+from decorators import html
+
 def verify_test(test_id=None,code=None) :
     errors = []
     present = False
@@ -27,7 +30,7 @@ def verify_test(test_id=None,code=None) :
         for x in a :
             if not x in b :
                 test = locals()[x]
-                if inspect.isclass(test) and issubclass(test, (utils.MainTest,utils.SubTest)) :
+                if inspect.isclass(test) and issubclass(test, utils.Test) :
                     present = True
 
                     if issubclass(test, utils.SubTest) :
@@ -99,6 +102,9 @@ def gather_tests_info( selected_tests = [] ) :
     return tests
 
 def create_test(request) :
+
+    title = html.title( [ _('Create'), _('Test'), _('Ganymede') ] )
+
     if request.method == 'POST' :
         err = verify_test( test_id=None, code=request.POST['code'] )
         if len(err) == 0 :
@@ -112,13 +118,16 @@ def create_test(request) :
             json_resp = json.dumps( { "status" : "error", "content" : err } )
             return HttpResponse(json_resp, mimetype="application/json")
     else :
-        return render_to_response('test/create/create_test.html')
+        return render_to_response('test/create/create_test.html', { 'title' : title })
 
 def list_tests(request) :
+    title = html.title( [ _('List'), _('Test'), _('Ganymede') ] )
     stored_tests = gather_tests_info()
-    return render_to_response('test/list/tests_list.html', { "tests" : stored_tests })
+    return render_to_response('test/list/tests_list.html', { "tests" : stored_tests, 'title' : title })
 
 def update_test(request, test_id) :
+    title = html.title( [ _('Update'), _('Test'), _('Ganymede') ] )
+
     test_id = int(test_id)
     if request.method == "POST" :
         err = verify_test( test_id = test_id, code = request.POST['code'] )
@@ -144,14 +153,10 @@ def update_test(request, test_id) :
         .one()
         test = {}
         test["id"] = test_id
-        test["name"] = utils.test_name(tests_config.all_tests()[test_id])
+        test["name"] = tests_config.all_tests()[test_id].__doc__
         test["code"] = test_model.code
         test["status"] = test_model.status
-        if issubclass(tests_config.all_tests()[ test_id ], utils.PageTest) :
-            test["type"] = "pagetest"
-        else :
-            test["type"] = "subtest"
-        return render_to_response("test/update/update_test.html",{"test":test})
+        return render_to_response("test/update/update_test.html",{"test":test,'title' : title})
 
 def remove_test(request) :
     test_id = int(request.POST[ 'test_id' ])
@@ -188,4 +193,5 @@ def screenshot(request) :
         return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
 
 def index(request) :
-    return render_to_response( 'index.html' )
+    title = html.title( [ _('Update'), _('Test'), _('Ganymede') ] )
+    return render_to_response( 'index.html', { 'title' : title } )

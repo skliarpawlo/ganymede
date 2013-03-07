@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-06 18:17+0200\n"
+"POT-Creation-Date: 2013-03-07 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: job.py:22 tasks.py:12 tests.py:106 templates/job/create/create_job.html:19
+msgid "Create"
+msgstr "Создать"
+
+#: job.py:22 job.py:44 job.py:74 templates/job/update/update_job.html:12
+msgid "Job"
+msgstr "Задача"
+
+#: job.py:22 job.py:44 job.py:74 tasks.py:12 tasks.py:39 tests.py:106
+#: tests.py:124 tests.py:129 tests.py:196
+#, fuzzy
+msgid "Ganymede"
+msgstr "Тестирующая система ЛУН"
+
+#: job.py:44 tests.py:124
+msgid "List"
+msgstr "Список"
+
+#: job.py:60 templates/job/list/list.html:47
+msgid "Not executed"
+msgstr "Не запускалось"
+
+#: job.py:74 tests.py:129 tests.py:196
+msgid "Update"
+msgstr "Изменение"
+
+#: tasks.py:12 tests.py:106 tests.py:124 tests.py:129 tests.py:196
+msgid "Test"
+msgstr "Тест"
+
+#: tasks.py:39 templates/job/list/list.html:51
+#: templates/job/state/realtime_log.html:45 templates/job/state/table.html:7
+#: templates/job/state/table.html.py:32 templates/modals/log_modal.html:6
+msgid "Log"
+msgstr "Лог"
+
+#: tasks.py:39 templates/job/state/table.html:6
+msgid "Task"
+msgstr "Задание"
 
 #: locale/js.py:2
 msgid "Error occured"
@@ -133,25 +173,16 @@ msgstr "Набор тестов"
 msgid "Main tests"
 msgstr "Основные тесты"
 
-#: templates/job/blocks/tests_list.html:20
-#: templates/test/list/tests_list.html:27
-msgid "Subtests"
-msgstr "Подтесты"
-
-#: templates/job/blocks/tests_list.html:47
-#: templates/job/blocks/tests_list.html:62
-#: templates/test/list/tests_list.html:58
-#: templates/test/list/tests_list.html:74
+#: templates/job/blocks/tests_list.html:39
+#: templates/job/blocks/tests_list.html:56
+#: templates/test/list/tests_list.html:52
+#: templates/test/list/tests_list.html:70
 msgid "in development"
 msgstr "в разработке"
 
 #: templates/job/create/create_job.html:12
 msgid "Creating job"
 msgstr "Создание задачи"
-
-#: templates/job/create/create_job.html:19
-msgid "Create"
-msgstr "Создать"
 
 #: templates/job/list/list.html:13 templates/layout/navbar.html:7
 msgid "Jobs"
@@ -168,16 +199,6 @@ msgstr "Название"
 #: templates/job/list/list.html:19
 msgid "Last run"
 msgstr "Последний запуск"
-
-#: templates/job/list/list.html:47
-msgid "Not executed"
-msgstr "Не запускалось"
-
-#: templates/job/list/list.html:51 templates/job/state/realtime_log.html:45
-#: templates/job/state/table.html:7 templates/job/state/table.html.py:41
-#: templates/modals/log_modal.html:6
-msgid "Log"
-msgstr "Лог"
 
 #: templates/job/state/realtime_log.html:26
 msgid "Task log"
@@ -211,17 +232,13 @@ msgstr "Пред."
 msgid "Next"
 msgstr "След."
 
-#: templates/job/state/table.html:6
-msgid "Id"
-msgstr "Id"
-
-#: templates/job/state/table.html:6 templates/job/update/update_job.html:12
-msgid "Job"
-msgstr "Задача"
-
 #: templates/job/state/table.html:8
 msgid "Start time"
 msgstr "Время запуска"
+
+#: templates/job/state/table.html:9
+msgid "Total time"
+msgstr "Время работы"
 
 #: templates/job/update/update_job.html:12
 msgid "changing"
@@ -299,8 +316,14 @@ msgid "Tests list"
 msgstr "Список тестов"
 
 #: templates/test/update/update_test.html:12
-msgid "Test"
-msgstr "Тест"
+msgid "Editing test"
+msgstr "Редактирование теста"
+
+#~ msgid "Subtests"
+#~ msgstr "Подтесты"
+
+#~ msgid "Id"
+#~ msgstr "Id"
 
 #~ msgid "New job"
 #~ msgstr "Новая задача"

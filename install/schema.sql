@@ -19,6 +19,7 @@ CREATE TABLE `gany_tasks` (
   `status` enum('waiting', 'running', 'fail', 'success') not null default 'waiting',
   `add_time` TIMESTAMP,
   `end_time` TIMESTAMP,
+  `total_time` int(11) default -1,
   `log` TEXT not null,
   `result` TEXT not null,
   `artifacts` TEXT not null,

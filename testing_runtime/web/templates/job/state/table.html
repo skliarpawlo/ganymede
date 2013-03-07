@@ -3,31 +3,22 @@
 <table class="table table-striped">
     <tr>
         <th>{% trans "Status" %}</th>
-        <th>{% trans "Id" %} + {% trans "Job" %}</th>
+        <th>{% trans "Task" %}</th>
         <th>{% trans "Log" %}</th>
         <th>{% trans "Start time" %}</th>
+        <th>{% trans "Total time" %}</th>
     </tr>
     {% for task in tasks %}
-        <tr
-{#            {% if task.status == 'running' %}#}
-{#                class="info"#}
-{#            {% elif task.status == 'waiting' %}#}
-{#                class="warning"#}
-{#            {% elif task.status == 'fail' %}#}
-{#                class="error"#}
-{#            {% elif task.status == 'success' %}#}
-{#                class="success"#}
-{#            {% endif %}#}
-        >
+        <tr>
             <td>
-                {% if task.status == 'running' %}
+                {% if task.status == 'Running' %}
                     <img src="/static/images/progress.gif"/>
                     <span class="label label-info">{{ task.status }}</span>
-                {% elif task.status == 'waiting' %}
+                {% elif task.status == 'Waiting' %}
                     <span class="label label-warning">{{ task.status }}</span>
-                {% elif task.status == 'fail' %}
+                {% elif task.status == 'Fail' %}
                     <span class="label label-important">{{ task.status }}</span>
-                {% elif task.status == 'success' %}
+                {% elif task.status == 'Success' %}
                     <span class="label label-success">{{ task.status }}</span>
                 {% endif %}
             </td>
@@ -37,11 +28,12 @@
                 </a>
             </td>
             <td>
-                {% if task.status == 'running' or task.status == 'success' or task.status == 'fail' %}
+                {% if task.status == 'Running' or task.status == 'Success' or task.status == 'Fail' %}
                     <a href="{% url testing_runtime.web.tasks.log task.id %}">{% trans "Log" %}</a>
                 {% endif %}
             </td>
             <td>{{ task.add_time }}</td>
+            <td>{{ task.total_time }}</td>
         </tr>
     {% endfor %}
 </table>

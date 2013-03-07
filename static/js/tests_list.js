@@ -1,25 +1,22 @@
 $(function(){
 
     var filter_func = function() {
-        var url_filter = $("#filter-pagetest-url").val().toLowerCase();
-        var id_filter = $("#filter-pagetest-id").val().toLowerCase();
-        var sub_id_filter = $("#filter-subtest-id").val().toLowerCase();
-        $(".filtered-pagetest-row").each( function(ind,el) {
-            var url = $(el).find(".filtered-pagetest-url").text().toLowerCase();
-            var id = $(el).find(".filtered-pagetest-id").text().toLowerCase();
-            var sub_id = $(el).find(".filtered-subtest-id").text().toLowerCase();
+        var url_filter = $("#filter-test-url").val().toLowerCase();
+        var id_filter = $("#filter-test-id").val().toLowerCase();
+        var sub_id_filter = $("#filter-test-id").val().toLowerCase();
+        $(".filtered-test-row").each( function(ind,el) {
+            var url = $(el).find(".filtered-test-url").text().toLowerCase();
+            var id = $(el).find(".filtered-test-id").text().toLowerCase();
             if ((url.search(url_filter) == -1) ||
-                (id.search(id_filter) == -1) ||
-                (sub_id.search(sub_id_filter) == -1)) {
+                (id.search(id_filter) == -1)) {
                 $(el).hide();
             } else {
                 $(el).show();
             }
         });
     };
-    $("#filter-pagetest-url").keyup(filter_func);
-    $("#filter-pagetest-id").keyup(filter_func);
-    $("#filter-subtest-id").keyup(filter_func);
+    $("#filter-test-url").keyup(filter_func);
+    $("#filter-test-id").keyup(filter_func);
 
     $(".remove-test").click( function() {
         var that = $(this);

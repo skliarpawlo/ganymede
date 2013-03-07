@@ -5,6 +5,8 @@ from testing_runtime.models import Job, Task, StoredTest
 from core import db
 import json
 from testing_runtime.web import tests
+from django.utils.translation import ugettext as _
+from decorators import html
 
 def json_to_tests( js ) :
     tests_ids = json.loads( js )
@@ -17,6 +19,8 @@ def json_to_tests( js ) :
     return tests_collect
 
 def create_job(request) :
+    title = html.title([ _('Create'), _('Job'), _('Ganymede') ])
+
     if request.method == 'POST' :
         name = request.POST[ 'name' ]
         env = request.POST[ 'env' ]
@@ -31,9 +35,14 @@ def create_job(request) :
         return HttpResponse(json_resp, mimetype="application/json")
     else :
         tests_data = tests.gather_tests_info()
-        return render_to_response( 'job/create/create_job.html', { 'tests' : tests_data, 'repos' : [], 'branches' : ['develop', 't-kz'] } )
+        return render_to_response( 'job/create/create_job.html', { 'title' : title,
+                                                                   'tests' : tests_data,
+                                                                   'repos' : [],
+                                                                   'branches' : ['develop', 't-kz'] } )
 
 def list_jobs(request) :
+    title = html.title( [ _('List'), _('Job'), _('Ganymede') ] )
+
     jobs = []
     for job in db.session.query(Job).all() :
         try :
@@ -42,15 +51,17 @@ def list_jobs(request) :
              order_by(Task.add_time.desc()).limit(1).one()
         except :
             last_task = None
+
         jobs.append( {
             "job_id" : job.job_id,
             "name" : job.name,
             "repo" : job.repo,
             "branch" : job.branch,
-            "last_status" : u"не запускался" if (last_task is None) else last_task.status,
+            "last_status" :  _( "Not executed" ) if (last_task is None) else last_task.status.capitalize(),
             "last_task_id" : None if (last_task is None) else last_task.task_id
         } )
-    return render_to_response( 'job/list/list.html', { 'jobs' : jobs } )
+    return render_to_response( 'job/list/list.html', { 'title' : title,
+                                                       'jobs' : jobs } )
 
 def remove_job(request) :
     job_id = request.POST[ 'job_id' ]
@@ -60,6 +71,8 @@ def remove_job(request) :
     return HttpResponse(json_resp, mimetype="application/json")
 
 def update_job(request, job_id) :
+    title = html.title( [ _('Update'), _('Job'), _('Ganymede') ] )
+
     if request.method == 'POST' :
         job = db.session.query(Job).filter( Job.job_id == job_id ).one()
         job.name = request.POST[ 'name' ]
@@ -87,6 +100,7 @@ def update_job(request, job_id) :
 
         return render_to_response(
             'job/update/update_job.html', {
+            'title' : title,
             'job' : job,
             'tests' : tests_data,
             'repos' : [],

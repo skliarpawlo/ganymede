@@ -18,6 +18,7 @@ import json
 from testlib import utils
 import sys
 import signal
+import time
 
 def run_test(test):
     """запускает PageTest"""
@@ -51,7 +52,7 @@ def run_test(test):
                 status = u'fail'
 
             core.logger.set_status( status )
-            core.logger.write( web.decorators.html.status_label( status, status ) )
+            core.logger.write( web.decorators.html.status_label( status ) )
             core.logger.save_test_result()
 
     return success
@@ -75,7 +76,7 @@ def run_task( task ) :
 
     return result
 
-def signal_handler( task ) :
+def signal_handler( task, start_time ) :
     task_id = task.task_id
 
     def stop_me( signum, frame ) :
@@ -87,9 +88,11 @@ def signal_handler( task ) :
 
         result = json.dumps( core.logger.get_all_results() )
         status = u"fail"
+        total_time = time.time() - start_time
+
         core.db.session.query( models.Task )\
         .filter( models.Task.task_id == task_id )\
-        .update( { "status" : status, "result" : result, "log" : log } )
+        .update( { "status" : status, "result" : result, "log" : log, "total_time" : total_time } )
 
         pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
         pid_file = os.path.join( pid_dir, "cron.pid" )
@@ -104,6 +107,7 @@ def signal_handler( task ) :
     signal.signal( signal.SIGUSR1, stop_me )
 
 def run_any() :
+    start_time = time.time()
     pid_dir = os.path.join( ganymede.settings.HEAP_PATH, "cron")
     core.path.ensure( pid_dir )
     pid_file = os.path.join( pid_dir, "cron.pid" )
@@ -115,12 +119,12 @@ def run_any() :
             task_id = task.task_id
             core.db.execute( "UPDATE gany_tasks SET status='running' WHERE task_id={0}".format( str(task.task_id) ) )
             try :
-                signal_handler( task )
+                signal_handler( task, start_time )
                 result = run_task( task )
             except :
                 result = False
                 with core.logger.current_task( task_id ) :
-                    core.logger.write(u"Exception raised: {0}".format(traceback.format_exc()))
+                    core.logger.write(u"Exception raised: {0}".format(traceback.format_exc().decode('utf-8')))
             finally :
                 core.db.reconnect()
 
@@ -130,9 +134,11 @@ def run_any() :
                     res = json.dumps( core.logger.get_all_results() )
                     log = core.logger.get_task_log()
 
+                total_time = time.time() - start_time
+
                 core.db.session.query( models.Task )\
                     .filter( models.Task.task_id == task_id )\
-                    .update( { "status" : status, "result" : res, "log" : log } )
+                    .update( { "status" : status, "result" : res, "log" : log, "total_time" : total_time } )
         except NoResultFound :
             pass
         core.lock.uncapture( pid_file )

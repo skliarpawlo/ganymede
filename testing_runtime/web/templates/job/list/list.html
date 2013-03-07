@@ -21,27 +21,27 @@
             {% for job in jobs %}
                 <tr job_id="{{ job.job_id }}" job_name="{{ job.name }}">
                     <td>
-                        <a class="run-job" href="#">
+                        <a class="run-job cursor-hand">
                             <i class="icon-play"></i>
                         </a>
                         <a class="change-job" href="{% url testing_runtime.web.job.update_job job.job_id %}">
                             <i class="icon-wrench"></i>
                         </a>
-                        <a class="remove-job" href="#">
+                        <a class="remove-job cursor-hand">
                             <i class="icon-trash"></i>
                         </a>
                     </td>
                     <td><a href="{% url testing_runtime.web.job.update_job job.job_id %}">#{{ job.job_id }} {{ job.name }}</a></td>
                     <td>{{ job.repo }}:{{ job.branch }}</td>
                     <td>
-                        {% if job.last_status == 'running' %}
+                        {% if job.last_status == 'Running' %}
                             <img src="/static/images/progress.gif"/>
                             <span class="label label-info">{{ job.last_status }}</span>
-                        {% elif job.last_status == 'waiting' %}
+                        {% elif job.last_status == 'Waiting' %}
                             <span class="label label-warning">{{ job.last_status }}</span>
-                        {% elif job.last_status == 'fail' %}
+                        {% elif job.last_status == 'Fail' %}
                             <span class="label label-important">{{ job.last_status }}</span>
-                        {% elif job.last_status == 'success' %}
+                        {% elif job.last_status == 'Success' %}
                             <span class="label label-success">{{ job.last_status }}</span>
                         {% else %}
                             {% trans "Not executed" %}
