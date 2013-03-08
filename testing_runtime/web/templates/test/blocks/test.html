@@ -4,7 +4,7 @@
 
 {% if not test %}
 <p>
-    <label for="template-selector">{% trans "Test templates" %}</label>
+    <label for="template-selector">{% trans "Template" %}</label>
     <select id="template-selector">
         <option selected="selected">
             {% trans "Empty test" %}
@@ -33,10 +33,10 @@
 {% endif %}
 
 <p>
-    <label for="test-status">{% trans "Test in development" %}</label>
+    <label for="test-status">{% trans "Status" %}</label>
     <input type="checkbox" id="test-status"
         {% if not test or test.status == 'new' %}checked="checked"{% endif %}
-    >
+    >&nbsp{% trans "Test in development" %}
 </p>
 
 <legend>{% trans "Test source code" %}</legend>

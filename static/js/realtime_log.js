@@ -18,6 +18,7 @@ $(function(){
     });
 
     $(document).bind("data-appended", function() {
+        $("#result-table").show();
         $(".show-log").unbind("click").bind( "click", function() {
             gany.modals.info( $(this).next().html().split("\n").join("<br/>") );
         });
@@ -107,12 +108,21 @@ $(function(){
                 }
                 $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
 
-                $.tmpl( "result_markup", data.content.result).css("display", "none").appendTo("#result-data").fadeIn(360);
+                $.tmpl( "result_markup", data.content.result)
+                    .css("display", "none")
+                    .appendTo("#result-data")
+                    .fadeIn(360);
 
                 if ( data.content.current != false ) {
-                    if ( data.content.current.state == 'new' ) {
-                        $("#result-data").find(".current-running").remove();
-                        $.tmpl( "current_markup", data.content.current).css("display", "none").appendTo("#result-data").fadeIn(0);
+                    if ( data.content.current.state == 'new' ||
+                        $("#result-data").find(".current-running").size() == 0 ) {
+                        $("#result-data")
+                            .find(".current-running")
+                            .remove();
+                        $.tmpl( "current_markup", data.content.current)
+                            .css("display", "none")
+                            .appendTo("#result-data")
+                            .fadeIn(0);
                     } else {
                         $("#current-test-log").append( data.content.current.log );
                     }

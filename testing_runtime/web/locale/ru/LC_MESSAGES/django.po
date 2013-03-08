@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-07 11:35+0200\n"
+"POT-Creation-Date: 2013-03-08 14:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,6 @@ msgstr "Создать"
 #: job.py:22 job.py:44 job.py:74 templates/job/update/update_job.html:12
 msgid "Job"
 msgstr "Задача"
-
-#: job.py:22 job.py:44 job.py:74 tasks.py:12 tasks.py:39 tests.py:106
-#: tests.py:124 tests.py:129 tests.py:196
-msgid "Ganymede"
-msgstr "Тестирующая система ЛУН"
 
 #: job.py:44 tests.py:124
 msgid "List"
@@ -282,8 +277,8 @@ msgid "Yes"
 msgstr "Да"
 
 #: templates/test/blocks/test.html:7
-msgid "Test templates"
-msgstr "Шаблоны тестов"
+msgid "Template"
+msgstr "Шаблон"
 
 #: templates/test/blocks/test.html:10
 msgid "Empty test"
@@ -324,6 +319,9 @@ msgstr "Список тестов"
 #: templates/test/update/update_test.html:12
 msgid "Editing test"
 msgstr "Редактирование теста"
+
+#~ msgid "Ganymede"
+#~ msgstr "Тестирующая система ЛУН"
 
 #~ msgid "Subtests"
 #~ msgstr "Подтесты"
