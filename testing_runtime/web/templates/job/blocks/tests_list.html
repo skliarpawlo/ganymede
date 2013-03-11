@@ -6,58 +6,78 @@
     <thead>
     <tr>
         <th>
-            <label class="checkbox">
-                <input type="checkbox" id="check-all-tests" /> {% trans "Main tests" %}
-            </label>
+            <input type="checkbox" id="check-all-tests" />
         </th>
         <th>
-            <label class="checkbox">
-                Url
-            </label>
+            {% trans "Main tests" %}
+        </th>
+        <th>
+            Url
+        </th>
+        <th>
+            {% trans "Parent test" %}
         </th>
     </tr>
     <tr>
+        <th>
+        </th>
         <th>
             <input type="text" id="filter-test-id" placeholder=""/>
         </th>
         <th>
             <input type="text" id="filter-test-url" placeholder=""/>
         </th>
+        <th>
+            <select id="filter-test-parent">
+                <option value="" selected="selected">{% trans "Empty" %}</option>
+                {% for test in tests %}
+                    {% if test.subtests %}
+                        <option value="{{ test.id }}">{{ test.doc }} (#{{ test.id }})</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </th>
     </tr>
     </thead>
     <tbody>
     {% for test in tests %}
-        <tr class="filtered-test-row">
+        <tr class="filtered-test-row" test_id="{{test.id}}">
             <td>
-                <label class="checkbox">
-                    <input type="checkbox"
-                           test_id="{{ test.id }}"
-                           {% if test.checked %} checked {% endif %}
-                           class="test-chk maintest-chk"/>
-                    <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
-                    {% if test.status == 'new' %}
-                        [{% trans "in development" %}]
-                    {% endif %}
-                </label>
+                <input type="checkbox"
+                       test_id="{{ test.id }}"
+                        {% if test.checked %} checked {% endif %}
+                       class="test-chk maintest-chk"/>
+            </td>
+            <td>
+                <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
+                {% if test.status == 'new' %}
+                    [{% trans "in development" %}]
+                {% endif %}
             </td>
             <td>
                 <a class="filtered-test-url" href="{{ test.url }}">{{ test.url }}</a>
+            </td>
+            <td>
+                &nbsp
             </td>
         </tr>
         {% for subtest in test.subtests %}
             <tr class="filtered-test-row">
                 <td>
-                    <label class="checkbox">
-                        <input main_test="{{ test.id }}" class="test-chk subtest-chk"
-                               type="checkbox"
-                                {% if subtest.checked %} checked {% endif %}
-                               test_id="{{ subtest.id }}">
-                        ↳<a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
-                        {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
-                    </label>
+                    <input main_test="{{ test.id }}" class="test-chk subtest-chk"
+                           type="checkbox"
+                            {% if subtest.checked %} checked {% endif %}
+                           test_id="{{ subtest.id }}">
+                </td>
+                <td>
+                    ↳ <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
+                    {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
                 </td>
                 <td>
                     &nbsp
+                </td>
+                <td>
+                    {{ test.doc }} (#<span class='filtered-test-parent'>{{ test.id }}</span>)
                 </td>
             </tr>
         {% endfor %}

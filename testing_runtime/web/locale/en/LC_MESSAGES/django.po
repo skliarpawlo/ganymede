@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-08 14:22+0200\n"
+"POT-Creation-Date: 2013-03-11 12:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: job.py:22 job.py:44 job.py:74 templates/job/update/update_job.html:12
+#: job.py:22 job.py:44 job.py:74 templates/job/state/table.html:7
+#: templates/job/update/update_job.html:12
 msgid "Job"
 msgstr ""
 
@@ -42,12 +43,12 @@ msgid "Test"
 msgstr ""
 
 #: tasks.py:39 templates/job/list/list.html:51
-#: templates/job/state/realtime_log.html:45 templates/job/state/table.html:7
-#: templates/job/state/table.html.py:32 templates/modals/log_modal.html:6
+#: templates/job/state/realtime_log.html:45 templates/job/state/table.html:8
+#: templates/job/state/table.html.py:34 templates/modals/log_modal.html:6
 msgid "Log"
 msgstr ""
 
-#: tasks.py:39 templates/job/state/table.html:6
+#: tasks.py:39
 msgid "Task"
 msgstr ""
 
@@ -167,15 +168,25 @@ msgstr ""
 msgid "Test case"
 msgstr ""
 
-#: templates/job/blocks/tests_list.html:10
+#: templates/job/blocks/tests_list.html:12
 #: templates/test/list/tests_list.html:21
 msgid "Main tests"
 msgstr ""
 
-#: templates/job/blocks/tests_list.html:39
-#: templates/job/blocks/tests_list.html:56
-#: templates/test/list/tests_list.html:52
-#: templates/test/list/tests_list.html:70
+#: templates/job/blocks/tests_list.html:18
+#: templates/test/list/tests_list.html:27
+msgid "Parent test"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:32
+#: templates/test/list/tests_list.html:40
+msgid "Empty"
+msgstr ""
+
+#: templates/job/blocks/tests_list.html:54
+#: templates/job/blocks/tests_list.html:74
+#: templates/test/list/tests_list.html:65
+#: templates/test/list/tests_list.html:86
 msgid "in development"
 msgstr ""
 
@@ -207,7 +218,8 @@ msgstr ""
 msgid "Stop task"
 msgstr ""
 
-#: templates/job/state/realtime_log.html:36 templates/job/state/table.html:5
+#: templates/job/state/realtime_log.html:36 templates/job/state/table.html:6
+#: templates/test/blocks/test.html:36
 msgid "Status"
 msgstr ""
 
@@ -231,11 +243,11 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/job/state/table.html:8
+#: templates/job/state/table.html:9
 msgid "Start time"
 msgstr ""
 
-#: templates/job/state/table.html:9
+#: templates/job/state/table.html:10
 msgid "Total time"
 msgstr ""
 
@@ -298,7 +310,7 @@ msgstr ""
 msgid "Redirect check test"
 msgstr ""
 
-#: templates/test/blocks/test.html:36
+#: templates/test/blocks/test.html:39
 msgid "Test in development"
 msgstr ""
 

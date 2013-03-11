@@ -1,4 +1,5 @@
 class ${className}(utils.SeleniumIDETest):
+    """Insert test description here"""
     def setUp(self):
         utils.SeleniumIDETest.setUp(self)
         self.base_url = "${baseURL}"

@@ -21,7 +21,10 @@
                     {% trans "Main tests" %}
                 </th>
                 <th>
-                    url
+                    Url
+                </th>
+                <th>
+                    {% trans "Parent test" %}
                 </th>
             </tr>
             <tr class="filters">
@@ -31,6 +34,16 @@
                 </th>
                 <th>
                     <input type="text" id="filter-test-url" placeholder=""/>
+                </th>
+                <th>
+                    <select id="filter-test-parent">
+                        <option value="" selected="selected">{% trans "Empty" %}</option>
+                        {% for test in tests %}
+                            {% if test.subtests %}
+                                <option value="{{ test.id }}">{{ test.doc }} (#{{ test.id }})</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
                 </th>
             </tr>
             </thead>
@@ -54,6 +67,9 @@
                     <td class="filtered-test-url">
                         <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>
                     </td>
+                    <td>
+                        &nbsp
+                    </td>
                 </tr>
                 {% for subtest in test.subtests %}
                     <tr class="filtered-test-row" test_id="{{subtest.id}}">
@@ -66,11 +82,14 @@
                             </a>
                         </td>
                         <td>
-                            ↳<a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}(#{{ subtest.id }})</a>
+                            ↳ <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}(#{{ subtest.id }})</a>
                             {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
                         </td>
                         <td>
                             &nbsp
+                        </td>
+                        <td>
+                            {{ test.doc }} (#<span class='filtered-test-parent'>{{ test.id }}</span>)
                         </td>
                     </tr>
                 {% endfor %}
