@@ -12,11 +12,6 @@ img.fancy-boxed {
     display: none;
 }
 
-#log-block {
-    display: none;
-    border: 1px solid #bcb5ba; padding: 0px;
-}
-
 #result-table {
     display: none;
 }

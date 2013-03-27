@@ -4,17 +4,17 @@
 
 {% block head %}
     {{ block.super }}
-    <script src="/static/js/create_job.js"></script>
+    <script src="/static/js/add_job.js"></script>
 {% endblock %}
 
 {% block content %}
 
-    <legend>{% trans "Creating job" %}</legend>
+    <legend>{% trans "Add job" %}</legend>
 
     {% include "job/blocks/job.html" %}
 
 {% endblock %}
 
 {% block bottom-navbar-items %}
-        <input type="button" class="btn" id="сreate-job-btn" value="{% trans "Create" %}"/>
+        <input type="button" class="btn" id="сreate-job-btn" value="{% trans "Add job" %}"/>
 {% endblock %}

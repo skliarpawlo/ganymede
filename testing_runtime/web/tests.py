@@ -101,9 +101,9 @@ def gather_tests_info( selected_tests = [] ) :
 
     return tests
 
-def create_test(request) :
+def add_test(request) :
 
-    title = html.title( [ _('Create'), _('Test'), 'Ganymede' ] )
+    title = html.title( [ _('Add test'), _('Tests'), 'Ganymede' ] )
 
     if request.method == 'POST' :
         err = verify_test( test_id=None, code=request.POST['code'] )
@@ -118,15 +118,15 @@ def create_test(request) :
             json_resp = json.dumps( { "status" : "error", "content" : err } )
             return HttpResponse(json_resp, mimetype="application/json")
     else :
-        return render_to_response('test/create/create_test.html', { 'title' : title })
+        return render_to_response('test/add/add_test.html', { 'title' : title })
 
 def list_tests(request) :
-    title = html.title( [ _('List'), _('Test'), 'Ganymede' ] )
+    title = html.title( [ _('Tests'), 'Ganymede' ] )
     stored_tests = gather_tests_info()
     return render_to_response('test/list/tests_list.html', { "tests" : stored_tests, 'title' : title })
 
 def update_test(request, test_id) :
-    title = html.title( [ _('Update'), _('Test'), 'Ganymede' ] )
+    title = html.title( [ _('Update test') + " #" + str(test_id), _('Tests'), 'Ganymede' ] )
 
     test_id = int(test_id)
     if request.method == "POST" :
@@ -193,5 +193,5 @@ def screenshot(request) :
         return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
 
 def index(request) :
-    title = html.title( [ _('Main'), _('Index'), 'Ganymede' ] )
+    title = html.title( [ _('Index'), 'Ganymede' ] )
     return render_to_response( 'index.html', { 'title' : title } )

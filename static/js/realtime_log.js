@@ -24,10 +24,6 @@ $(function(){
         });
     });
 
-    $("#toggle-task-log").click(function(){
-        $("#log-block").toggle();
-    });
-
     var result_markup =
         "<tr class='test-result-row'>" +
             "<td>" +

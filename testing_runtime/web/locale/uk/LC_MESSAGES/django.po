@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-11 12:21+0200\n"
+"POT-Creation-Date: 2013-03-27 13:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: job.py:22 tasks.py:12 tests.py:106 templates/job/create/create_job.html:19
-msgid "Create"
-msgstr "Створити"
+#: job.py:22 templates/job/add/add_job.html:12
+#: templates/job/add/add_job.html.py:19 templates/layout/navbar.html:10
+msgid "Add job"
+msgstr "Додати задачу"
 
-#: job.py:22 job.py:44 job.py:74 templates/job/state/table.html:7
-#: templates/job/update/update_job.html:12
-msgid "Job"
-msgstr "Задача"
-
-#: job.py:44 tests.py:124
-msgid "List"
-msgstr "Список"
+#: job.py:22 job.py:44 job.py:74 templates/job/list/list.html:13
+#: templates/layout/navbar.html:7
+msgid "Jobs"
+msgstr "Задачі"
 
 #: job.py:60 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr "Не запускалося"
 
-#: job.py:74 tests.py:129
-msgid "Update"
-msgstr "Редагування"
+#: job.py:74 templates/job/list/list.html:27
+msgid "Update job"
+msgstr "Змінити задачу"
 
-#: tasks.py:12 tests.py:106 tests.py:124 tests.py:129
-msgid "Test"
-msgstr "Тест"
+#: tasks.py:12 templates/job/state/state.html:13
+#: templates/layout/navbar.html:4
+msgid "System state"
+msgstr "Стан системи"
 
-#: tasks.py:39 templates/job/list/list.html:51
-#: templates/job/state/realtime_log.html:45 templates/job/state/table.html:8
-#: templates/job/state/table.html.py:34 templates/modals/log_modal.html:6
-msgid "Log"
-msgstr "Лог"
+#: tasks.py:39 templates/job/state/realtime_log.html:26
+msgid "Task log"
+msgstr "Лог завдання"
 
 #: tasks.py:39
-msgid "Task"
+msgid "Tasks"
 msgstr "Завдання"
 
-#: tests.py:196
-msgid "Main"
-msgstr "Головна"
+#: tests.py:106 templates/layout/navbar.html:16
+#: templates/test/add/add_test.html:12 templates/test/add/add_test.html:19
+msgid "Add test"
+msgstr "Додати тест"
+
+#: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:21
+#: templates/job/blocks/tests_list.html:12 templates/layout/navbar.html:13
+#: templates/test/list/tests_list.html:20
+msgid "Tests"
+msgstr "Тести"
+
+#: tests.py:129 templates/test/list/tests_list.html:53
+#: templates/test/list/tests_list.html:76
+msgid "Update test"
+msgstr "Змінити тест"
 
 #: tests.py:196
 msgid "Index"
@@ -81,11 +89,11 @@ msgid "Repository synchronized"
 msgstr "Репозіторій синхронізовано"
 
 #: locale/js.py:7
-msgid "Are you sure want to delete job"
+msgid "Are you sure want to remove job"
 msgstr "Ви впевнені, що хочете видалити задачу"
 
 #: locale/js.py:8
-msgid "Are you sure want to delete test"
+msgid "Are you sure want to remove test"
 msgstr "Ви впевнені, що хочете видалити тест"
 
 #: locale/js.py:9
@@ -156,10 +164,6 @@ msgstr "Загальне"
 msgid "Git"
 msgstr "Git"
 
-#: templates/job/blocks/job.html:21 templates/layout/navbar.html:13
-msgid "Tests"
-msgstr "Тести"
-
 #: templates/job/blocks/job.html:24
 msgid "Environment"
 msgstr "Оточення"
@@ -168,38 +172,29 @@ msgstr "Оточення"
 msgid "Test case"
 msgstr "Набір тестів"
 
-#: templates/job/blocks/tests_list.html:12
-#: templates/test/list/tests_list.html:21
-msgid "Main tests"
-msgstr "Основні тести"
+#: templates/job/blocks/tests_list.html:15
+#: templates/test/list/tests_list.html:23
+msgid "Page"
+msgstr "Сторінка"
 
 #: templates/job/blocks/tests_list.html:18
-#: templates/test/list/tests_list.html:27
+#: templates/test/list/tests_list.html:26
 msgid "Parent test"
 msgstr "Батьківський тест"
 
 #: templates/job/blocks/tests_list.html:32
-#: templates/test/list/tests_list.html:40
+#: templates/test/list/tests_list.html:39
 msgid "Empty"
 msgstr "Пусто"
 
 #: templates/job/blocks/tests_list.html:54
-#: templates/job/blocks/tests_list.html:74
-#: templates/test/list/tests_list.html:65
-#: templates/test/list/tests_list.html:86
-#: templates/test/blocks/test.html:40
+#: templates/job/blocks/tests_list.html:74 templates/test/blocks/test.html:40
+#: templates/test/list/tests_list.html:64
+#: templates/test/list/tests_list.html:85
 msgid "in development"
 msgstr "у розробці"
 
-#: templates/job/create/create_job.html:12
-msgid "Creating job"
-msgstr "Створення задачі"
-
-#: templates/job/list/list.html:13 templates/layout/navbar.html:7
-msgid "Jobs"
-msgstr "Задачі"
-
-#: templates/job/list/list.html:16 templates/test/list/tests_list.html:18
+#: templates/job/list/list.html:16
 msgid "Operations"
 msgstr "Операції"
 
@@ -211,30 +206,43 @@ msgstr "Назва"
 msgid "Last run"
 msgstr "Останній запуск"
 
-#: templates/job/state/realtime_log.html:26
-msgid "Task log"
-msgstr "Лог завдання"
+#: templates/job/list/list.html:24
+msgid "Run job"
+msgstr "Виконати задачу"
+
+#: templates/job/list/list.html:30
+msgid "Remove job"
+msgstr "Видалити задачу"
+
+#: templates/job/list/list.html:51 templates/job/state/table.html:8
+#: templates/job/state/table.html.py:34 templates/modals/log_modal.html:6
+msgid "Log"
+msgstr "Лог"
 
 #: templates/job/state/realtime_log.html:27
 msgid "Stop task"
 msgstr "Зупинити завдання"
 
-#: templates/job/state/realtime_log.html:36 templates/job/state/table.html:6
+#: templates/job/state/realtime_log.html:36
+msgid "Table log"
+msgstr "Табличний лог"
+
+#: templates/job/state/realtime_log.html:39
+msgid "General log"
+msgstr "Загальний лог"
+
+#: templates/job/state/realtime_log.html:47 templates/job/state/table.html:6
 #: templates/test/blocks/test.html:36
 msgid "Status"
 msgstr "Статус"
 
-#: templates/job/state/realtime_log.html:37
+#: templates/job/state/realtime_log.html:48
 msgid "Test name"
 msgstr "Назва теста"
 
-#: templates/job/state/realtime_log.html:38
+#: templates/job/state/realtime_log.html:49
 msgid "Additional info"
 msgstr "Додаткова інформація"
-
-#: templates/job/state/state.html:13 templates/layout/navbar.html:4
-msgid "System state"
-msgstr "Стан системи"
 
 #: templates/job/state/state.html:27
 msgid "Prev"
@@ -243,6 +251,10 @@ msgstr "Назад"
 #: templates/job/state/state.html:35
 msgid "Next"
 msgstr "Вперед"
+
+#: templates/job/state/table.html:7 templates/job/update/update_job.html:12
+msgid "Job"
+msgstr "Задача"
 
 #: templates/job/state/table.html:9
 msgid "Start time"
@@ -253,8 +265,9 @@ msgid "Total time"
 msgstr "Час роботи"
 
 #: templates/job/update/update_job.html:12
+#: templates/test/update/update_test.html:12
 msgid "changing"
-msgstr "змінюється"
+msgstr "вносяться зміни"
 
 #: templates/job/update/update_job.html:19
 #: templates/test/update/update_test.html:19
@@ -266,15 +279,6 @@ msgstr "Зберегти"
 #: templates/test/update/update_test.html:21
 msgid "Cancel"
 msgstr "Відмінити"
-
-#: templates/layout/navbar.html:10
-msgid "Create job"
-msgstr "Створити задачу"
-
-#: templates/test/create/create_test.html:12
-#: templates/layout/navbar.html:16 templates/test/create/create_test.html:19
-msgid "Add test"
-msgstr "Додати тест"
 
 #: templates/modals/info_modal.html:5
 msgid "Info"
@@ -312,7 +316,7 @@ msgstr "Тест завантаження при виборі"
 msgid "Redirect check test"
 msgstr "Перевірка перенаправлення"
 
-#: templates/test/blocks/test.html:42
+#: templates/test/blocks/test.html:44
 msgid "Test source code"
 msgstr "Вихідний код тесту"
 
@@ -320,22 +324,12 @@ msgstr "Вихідний код тесту"
 msgid "Tests list"
 msgstr "Список тестів"
 
+#: templates/test/list/tests_list.html:56
+#: templates/test/list/tests_list.html:79
+msgid "Remove test"
+msgstr "Видалити тест"
+
 #: templates/test/update/update_test.html:12
-msgid "Editing test"
-msgstr "Редагування тесту"
+msgid "Test"
+msgstr "Тест"
 
-#~ msgid "Ganymede"
-#~ msgstr "Тестуюча система ЛУН"
-
-#~ msgid "Subtests"
-#~ msgstr "Підтести"
-
-#~ msgid "Id"
-#~ msgstr "Id"
-
-#~ msgid "New job"
-#~ msgstr "Нова задача"
-
-#, fuzzy
-#~ msgid "Lun ua testing system"
-#~ msgstr "Тестуюча система ЛУН"

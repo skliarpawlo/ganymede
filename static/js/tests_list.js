@@ -30,7 +30,7 @@ $(function(){
     $(".remove-test").click( function() {
         var that = $(this);
         var test_id = $(this).parents("tr,li").attr("test_id");
-        gany.modals.rusure( gettext('Are you sure want to delete test') + " " + test_id + " ?", function() {
+        gany.modals.rusure( gettext('Are you sure want to remove test') + " " + test_id + " ?", function() {
             this.modal('hide');
             $.post("/test/remove", { test_id : test_id }, function(data) {
                 if (data.status == "ok") {

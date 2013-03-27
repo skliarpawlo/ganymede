@@ -18,8 +18,8 @@ def json_to_tests( js ) :
         )
     return tests_collect
 
-def create_job(request) :
-    title = html.title([ _('Create'), _('Job'), 'Ganymede' ])
+def add_job(request) :
+    title = html.title([ _('Add job'), _('Jobs'), 'Ganymede' ])
 
     if request.method == 'POST' :
         name = request.POST[ 'name' ]
@@ -35,13 +35,13 @@ def create_job(request) :
         return HttpResponse(json_resp, mimetype="application/json")
     else :
         tests_data = tests.gather_tests_info()
-        return render_to_response( 'job/create/create_job.html', { 'title' : title,
+        return render_to_response( 'job/add/add_job.html', { 'title' : title,
                                                                    'tests' : tests_data,
                                                                    'repos' : [],
                                                                    'branches' : ['develop', 't-kz'] } )
 
 def list_jobs(request) :
-    title = html.title( [ _('List'), _('Job'), 'Ganymede' ] )
+    title = html.title( [ _('Jobs'), 'Ganymede' ] )
 
     jobs = []
     for job in db.session.query(Job).all() :
@@ -71,7 +71,7 @@ def remove_job(request) :
     return HttpResponse(json_resp, mimetype="application/json")
 
 def update_job(request, job_id) :
-    title = html.title( [ _('Update'), _('Job'), 'Ganymede' ] )
+    title = html.title( [ _('Update job'), _('Jobs'), 'Ganymede' ] )
 
     if request.method == 'POST' :
         job = db.session.query(Job).filter( Job.job_id == job_id ).one()

@@ -30,21 +30,33 @@
         <img class="log-loader" src="/static/images/progress.gif"/>
     </legend>
 
-    <table id="result-table" class="table">
-        <thead>
-            <tr>
-                <th>{% trans "Status" %}</th>
-                <th>{% trans "Test name" %}</th>
-                <th>{% trans "Additional info" %}</th>
-            </tr>
-        </thead>
-        <tbody id="result-data">
-        </tbody>
-    </table>
-
-    <a class="cursor-hand" id="toggle-task-log">{% trans "Log" %}</a>
-    <div id="log-block"></div>
-
-    <img class="log-loader" src="/static/images/progress.gif"/>
-
+    <div class="tabbable tabs-top">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab0" data-toggle="tab">{% trans "Table log" %}</a>
+            </li>
+            <li>
+                <a href="#tab1" data-toggle="tab">{% trans "General log" %}</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab0">
+                <table id="result-table" class="table">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Test name" %}</th>
+                        <th>{% trans "Additional info" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody id="result-data">
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="tab1">
+                <div id="log-block"></div>
+                <img class="log-loader" src="/static/images/progress.gif"/>
+            </div>
+        </div>
+    </div>
 {% endblock %}

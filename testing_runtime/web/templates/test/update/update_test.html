@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <legend>{% trans "Editing test" %} #{{ test.id }} {{ test.name }}</legend>
+    <legend>{% trans "Test" %} #{{ test.id }} "{{ test.name }}" ({% trans "changing" %})</legend>
 
     {% include "test/blocks/test.html" %}
 

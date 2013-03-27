@@ -10,6 +10,7 @@ var gany = (function() {
                 document.location.reload();
             } );
         });
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
     var urls = {
