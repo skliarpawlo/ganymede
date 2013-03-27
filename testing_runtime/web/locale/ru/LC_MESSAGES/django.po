@@ -189,6 +189,7 @@ msgstr "Пусто"
 #: templates/job/blocks/tests_list.html:74
 #: templates/test/list/tests_list.html:65
 #: templates/test/list/tests_list.html:86
+#: templates/test/blocks/test.html:40
 msgid "in development"
 msgstr "в разработке"
 
@@ -272,6 +273,7 @@ msgstr "Отменить"
 msgid "Create job"
 msgstr "Создать задачу"
 
+#: templates/test/create/create_test.html:12
 #: templates/layout/navbar.html:16 templates/test/create/create_test.html:19
 msgid "Add test"
 msgstr "Добавить тест"
@@ -312,17 +314,9 @@ msgstr "Тест подгрузки при выборе"
 msgid "Redirect check test"
 msgstr "Тест перенаправления"
 
-#: templates/test/blocks/test.html:39
-msgid "Test in development"
-msgstr "Тест в разработке"
-
 #: templates/test/blocks/test.html:42
 msgid "Test source code"
 msgstr "Исходный код теста"
-
-#: templates/test/create/create_test.html:12
-msgid "Adding test"
-msgstr "Добавление теста"
 
 #: templates/test/list/tests_list.html:13
 msgid "Tests list"

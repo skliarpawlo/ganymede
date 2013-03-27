@@ -83,7 +83,7 @@
                         </td>
                         <td>
                             ↳ <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}(#{{ subtest.id }})</a>
-                            {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
+                            {% if subtest.status == 'new' %}<small class="muted">[{% trans "in development" %}]</small>{% endif %}
                         </td>
                         <td>
                             &nbsp

@@ -37,6 +37,7 @@ a.lang-chooser:not(.active) img {
 
 a.lang-chooser:hover {
     cursor: hand; cursor: pointer;
+    text-decoration: none;
 }
 
 .cursor-hand {

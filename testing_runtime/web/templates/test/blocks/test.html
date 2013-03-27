@@ -33,10 +33,12 @@
 {% endif %}
 
 <p>
-    <label for="test-status">{% trans "Status" %}</label>
+    <label>{% trans "Status" %}</label>
+    <label for="test-status" class="checkbox inline">
     <input type="checkbox" id="test-status"
         {% if not test or test.status == 'new' %}checked="checked"{% endif %}
-    >&nbsp{% trans "Test in development" %}
+    >&nbsp{% trans "in development" %}
+    </label>
 </p>
 
 <legend>{% trans "Test source code" %}</legend>
