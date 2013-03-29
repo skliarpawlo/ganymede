@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-27 13:56+0200\n"
+"POT-Creation-Date: 2013-03-28 18:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,7 @@ msgid "Not executed"
 msgstr "Не запускалось"
 
 #: job.py:74 templates/job/list/list.html:27
+#: templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr "Изменить задачу"
 
@@ -56,13 +57,13 @@ msgid "Add test"
 msgstr "Добавить тест"
 
 #: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:21
-#: templates/job/blocks/tests_list.html:12 templates/layout/navbar.html:13
-#: templates/test/list/tests_list.html:20
+#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
 msgid "Tests"
 msgstr "Тесты"
 
 #: tests.py:129 templates/test/list/tests_list.html:53
 #: templates/test/list/tests_list.html:76
+#: templates/test/update/update_test.html:12
 msgid "Update test"
 msgstr "Изменить тест"
 
@@ -174,6 +175,11 @@ msgstr "Окружение"
 msgid "Test case"
 msgstr "Набор тестов"
 
+#: templates/job/blocks/tests_list.html:12
+#: templates/test/list/tests_list.html:20
+msgid "Test"
+msgstr "Тест"
+
 #: templates/job/blocks/tests_list.html:15
 #: templates/test/list/tests_list.html:23
 msgid "Page"
@@ -216,8 +222,9 @@ msgstr "Выполнить задачу"
 msgid "Remove job"
 msgstr "Удалить задачу"
 
-#: templates/job/list/list.html:51 templates/job/state/table.html:8
-#: templates/job/state/table.html.py:34 templates/modals/log_modal.html:6
+#: templates/job/list/list.html:51 templates/job/state/realtime_log.html:39
+#: templates/job/state/table.html:8 templates/job/state/table.html.py:34
+#: templates/modals/log_modal.html:6
 msgid "Log"
 msgstr "Лог"
 
@@ -226,12 +233,8 @@ msgid "Stop task"
 msgstr "Остановить задание"
 
 #: templates/job/state/realtime_log.html:36
-msgid "Table log"
-msgstr "Табличный лог"
-
-#: templates/job/state/realtime_log.html:39
-msgid "General log"
-msgstr "Общий лог"
+msgid "Results"
+msgstr "Результаты"
 
 #: templates/job/state/realtime_log.html:47 templates/job/state/table.html:6
 #: templates/test/blocks/test.html:36
@@ -254,7 +257,7 @@ msgstr "Пред."
 msgid "Next"
 msgstr "След."
 
-#: templates/job/state/table.html:7 templates/job/update/update_job.html:12
+#: templates/job/state/table.html:7
 msgid "Job"
 msgstr "Задача"
 
@@ -265,11 +268,6 @@ msgstr "Время запуска"
 #: templates/job/state/table.html:10
 msgid "Total time"
 msgstr "Время работы"
-
-#: templates/job/update/update_job.html:12
-#: templates/test/update/update_test.html:12
-msgid "changing"
-msgstr "изменение"
 
 #: templates/job/update/update_job.html:19
 #: templates/test/update/update_test.html:19
@@ -322,16 +320,7 @@ msgstr "Тест перенаправления"
 msgid "Test source code"
 msgstr "Исходный код теста"
 
-#: templates/test/list/tests_list.html:13
-msgid "Tests list"
-msgstr "Список тестов"
-
 #: templates/test/list/tests_list.html:56
 #: templates/test/list/tests_list.html:79
 msgid "Remove test"
 msgstr "Удалить тест"
-
-#: templates/test/update/update_test.html:12
-msgid "Test"
-msgstr "Тест"
-

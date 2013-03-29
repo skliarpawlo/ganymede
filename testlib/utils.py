@@ -61,9 +61,6 @@ class RedirectTest(MainTest) :
         super(RedirectTest, self).run()
 
         for (from_url, redirect_status, dest_url, dest_status) in self.redirects :
-            logger.write( u"Редирект: {0}({1}) -> {2}({3})".\
-            format(html.link(from_url,from_url), str(redirect_status),
-                html.link(dest_url,dest_url), str(dest_status) ))
 
             parsed_url = urlparse( from_url )
             conn = httplib.HTTPConnection( parsed_url.netloc )
@@ -71,23 +68,23 @@ class RedirectTest(MainTest) :
             from_response = conn.getresponse()
 
             assert from_response.status == redirect_status, \
-            u"Статус редиректа не правильный ({0}), ожидался {1}".\
-            format(from_response.status, redirect_status)
+            u"При посещении страницы {0}, ожидался {1} переход на страницу {2}, но получен статус {3}".\
+            format( html.link(from_url,from_url), redirect_status, html.link( dest_url, dest_url ), from_response.status )
 
             loc = from_response.getheader('location')
 
             assert loc == dest_url, \
-            u"Редиректит не туда {0}, ожидалось {1}".\
-            format(loc, dest_url)
+            u"При посещении страницы {0}, ожидался {1} переход на страницу {2}, но редирект перевел на страницу {3}".\
+            format( html.link(from_url,from_url), redirect_status, html.link( dest_url, dest_url ), html.link( loc, loc ) )
 
             parsed_url2 = urlparse( loc )
             conn2 = httplib.HTTPConnection( parsed_url2.netloc )
             conn2.request( "HEAD", parsed_url2.path.encode('utf-8') )
             dest_response = conn2.getresponse()
 
-            assert dest_response.status == dest_status, \
-            u"Статус страницы назначения не правильный ({0}), ожидался {1}".\
-            format(from_response.status, redirect_status)
+            assert dest_response.status == dest_status,\
+            u"При посещении страницы {0}, ожидался {1} переход на страницу {2} со статусом {3}, но получен статус {4}".\
+            format( html.link(from_url,from_url), redirect_status, html.link( dest_url, dest_url ), dest_status, dest_response.status )
 
 class FunctionalTest(MainTest) :
 

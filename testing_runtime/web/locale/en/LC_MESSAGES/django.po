@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-27 13:56+0200\n"
+"POT-Creation-Date: 2013-03-28 18:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,7 @@ msgid "Not executed"
 msgstr ""
 
 #: job.py:74 templates/job/list/list.html:27
+#: templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr ""
 
@@ -54,13 +55,13 @@ msgid "Add test"
 msgstr ""
 
 #: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:21
-#: templates/job/blocks/tests_list.html:12 templates/layout/navbar.html:13
-#: templates/test/list/tests_list.html:20
+#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
 msgid "Tests"
 msgstr ""
 
 #: tests.py:129 templates/test/list/tests_list.html:53
 #: templates/test/list/tests_list.html:76
+#: templates/test/update/update_test.html:12
 msgid "Update test"
 msgstr ""
 
@@ -172,6 +173,11 @@ msgstr ""
 msgid "Test case"
 msgstr ""
 
+#: templates/job/blocks/tests_list.html:12
+#: templates/test/list/tests_list.html:20
+msgid "Test"
+msgstr ""
+
 #: templates/job/blocks/tests_list.html:15
 #: templates/test/list/tests_list.html:23
 msgid "Page"
@@ -214,8 +220,9 @@ msgstr ""
 msgid "Remove job"
 msgstr ""
 
-#: templates/job/list/list.html:51 templates/job/state/table.html:8
-#: templates/job/state/table.html.py:34 templates/modals/log_modal.html:6
+#: templates/job/list/list.html:51 templates/job/state/realtime_log.html:39
+#: templates/job/state/table.html:8 templates/job/state/table.html.py:34
+#: templates/modals/log_modal.html:6
 msgid "Log"
 msgstr ""
 
@@ -224,13 +231,8 @@ msgid "Stop task"
 msgstr ""
 
 #: templates/job/state/realtime_log.html:36
-msgid "Table log"
+msgid "Results"
 msgstr ""
-
-#: templates/job/state/realtime_log.html:39
-#, fuzzy
-msgid "General log"
-msgstr "General config"
 
 #: templates/job/state/realtime_log.html:47 templates/job/state/table.html:6
 #: templates/test/blocks/test.html:36
@@ -253,7 +255,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/job/state/table.html:7 templates/job/update/update_job.html:12
+#: templates/job/state/table.html:7
 msgid "Job"
 msgstr ""
 
@@ -263,11 +265,6 @@ msgstr ""
 
 #: templates/job/state/table.html:10
 msgid "Total time"
-msgstr ""
-
-#: templates/job/update/update_job.html:12
-#: templates/test/update/update_test.html:12
-msgid "changing"
 msgstr ""
 
 #: templates/job/update/update_job.html:19
@@ -321,16 +318,11 @@ msgstr ""
 msgid "Test source code"
 msgstr ""
 
-#: templates/test/list/tests_list.html:13
-msgid "Tests list"
-msgstr ""
-
 #: templates/test/list/tests_list.html:56
 #: templates/test/list/tests_list.html:79
 msgid "Remove test"
 msgstr ""
 
-#: templates/test/update/update_test.html:12
-msgid "Test"
-msgstr ""
-
+#, fuzzy
+#~ msgid "General log"
+#~ msgstr "General config"

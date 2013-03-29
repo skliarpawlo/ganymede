@@ -71,7 +71,7 @@ def remove_job(request) :
     return HttpResponse(json_resp, mimetype="application/json")
 
 def update_job(request, job_id) :
-    title = html.title( [ _('Update job'), _('Jobs'), 'Ganymede' ] )
+    title = html.title( [ _('Update job') + " #" + str(job_id), _('Jobs'), 'Ganymede' ] )
 
     if request.method == 'POST' :
         job = db.session.query(Job).filter( Job.job_id == job_id ).one()
