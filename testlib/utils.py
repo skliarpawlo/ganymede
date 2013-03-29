@@ -305,7 +305,11 @@ class LoadOnSelectTest( SubTest ) :
     def run(self):
         sel = Select(self.webpage.find_element_by_xpath( self.select_xpath ))
         for item in self.select :
-            sel.select_by_visible_text( item[0] )
+            try :
+                sel.select_by_visible_text( item[0] )
+            except NoSuchElementException :
+                assert False, u"В селекте (xpath='{0}') не найден пункт с текстом '{1}'".format( self.select_xpath, item[ 0 ] )
+
             time.sleep(2)
             text = self.webpage.find_element_by_xpath( self.loaded_element_xpath ).text
             for word in item[1] :
