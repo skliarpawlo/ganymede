@@ -1,14 +1,16 @@
 use lun_ua_new;
 
 CREATE TABLE `gany_jobs` (
-  `job_id` int(11) not null auto_increment,
-  `name` varchar(80),
-  `repo` varchar(255),
-  `branch` varchar(80),
+  `job_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) DEFAULT NULL,
+  `repo` varchar(255) DEFAULT NULL,
+  `branch` varchar(80) DEFAULT NULL,
   `env` text,
-  primary key(`job_id`),
-  unique key(`name`)
-) default charset=utf8;
+  `exec_time` time DEFAULT NULL,
+  `users` text,
+  PRIMARY KEY (`job_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
 
 CREATE TABLE `gany_tasks` (
   `task_id` int(11) not null auto_increment,

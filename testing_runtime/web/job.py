@@ -1,12 +1,45 @@
 # coding: utf-8
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from testing_runtime.models import Job, Task, StoredTest
+from testing_runtime.models import Job, Task, StoredTest, User
 from core import db
 import json
 from testing_runtime.web import tests
 from django.utils.translation import ugettext as _
 from decorators import html
+
+def json_to_users( js ) :
+    if js is None :
+        return []
+
+    users_ids = json.loads( js )
+
+    users_collect = []
+    for user_id in users_ids :
+        users_collect.append(
+            db.user_session.query( User ).filter( User.user_id == user_id ).one()
+        )
+    return users_collect
+
+
+def fetch_users_info( job = None ) :
+    res = []
+    users = db.user_session.query( User ).all()
+    if not (job is None) :
+        checked_users = json_to_users( job.users )
+    for x in users :
+        checked = False
+        if not (job is None) :
+            if x in checked_users :
+                checked = True
+
+        res.append( {
+            "id" : x.user_id,
+            "name" : x.username,
+            "email" : x.email,
+            "checked" : checked
+        } )
+    return res
 
 def json_to_tests( js ) :
     tests_ids = json.loads( js )
@@ -26,8 +59,9 @@ def add_job(request) :
         env = request.POST[ 'env' ]
         repo = request.POST[ 'repo' ]
         branch = request.POST[ 'branch' ]
+        users = request.POST[ 'users' ]
         job_tests = json_to_tests(request.POST[ 'tests' ])
-        job = Job( name=name, env=env, repo=repo, branch=branch, tests=job_tests )
+        job = Job( name=name, env=env, repo=repo, branch=branch, tests=job_tests, users=users )
 
         db.session.add(job)
 
@@ -35,10 +69,12 @@ def add_job(request) :
         return HttpResponse(json_resp, mimetype="application/json")
     else :
         tests_data = tests.gather_tests_info()
+        users_data = fetch_users_info()
         return render_to_response( 'job/add/add_job.html', { 'title' : title,
-                                                                   'tests' : tests_data,
-                                                                   'repos' : [],
-                                                                   'branches' : ['develop', 't-kz'] } )
+                                                             'tests' : tests_data,
+                                                             'users' : users_data,
+                                                             'repos' : [],
+                                                             'branches' : ['develop', 't-kz'] } )
 
 def list_jobs(request) :
     title = html.title( [ _('Jobs'), 'Ganymede' ] )
@@ -74,12 +110,14 @@ def update_job(request, job_id) :
     title = html.title( [ _('Update job') + " #" + str(job_id), _('Jobs'), 'Ganymede' ] )
 
     if request.method == 'POST' :
-        job = db.session.query(Job).filter( Job.job_id == job_id ).one()
+        job = db.session.query(Job).filter( Job.job_id == int(job_id) ).one()
         job.name = request.POST[ 'name' ]
         job.env = request.POST[ 'env' ]
         job.repo = request.POST[ 'repo' ]
         job.branch = request.POST[ 'branch' ]
+        job.exec_time = request.POST[ 'exec_time' ]
         job.tests = json_to_tests( request.POST[ 'tests' ] )
+        job.users = request.POST[ 'users' ]
 
         json_resp = json.dumps( { "status" : "ok" } )
         return HttpResponse(json_resp, mimetype="application/json")
@@ -90,6 +128,7 @@ def update_job(request, job_id) :
                 "repo" : job_model.repo,
                 "branch" : job_model.branch,
                 "env" : job_model.env,
+                "exec_time" : job_model.exec_time.strftime("%H:%M") if not job_model.exec_time is None else "",
                 "tests" : job_model.tests }
 
         tests_ids = []
@@ -97,11 +136,13 @@ def update_job(request, job_id) :
             tests_ids.append( x.test_id )
 
         tests_data = tests.gather_tests_info( tests_ids )
+        users_data = fetch_users_info( job_model )
 
         return render_to_response(
             'job/update/update_job.html', {
             'title' : title,
             'job' : job,
+            'users' : users_data,
             'tests' : tests_data,
             'repos' : [],
             'branches' : ['develop', 't-kz']

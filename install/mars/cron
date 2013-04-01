@@ -1,1 +1,2 @@
 * * * * * sleep 15 && python /home/skliar/ganymede.lun.ua/www/manage.py cron && sleep 15 && python /home/skliar/ganymede.lun.ua/www/manage.py cron && sleep 15 && python /home/skliar/ganymede.lun.ua/www/manage.py cron && sleep 15 && python /home/skliar/ganymede.lun.ua/www/manage.py cron
+0 0 * * * python /home/skliar/ganymede.lun.ua/www/manage.py dailycron

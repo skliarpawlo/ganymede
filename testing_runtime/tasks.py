@@ -9,6 +9,7 @@ import core.git
 import core.logger
 import core.browser
 import core.vscreen
+import core.mailer
 import web.decorators.html
 import ganymede.settings
 import os
@@ -139,6 +140,13 @@ def run_any() :
                 core.db.session.query( models.Task )\
                     .filter( models.Task.task_id == task_id )\
                     .update( { "status" : status, "result" : res, "log" : log, "total_time" : total_time } )
+
+                core.db.session.commit()
+
+                # mail
+                if not result :
+                    core.mailer.notify( task_id )
+
         except NoResultFound :
             pass
         core.lock.uncapture( pid_file )

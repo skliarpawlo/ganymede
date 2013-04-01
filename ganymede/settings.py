@@ -6,6 +6,11 @@ TEMPLATE_DEBUG = DEBUG
 # mars, vm
 MODE = "mars"
 
+BASE_URL = "ganymede.lun.ua"
+if MODE == "vm" :
+    BASE_URL = "vmdebian:8181"
+
+
 BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
 STATIC_ROOT = os.path.join(BASE_PATH, "static")
@@ -67,6 +72,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "lun.ua"
+EMAIL_HOST_PASSWORD = "ytldb;bvjcnmyfkeyt"
+EMAIL_FROM = "ganymede@lun.ua"
+#EMAIL_USE_TLS = True
 
 LOGGING = {
     'version': 1,

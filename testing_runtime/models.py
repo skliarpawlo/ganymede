@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Unicode
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Unicode, Time
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table
 import ganymede.settings
@@ -20,6 +20,9 @@ class Job(Base) :
     repo = Column( Unicode )
     branch = Column( Unicode )
     env = Column( Unicode )
+    exec_time = Column( Time )
+    users = Column( Unicode )
+
     tests = relationship( "StoredTest", secondary = jobs_to_tests )
 
 class Task(Base) :
@@ -45,3 +48,44 @@ class StoredTest(Base) :
     test_id = Column( Integer, primary_key=True )
     code = Column( Unicode )
     status = Column( Enum('new', 'accepted'), nullable=False, default='new' )
+
+import hashlib
+import time
+
+class User(Base):
+    __tablename__ = 'users'
+
+    user_id = Column(Integer, primary_key=True)
+    username = Column(Unicode)
+    password = Column(Unicode)
+    salt = Column(Unicode)
+    email = Column(Unicode)
+    role = Column(Unicode)
+    allowed_databases = Column(Unicode)
+    invited = Column(Integer)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.user_id)
+
+    def validate_password(self, password):
+        return User.hash_password(password, self.salt) == self.password
+
+    def email_hash(self):
+        return hashlib.md5(self.email).hexdigest().encode('utf8')
+
+    @staticmethod
+    def hash_password(password, salt):
+        return hashlib.sha1(hashlib.sha1(salt).hexdigest() + hashlib.sha1(unicode(password)).hexdigest()).hexdigest()
+
+    @staticmethod
+    def get_new_salt():
+        return hashlib.sha1(str(time.time())).hexdigest()

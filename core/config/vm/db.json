@@ -1,3 +1,4 @@
 {
-    "connection" : "mysql+mysqldb://root:root@localhost/ganymede?charset=utf8"
+    "connection" : "mysql+mysqldb://root:root@localhost/ganymede?charset=utf8",
+    "users" : "mysql://sirius:Ce8iWtPZNx@77.120.117.134/sirius"
 }

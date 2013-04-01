@@ -50,10 +50,10 @@
             {% for test in tests %}
                 <tr class="filtered-test-row" test_id="{{test.id}}">
                     <td>
-                        <a data-toggle="tooltip" title="{% trans "Update test" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test test.id %}">
+                        <a data-toggle="tooltip" title="{% trans "Update" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test test.id %}">
                             <i class="icon-wrench"></i>
                         </a>
-                        <a data-toggle="tooltip" title="{% trans "Remove test" %}" class="remove-test cursor-hand">
+                        <a data-toggle="tooltip" title="{% trans "Remove" %}" class="remove-test cursor-hand">
                             <i class="icon-trash"></i>
                         </a>
                     </td>
@@ -73,10 +73,10 @@
                 {% for subtest in test.subtests %}
                     <tr class="filtered-test-row" test_id="{{subtest.id}}">
                         <td>
-                            <a data-toggle="tooltip" title="{% trans "Update test" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
+                            <a data-toggle="tooltip" title="{% trans "Update" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
                                 <i class="icon-wrench"></i>
                             </a>
-                            <a data-toggle="tooltip" title="{% trans "Remove test" %}"  class="remove-test cursor-hand">
+                            <a data-toggle="tooltip" title="{% trans "Remove" %}"  class="remove-test cursor-hand">
                                 <i class="icon-trash"></i>
                             </a>
                         </td>

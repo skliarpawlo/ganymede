@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 18:18+0200\n"
+"POT-Creation-Date: 2013-04-01 13:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,22 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: job.py:22 templates/job/add/add_job.html:12
+#: job.py:55 templates/job/add/add_job.html:12
 #: templates/job/add/add_job.html.py:19 templates/layout/navbar.html:10
 msgid "Add job"
 msgstr "Добавить задачу"
 
-#: job.py:22 job.py:44 job.py:74 templates/job/list/list.html:13
+#: job.py:55 job.py:80 job.py:110 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr "Задачи"
 
-#: job.py:60 templates/job/list/list.html:47
+#: job.py:96 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr "Не запускалось"
 
-#: job.py:74 templates/job/list/list.html:27
-#: templates/job/update/update_job.html:12
+#: job.py:110 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr "Изменить задачу"
 
@@ -61,9 +60,7 @@ msgstr "Добавить тест"
 msgid "Tests"
 msgstr "Тесты"
 
-#: tests.py:129 templates/test/list/tests_list.html:53
-#: templates/test/list/tests_list.html:76
-#: templates/test/update/update_test.html:12
+#: tests.py:129 templates/test/update/update_test.html:12
 msgid "Update test"
 msgstr "Изменить тест"
 
@@ -171,6 +168,26 @@ msgstr "Git"
 msgid "Environment"
 msgstr "Окружение"
 
+#: templates/job/blocks/job.html:27 templates/job/blocks/notification.html:4
+msgid "Notification"
+msgstr "Оповещение"
+
+#: templates/job/blocks/job.html:30 templates/job/blocks/schedule.html:4
+msgid "Schedule"
+msgstr "Планирование"
+
+#: templates/job/blocks/notification.html:10
+msgid "User"
+msgstr "Пользователь"
+
+#: templates/job/blocks/notification.html:11
+msgid "Email"
+msgstr ""
+
+#: templates/job/blocks/schedule.html:7
+msgid "Daily execution time"
+msgstr "Время ежедневного запуска"
+
 #: templates/job/blocks/tests_list.html:4
 msgid "Test case"
 msgstr "Набор тестов"
@@ -215,12 +232,18 @@ msgid "Last run"
 msgstr "Последний запуск"
 
 #: templates/job/list/list.html:24
-msgid "Run job"
-msgstr "Выполнить задачу"
+msgid "Run"
+msgstr "Запустить"
 
-#: templates/job/list/list.html:30
-msgid "Remove job"
-msgstr "Удалить задачу"
+#: templates/job/list/list.html:27 templates/test/list/tests_list.html:53
+#: templates/test/list/tests_list.html:76
+msgid "Update"
+msgstr "Изменить"
+
+#: templates/job/list/list.html:30 templates/test/list/tests_list.html:56
+#: templates/test/list/tests_list.html:79
+msgid "Remove"
+msgstr "Удалить"
 
 #: templates/job/list/list.html:51 templates/job/state/realtime_log.html:39
 #: templates/job/state/table.html:8 templates/job/state/table.html.py:34
@@ -320,7 +343,3 @@ msgstr "Тест перенаправления"
 msgid "Test source code"
 msgstr "Исходный код теста"
 
-#: templates/test/list/tests_list.html:56
-#: templates/test/list/tests_list.html:79
-msgid "Remove test"
-msgstr "Удалить тест"

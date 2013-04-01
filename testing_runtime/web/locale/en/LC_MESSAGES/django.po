@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 18:18+0200\n"
+"POT-Creation-Date: 2013-04-01 13:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,22 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: job.py:22 templates/job/add/add_job.html:12
+#: job.py:55 templates/job/add/add_job.html:12
 #: templates/job/add/add_job.html.py:19 templates/layout/navbar.html:10
 msgid "Add job"
 msgstr ""
 
-#: job.py:22 job.py:44 job.py:74 templates/job/list/list.html:13
+#: job.py:55 job.py:80 job.py:110 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr ""
 
-#: job.py:60 templates/job/list/list.html:47
+#: job.py:96 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr ""
 
-#: job.py:74 templates/job/list/list.html:27
-#: templates/job/update/update_job.html:12
+#: job.py:110 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr ""
 
@@ -59,9 +58,7 @@ msgstr ""
 msgid "Tests"
 msgstr ""
 
-#: tests.py:129 templates/test/list/tests_list.html:53
-#: templates/test/list/tests_list.html:76
-#: templates/test/update/update_test.html:12
+#: tests.py:129 templates/test/update/update_test.html:12
 msgid "Update test"
 msgstr ""
 
@@ -169,6 +166,26 @@ msgstr ""
 msgid "Environment"
 msgstr ""
 
+#: templates/job/blocks/job.html:27 templates/job/blocks/notification.html:4
+msgid "Notification"
+msgstr ""
+
+#: templates/job/blocks/job.html:30 templates/job/blocks/schedule.html:4
+msgid "Schedule"
+msgstr ""
+
+#: templates/job/blocks/notification.html:10
+msgid "User"
+msgstr ""
+
+#: templates/job/blocks/notification.html:11
+msgid "Email"
+msgstr ""
+
+#: templates/job/blocks/schedule.html:7
+msgid "Daily execution time"
+msgstr ""
+
 #: templates/job/blocks/tests_list.html:4
 msgid "Test case"
 msgstr ""
@@ -213,11 +230,18 @@ msgid "Last run"
 msgstr ""
 
 #: templates/job/list/list.html:24
-msgid "Run job"
+#, fuzzy
+msgid "Run"
+msgstr "Russian"
+
+#: templates/job/list/list.html:27 templates/test/list/tests_list.html:53
+#: templates/test/list/tests_list.html:76
+msgid "Update"
 msgstr ""
 
-#: templates/job/list/list.html:30
-msgid "Remove job"
+#: templates/job/list/list.html:30 templates/test/list/tests_list.html:56
+#: templates/test/list/tests_list.html:79
+msgid "Remove"
 msgstr ""
 
 #: templates/job/list/list.html:51 templates/job/state/realtime_log.html:39
@@ -316,11 +340,6 @@ msgstr ""
 
 #: templates/test/blocks/test.html:44
 msgid "Test source code"
-msgstr ""
-
-#: templates/test/list/tests_list.html:56
-#: templates/test/list/tests_list.html:79
-msgid "Remove test"
 msgstr ""
 
 #, fuzzy

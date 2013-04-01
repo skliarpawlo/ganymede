@@ -7,13 +7,13 @@ $( function() {
         return errors;
     };
 
-    $("#сreate-job-btn").click( function() {
+    $("#add-job-btn").click( function() {
         var data = gany.job.gather_data();
 
         var errors = verifyData(data);
         if ( errors.length == 0 ) {
             // submit
-            var defered = $.post("/job/create",data);
+            var defered = $.post("/job/add",data);
             defered.done( function(data) {
                 if (data.status == "ok") {
                     gany.modals.info(gettext('Job created')).bind("hidden", function() {

@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<fieldset>
+    <legend>{% trans "Notification" %}</legend>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{% trans "User" %}</th>
+                <th>{% trans "Email" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr class="user-data">
+                <td>
+                    <input user_id="{{ user.id }}" type="checkbox"
+                        {% if user.checked %}checked="checked"{% endif %}
+                    />
+                </td>
+                <td>
+                    {{ user.name }}
+                </td>
+                <td>
+                    {{ user.email }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</fieldset>

@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<fieldset>
+    <legend>{% trans "Schedule" %}</legend>
+
+    <div class="datetimepicker input-append date" picker-type="time nosec">
+        <label for="exec-time">{% trans "Daily execution time" %}</label>
+        <input name="exec-time" id="exec-time"
+               data-format="hh:mm" type="text"
+               value="{% if job.exec_time %}{{job.exec_time}}{% endif %}" />
+        <span class="add-on">
+            <i data-time-icon="icon-time"
+               data-date-icon="icon-calendar"
+               class="icon-time"></i>
+        </span>
+    </div>
+
+</fieldset>

@@ -21,13 +21,13 @@
             {% for job in jobs %}
                 <tr job_id="{{ job.job_id }}" job_name="{{ job.name }}">
                     <td>
-                        <a data-toggle="tooltip" title="{% trans "Run job" %}" class="run-job cursor-hand">
+                        <a data-toggle="tooltip" title="{% trans "Run" %}" class="run-job cursor-hand">
                             <i class="icon-play"></i>
                         </a>
-                        <a data-toggle="tooltip" title="{% trans "Update job" %}" class="change-job" href="{% url testing_runtime.web.job.update_job job.job_id %}">
+                        <a data-toggle="tooltip" title="{% trans "Update" %}" class="change-job" href="{% url testing_runtime.web.job.update_job job.job_id %}">
                             <i class="icon-wrench"></i>
                         </a>
-                        <a data-toggle="tooltip" title="{% trans "Remove job" %}"  class="remove-job cursor-hand">
+                        <a data-toggle="tooltip" title="{% trans "Remove" %}"  class="remove-job cursor-hand">
                             <i class="icon-trash"></i>
                         </a>
                     </td>

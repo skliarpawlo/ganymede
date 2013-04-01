@@ -11,6 +11,21 @@ var gany = (function() {
             } );
         });
         $('[data-toggle="tooltip"]').tooltip();
+        $('.datetimepicker').each( function( ind, el ) {
+            var type = $(el).attr("picker-type");
+            var format = $(el).find("input").attr("data-format");
+            o = {};
+            if (type.indexOf("date") < 0) {
+                o.pickDate = false;
+            }
+            if (type.indexOf("time") < 0) {
+                o.pickTime = false;
+            }
+            if (type.indexOf("nosec") >= 0) {
+                o.pickSeconds = false;
+            }
+            $(el).datetimepicker(o);
+        });
     });
 
     var urls = {
@@ -81,12 +96,22 @@ var gany = (function() {
                 tests.push( $(el).attr("test_id") );
             } );
 
+            //notification
+            var users = [];
+            $("[user_id]:checked").each( function( ind, el ) {
+                users.push( $(el).attr("user_id") * 1 );
+            });
+
+            var exec_time = $("#exec-time").val();
+
             return {
                 name : name,
                 repo : repo,
                 branch : branch,
                 tests : JSON.stringify(tests),
-                env : env
+                users : JSON.stringify(users),
+                env : env,
+                exec_time : exec_time
             };
         }
 
