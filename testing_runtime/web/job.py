@@ -115,7 +115,7 @@ def update_job(request, job_id) :
         job.env = request.POST[ 'env' ]
         job.repo = request.POST[ 'repo' ]
         job.branch = request.POST[ 'branch' ]
-        job.exec_time = request.POST[ 'exec_time' ]
+        job.exec_time = request.POST[ 'exec_time' ] if request.POST[ 'exec_time' ] != "" else None
         job.tests = json_to_tests( request.POST[ 'tests' ] )
         job.users = request.POST[ 'users' ]
 
