@@ -1,5 +1,3 @@
-use lun_ua_new;
-
 CREATE TABLE `gany_jobs` (
   `job_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) DEFAULT NULL,
@@ -24,15 +22,14 @@ CREATE TABLE `gany_tasks` (
   `artifacts` TEXT not null,
   primary key(`task_id`),
   foreign key(`job_id`) references `gany_jobs`(`job_id`) on delete cascade
-) default charset=utf8;
+) ENGINE=InnoDB default charset=utf8;
 
 CREATE TABLE `gany_tests` (
   `test_id` int(11) not null auto_increment,
   `code` text,
   `status` enum('new', 'accepted') not null default 'new',
   primary key(`test_id`)
-) default charset=utf8;
-
+) ENGINE=InnoDB default charset=utf8;
 
 CREATE TABLE `gany_jobs_to_tests` (
   `job_id` int(11) not null,
@@ -40,4 +37,15 @@ CREATE TABLE `gany_jobs_to_tests` (
   primary key (`job_id`, `test_id`),
   foreign key (`job_id`) references `gany_jobs`(`job_id`) on delete cascade,
   foreign key (`test_id`) references `gany_tests`(`test_id`) on delete cascade
-) default charset=utf8;
+) ENGINE=InnoDB  default charset=utf8;
+
+CREATE TABLE `gany_env` (
+  `env_id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_id` int(11) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `lang` varchar(64) NOT NULL,
+  `code` text,
+  PRIMARY KEY (`env_id`),
+  UNIQUE KEY `path_per_job` (`job_id`,`path`),
+  CONSTRAINT `gany_env_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `gany_jobs` (`job_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

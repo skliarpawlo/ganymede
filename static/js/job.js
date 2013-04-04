@@ -84,18 +84,45 @@ $(function() {
     $("#filter-test-parent").change(filter_func);
 
     // env
-    var editor_env = gany.code.block( "env-script", {
-        mode : {
-            name : "php"
-        },
-        lineNumbers : true
-    });
+    var bind_env_events = function( env_el ) {
+        var that = env_el;
+        var lang = that.find('[data-key="env-lang"] :selected').val();
+        var code = that.find('[data-key="env-script"]').get(0);
+        var code_ui = CodeMirror.fromTextArea(code, {
+            mode : {
+                name : lang
+            },
+            lineNumbers : true
+        });
 
-    // stupid hack to force redraw
-    $(".nav-tabs li").click(function(){
-        setTimeout( function() {
-            editor_env.refresh();
-        }, 500);
-    });
+        code_ui.on( "change", function( that ) {
+            that.save();
+        } );
+
+        that.find('[data-key="env-delete"]').click( function() {
+            that.remove();
+        });
+
+        // stupid hack to force redraw
+        $(".nav-tabs li").click(function(){
+            setTimeout( function() {
+                code_ui.refresh();
+            }, 500);
+        });
+    }
+
+    $('[data-key="env"]').each( function( ind, el ) {
+        bind_env_events( $( el ) );
+    } );
+
+    $("#add-env").click( function() {
+        var new_el = $(
+            "<tr data-key='env'>" +
+                $('[data-key="sample"]').html() +
+            "</tr>"
+        );
+        $("#envs-table").append( new_el );
+        bind_env_events( new_el );
+    } );
 
 });

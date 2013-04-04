@@ -88,8 +88,18 @@ var gany = (function() {
             var repo = $("#repo-val").val();
             var branch = $("#branch-val").val();
             // env
-            gany.code.block("env-script").save();
-            var env = $("#env-script").val();
+            var envs = [];
+            $('[data-key="env"]').each( function( ind, el ) {
+                var that = $(el);
+                var path = that.find('[data-key="env-path"]').val();
+                var lang = that.find('[data-key="env-lang"] :selected').val();
+                var code = that.find('[data-key="env-script"]').val();
+                envs.push( {
+                    "path" : path,
+                    "lang" : lang,
+                    "code" : code
+                } );
+            } );
             // tests
             var tests = [];
             $("[test_id]:checked").each( function( ind, el ) {
@@ -110,7 +120,7 @@ var gany = (function() {
                 branch : branch,
                 tests : JSON.stringify(tests),
                 users : JSON.stringify(users),
-                env : env,
+                envs : JSON.stringify(envs),
                 exec_time : exec_time
             };
         }

@@ -55,7 +55,7 @@ def branches(project) :
 def checkout_and_deploy(job) :
     project = job.repo
     branch = job.branch
-    env = job.env
+    envs = job.envs
 
     working_dir = os.path.join( config['repos_path'], project )
     if not os.path.exists(working_dir) :
@@ -76,7 +76,8 @@ def checkout_and_deploy(job) :
         process.output_to_log( ["mkdir", os.path.join( config['deploy_path'], "protected", "runtime" ) ] )
         process.output_to_log( ["chmod", "777", os.path.join( config['deploy_path'], "protected", "runtime" ) ] )
 
-        #env
-        fd = open( os.path.join( config['deploy_path'], "environment.php" ), 'w' )
-        fd.write( env )
-        fd.close()
+        #envs
+        for env in envs :
+            fd = open( os.path.join( config['deploy_path'], env.path ), 'w' )
+            fd.write( env.code )
+            fd.close()

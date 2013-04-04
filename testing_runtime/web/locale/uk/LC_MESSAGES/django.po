@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-01 13:23+0300\n"
+"POT-Creation-Date: 2013-04-04 15:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: job.py:55 templates/job/add/add_job.html:12
+#: job.py:70 templates/job/add/add_job.html:12
 #: templates/job/add/add_job.html.py:19 templates/layout/navbar.html:10
 msgid "Add job"
 msgstr "Додати задачу"
 
-#: job.py:55 job.py:80 job.py:110 templates/job/list/list.html:13
+#: job.py:70 job.py:99 job.py:129 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr "Задачі"
 
-#: job.py:96 templates/job/list/list.html:47
+#: job.py:115 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr "Не запускалося"
 
-#: job.py:110 templates/job/update/update_job.html:12
+#: job.py:129 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr "Змінити задачу"
 
@@ -119,8 +119,37 @@ msgid "Environment config"
 msgstr "Налаштування оточення"
 
 #: templates/job/blocks/environment.html:6
-msgid "Environment php script"
-msgstr "php-скрипт оточення"
+msgid "Environment scripts"
+msgstr "Скрипти оточення"
+
+#: templates/job/blocks/environment.html:13
+#: templates/job/blocks/environment.html:38
+msgid "Language"
+msgstr "Мова"
+
+#: templates/job/blocks/environment.html:20
+msgid "Path (with filename)"
+msgstr "Шлях (з ім'ям файлу)"
+
+#: templates/job/blocks/environment.html:23
+#: templates/job/blocks/environment.html:49
+msgid "Souce Code"
+msgstr "Вихідний код"
+
+#: templates/job/blocks/environment.html:29
+#: templates/job/blocks/environment.html:55 templates/job/list/list.html:30
+#: templates/test/list/tests_list.html:56
+#: templates/test/list/tests_list.html:79
+msgid "Remove"
+msgstr "Видалити"
+
+#: templates/job/blocks/environment.html:46
+msgid "Path"
+msgstr "Шлях"
+
+#: templates/job/blocks/environment.html:63
+msgid "Add"
+msgstr "Додати"
 
 #: templates/job/blocks/general.html:4
 msgid "General config"
@@ -237,11 +266,6 @@ msgstr "Виконати"
 #: templates/test/list/tests_list.html:76
 msgid "Update"
 msgstr "Змінити"
-
-#: templates/job/list/list.html:30 templates/test/list/tests_list.html:56
-#: templates/test/list/tests_list.html:79
-msgid "Remove"
-msgstr "Видалити"
 
 #: templates/job/list/list.html:51 templates/job/state/realtime_log.html:39
 #: templates/job/state/table.html:8 templates/job/state/table.html.py:34

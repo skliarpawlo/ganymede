@@ -23,6 +23,9 @@ def notify( task_id ) :
     for user in users :
         emails.append( user.email )
 
+    if len( emails ) == 0 :
+        return
+
     # format data
     htmlmsg = u"""
     <html>

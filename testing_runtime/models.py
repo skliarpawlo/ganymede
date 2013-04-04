@@ -4,6 +4,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table
 import ganymede.settings
 import os
+import hashlib
+import time
 
 Base = declarative_base()
 
@@ -19,11 +21,11 @@ class Job(Base) :
     name = Column( Unicode, unique=True )
     repo = Column( Unicode )
     branch = Column( Unicode )
-    env = Column( Unicode )
     exec_time = Column( Time )
     users = Column( Unicode )
 
     tests = relationship( "StoredTest", secondary = jobs_to_tests )
+    envs = relationship( "EnvScript" )
 
 class Task(Base) :
     __tablename__ = "gany_tasks"
@@ -49,10 +51,7 @@ class StoredTest(Base) :
     code = Column( Unicode )
     status = Column( Enum('new', 'accepted'), nullable=False, default='new' )
 
-import hashlib
-import time
-
-class User(Base):
+class User(Base) :
     __tablename__ = 'users'
 
     user_id = Column(Integer, primary_key=True)
@@ -89,3 +88,13 @@ class User(Base):
     @staticmethod
     def get_new_salt():
         return hashlib.sha1(str(time.time())).hexdigest()
+
+class EnvScript(Base) :
+    __tablename__ = "gany_env"
+
+    env_id = Column( Integer, primary_key=True )
+    job_id = Column( Integer, ForeignKey( 'gany_jobs.job_id' ) )
+    path = Column( Unicode, nullable=False )
+    lang = Column( Unicode, nullable=False )
+    code = Column( Unicode )
+

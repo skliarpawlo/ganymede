@@ -1,12 +1,27 @@
 # coding: utf-8
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from testing_runtime.models import Job, Task, StoredTest, User
+from testing_runtime.models import Job, Task, StoredTest, User, EnvScript
 from core import db
 import json
 from testing_runtime.web import tests
 from django.utils.translation import ugettext as _
 from decorators import html
+
+def json_to_envs( js, job_id=None ) :
+    if js is None :
+        return []
+
+    envs_params = json.loads( js )
+    envs = []
+
+    for env_dict in envs_params :
+        model = EnvScript( **env_dict )
+        model.job_id = job_id
+        envs.append( model )
+
+    return envs
+
 
 def json_to_users( js ) :
     if js is None :
@@ -56,14 +71,18 @@ def add_job(request) :
 
     if request.method == 'POST' :
         name = request.POST[ 'name' ]
-        env = request.POST[ 'env' ]
         repo = request.POST[ 'repo' ]
         branch = request.POST[ 'branch' ]
         users = request.POST[ 'users' ]
         job_tests = json_to_tests(request.POST[ 'tests' ])
-        job = Job( name=name, env=env, repo=repo, branch=branch, tests=job_tests, users=users )
+        job = Job( name=name, repo=repo, branch=branch, tests=job_tests, users=users )
+
+        job.envs = json_to_envs( request.POST[ 'envs' ] )
 
         db.session.add(job)
+
+        for env in job.envs :
+            db.session.add( env )
 
         json_resp = json.dumps( { "status" : "ok" } )
         return HttpResponse(json_resp, mimetype="application/json")
@@ -112,14 +131,29 @@ def update_job(request, job_id) :
     if request.method == 'POST' :
         job = db.session.query(Job).filter( Job.job_id == int(job_id) ).one()
         job.name = request.POST[ 'name' ]
-        job.env = request.POST[ 'env' ]
         job.repo = request.POST[ 'repo' ]
         job.branch = request.POST[ 'branch' ]
         job.exec_time = request.POST[ 'exec_time' ] if request.POST[ 'exec_time' ] != "" else None
         job.tests = json_to_tests( request.POST[ 'tests' ] )
         job.users = request.POST[ 'users' ]
 
-        json_resp = json.dumps( { "status" : "ok" } )
+        for env in job.envs :
+            db.session.delete( env )
+
+        db.session.commit()
+
+        new_envs = json_to_envs( request.POST[ 'envs' ], job.job_id )
+
+        for env in new_envs :
+            job.envs.append( env )
+
+        try :
+            db.session.commit()
+            json_resp = json.dumps( { "status" : "ok" } )
+        except Exception as e :
+            db.session.rollback()
+            json_resp = json.dumps( { "status" : "error", "content" : str(e) } )
+
         return HttpResponse(json_resp, mimetype="application/json")
     else :
         job_model = db.session.query( Job ).filter( Job.job_id == job_id ).one()
@@ -127,7 +161,7 @@ def update_job(request, job_id) :
                 "name" : job_model.name,
                 "repo" : job_model.repo,
                 "branch" : job_model.branch,
-                "env" : job_model.env,
+                "envs" : job_model.envs,
                 "exec_time" : job_model.exec_time.strftime("%H:%M") if not job_model.exec_time is None else "",
                 "tests" : job_model.tests }
 

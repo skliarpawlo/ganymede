@@ -3,13 +3,64 @@
 <fieldset>
     <legend>{% trans "Environment config" %}</legend>
     <label class="control-label" for="env-script">
-        {% trans "Environment php script" %}
+        {% trans "Environment scripts" %}
     </label>
-    <div class="code-block">
-        {% if job.env %}
-            <textarea id="env-script" rows="5">{{ job.env }}</textarea>
-        {% else %}
-            <textarea id="env-script" rows="5">{% include "job/blocks/env_default.html" %}</textarea>
-        {% endif %}
-    </div>
+    <table id="envs-table" class="table table-hover">
+    {% for env in job.envs %}
+        <tr data-key="env" data-id="{{ env.env_id }}">
+            <td>
+
+                <label class="control-label">{% trans "Language" %}</label>
+                <select data-key="env-lang">
+                    <option value="php" {% if "php" == env.lang %}selected="selected"{% endif %} >
+                        php
+                    </option>
+                </select>
+
+                <label class="control-label">{% trans "Path (with filename)" %}</label>
+                <input type="text" data-key="env-path" value="{{ env.path }}" />
+
+                <label class="control-label">{% trans "Souce Code" %}</label>
+                <div class="code-block">
+                    <textarea data-key="env-script" rows="5">{{ env.code }}</textarea>
+                </div>
+            </td>
+            <td style="width:50px">
+                <a data-toggle="tooltip" title="{% trans "Remove" %}" class="cursor-hand" data-key="env-delete">
+                    <i class="icon-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+
+    <tr data-key="sample" style="display: none">
+        <td>
+            <label class="control-label">{% trans "Language" %}</label>
+            <select data-key="env-lang">
+                <option value="php"
+                        selected="selected">
+                        php
+                </option>
+            </select>
+
+            <label class="control-label">{% trans "Path" %}</label>
+            <input type="text" data-key="env-path" value="environment.php" />
+
+            <label class="control-label">{% trans "Souce Code" %}</label>
+            <div class="code-block">
+                <textarea data-key="env-script" rows="5">{% include "job/blocks/env_default.html" %}</textarea>
+            </div>
+        </td>
+        <td style="width:50px">
+            <a data-toggle="tooltip" title="{% trans "Remove" %}" class="cursor-hand" data-key="env-delete">
+                <i class="icon-trash"></i>
+            </a>
+        </td>
+    </tr>
+
+    </table>
+
+    <a id="add-env" data-toggle="tooltip" title="{% trans "Add" %}" class="cursor-hand">
+        <i class="icon-plus-sign"></i>
+    </a>
 </fieldset>
