@@ -7,9 +7,10 @@ TEMPLATE_DEBUG = DEBUG
 MODE = "mars"
 
 BASE_URL = "ganymede.lun.ua"
+SERVER_PORT = 80
 if MODE == "vm" :
     BASE_URL = "vmdebian:8181"
-
+    SERVER_PORT = 8181
 
 BASE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "../"))
 HEAP_PATH = os.path.join(BASE_PATH, "heap")
