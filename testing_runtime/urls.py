@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^ajax/call$', 'testing_runtime.web.api.call'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
+    url(r'^github/notify$', 'testing_runtime.github.views.push_notification'),
 )
