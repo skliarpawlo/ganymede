@@ -21,6 +21,7 @@ class Job(Base) :
     name = Column( Unicode, unique=True )
     repo = Column( Unicode )
     branch = Column( Unicode )
+    deploy = Column( Unicode )
     exec_time = Column( Time )
     users = Column( Unicode )
 

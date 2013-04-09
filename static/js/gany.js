@@ -87,6 +87,12 @@ var gany = (function() {
             // git
             var repo = $("#repo-val").val();
             var branch = $("#branch-val").val();
+            // deploy
+            var deploy = null;
+            if ($("#deploy-code-chbox").is(":checked")) {
+                gany.code.block( "deploy-scipt" ).save();
+                deploy = $("#deploy-scipt").val();
+            }
             // env
             var envs = [];
             $('[data-key="env"]').each( function( ind, el ) {
@@ -121,7 +127,8 @@ var gany = (function() {
                 tests : JSON.stringify(tests),
                 users : JSON.stringify(users),
                 envs : JSON.stringify(envs),
-                exec_time : exec_time
+                exec_time : exec_time,
+                deploy : deploy
             };
         }
 

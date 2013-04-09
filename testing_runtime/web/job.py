@@ -74,8 +74,9 @@ def add_job(request) :
         repo = request.POST[ 'repo' ]
         branch = request.POST[ 'branch' ]
         users = request.POST[ 'users' ]
+        deploy = request.POST[ 'deploy' ]
         job_tests = json_to_tests(request.POST[ 'tests' ])
-        job = Job( name=name, repo=repo, branch=branch, tests=job_tests, users=users )
+        job = Job( name=name, repo=repo, branch=branch, tests=job_tests, users=users, deploy=deploy )
 
         job.envs = json_to_envs( request.POST[ 'envs' ] )
 
@@ -136,6 +137,7 @@ def update_job(request, job_id) :
         job.exec_time = request.POST[ 'exec_time' ] if request.POST[ 'exec_time' ] != "" else None
         job.tests = json_to_tests( request.POST[ 'tests' ] )
         job.users = request.POST[ 'users' ]
+        job.deploy = request.POST[ 'deploy' ] if not request.POST[ 'deploy' ] == u'' else None
 
         for env in job.envs :
             db.session.delete( env )
@@ -157,13 +159,16 @@ def update_job(request, job_id) :
         return HttpResponse(json_resp, mimetype="application/json")
     else :
         job_model = db.session.query( Job ).filter( Job.job_id == job_id ).one()
-        job = { "job_id" : job_model.job_id,
-                "name" : job_model.name,
-                "repo" : job_model.repo,
-                "branch" : job_model.branch,
-                "envs" : job_model.envs,
-                "exec_time" : job_model.exec_time.strftime("%H:%M") if not job_model.exec_time is None else "",
-                "tests" : job_model.tests }
+        job = {
+            "job_id" : job_model.job_id,
+            "name" : job_model.name,
+            "repo" : job_model.repo,
+            "branch" : job_model.branch,
+            "envs" : job_model.envs,
+            "exec_time" : job_model.exec_time.strftime("%H:%M") if not job_model.exec_time is None else "",
+            "tests" : job_model.tests,
+            "deploy" : job_model.deploy
+        }
 
         tests_ids = []
         for x in job_model.tests :

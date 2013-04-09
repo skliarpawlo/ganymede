@@ -29,6 +29,31 @@ $(function() {
         }
     });
 
+    // deploy stuff
+
+    var code_b = gany.code.block( "deploy-scipt", {
+        mode : {
+            name : "shell"
+        },
+        lineNumbers : true
+    } );
+    // stupid hack to force redraw
+    $(".nav-tabs li").click(function(){
+        setTimeout( function() {
+            code_b.refresh();
+        }, 500);
+    });
+
+    $("#deploy-code-chbox").change( function() {
+        if ($("#deploy-code-chbox").is(":checked")) {
+            $("#deploy-code-part").show();
+            code_b.refresh();
+        } else {
+            $("#deploy-code-part").hide();
+        }
+    } );
+
+
     // tests stuff
     $("#check-all-tests").change( function() {
         if ($(this).is(":checked")) {

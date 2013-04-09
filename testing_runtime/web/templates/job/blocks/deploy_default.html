@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+cd $PROJECT_PATH
+
+git checkout $BRANCH
+git fetch
+git reset --hard origin/$BRANCH
+
+rm -rf $DEPLOY_PATH/*
+cp -rf $PROJECT_PATH/* $DEPLOY_PATH
+
+rm -rf $DEPLOY_PATH/.git
+
+mkdir $DEPLOY_PATH/assets
+chmod 777 $DEPLOY_PATH/assets
+mkdir $DEPLOY_PATH/protected/runtime
+chmod 777 $DEPLOY_PATH/protected/runtime

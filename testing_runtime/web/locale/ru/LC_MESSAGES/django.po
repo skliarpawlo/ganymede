@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-04 15:48+0300\n"
+"POT-Creation-Date: 2013-04-09 13:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,16 +24,16 @@ msgstr ""
 msgid "Add job"
 msgstr "Добавить задачу"
 
-#: job.py:70 job.py:99 job.py:129 templates/job/list/list.html:13
+#: job.py:70 job.py:100 job.py:130 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr "Задачи"
 
-#: job.py:115 templates/job/list/list.html:47
+#: job.py:116 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr "Не запускалось"
 
-#: job.py:129 templates/job/update/update_job.html:12
+#: job.py:130 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr "Изменить задачу"
 
@@ -55,7 +55,7 @@ msgstr "Задания"
 msgid "Add test"
 msgstr "Добавить тест"
 
-#: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:21
+#: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:24
 #: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
 msgid "Tests"
 msgstr "Тесты"
@@ -116,6 +116,18 @@ msgstr "Английский"
 msgid "Ganymede title"
 msgstr "Тестирующая система ЛУН"
 
+#: templates/job/blocks/deployment.html:4 templates/job/blocks/job.html:21
+msgid "Deployment"
+msgstr "Развертывание"
+
+#: templates/job/blocks/deployment.html:8
+msgid "Script for deploy"
+msgstr "Скрипт для выкладывания"
+
+#: templates/job/blocks/deployment.html:12
+msgid "Source code"
+msgstr "Исходный код"
+
 #: templates/job/blocks/environment.html:4
 msgid "Environment config"
 msgstr "Настройки окружения"
@@ -167,7 +179,7 @@ msgstr "Название задачи"
 
 #: templates/job/blocks/git_tab.html:4
 msgid "GIT config"
-msgstr "Настроки Git"
+msgstr "Настройки Git"
 
 #: templates/job/blocks/git_tab.html:6
 msgid "Project"
@@ -193,15 +205,15 @@ msgstr "Общий"
 msgid "Git"
 msgstr "Git"
 
-#: templates/job/blocks/job.html:24
+#: templates/job/blocks/job.html:27
 msgid "Environment"
 msgstr "Окружение"
 
-#: templates/job/blocks/job.html:27 templates/job/blocks/notification.html:4
+#: templates/job/blocks/job.html:30 templates/job/blocks/notification.html:4
 msgid "Notification"
 msgstr "Оповещение"
 
-#: templates/job/blocks/job.html:30 templates/job/blocks/schedule.html:4
+#: templates/job/blocks/job.html:33 templates/job/blocks/schedule.html:4
 msgid "Schedule"
 msgstr "Планирование"
 

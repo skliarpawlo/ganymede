@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<fieldset>
+    <legend>{% trans "Deployment" %}</legend>
+
+    <label class="control-label" for="deploy-code-chbox">
+        <input id="deploy-code-chbox" type="checkbox" {% if job.deploy %}checked="checked"{% endif %} />
+        &nbsp{% trans "Script for deploy" %}
+    </label>
+
+    <div id="deploy-code-part" {% if not job.deploy %}style="display: none"{% endif %}>
+        <label class="control-label">{% trans "Source code" %} (shell)</label>
+        <div class="code-block">
+            {% if job.deploy %}
+                <textarea id="deploy-scipt" rows="5">{{ job.deploy }}</textarea>
+            {% else %}
+                <textarea id="deploy-scipt" rows="5">{% include "job/blocks/deploy_default.html" %}</textarea>
+            {% endif %}
+        </div>
+    </div>
+
+
+</fieldset>
