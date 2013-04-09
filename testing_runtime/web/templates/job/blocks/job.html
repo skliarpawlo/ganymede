@@ -21,10 +21,10 @@
                 <a href="#tab2" data-toggle="tab">{% trans "Deployment" %}</a>
             </li>
             <li>
-                <a href="#tab3" data-toggle="tab">{% trans "Tests" %}</a>
+                <a href="#tab3" data-toggle="tab">{% trans "Environment" %}</a>
             </li>
             <li>
-                <a href="#tab4" data-toggle="tab">{% trans "Environment" %}</a>
+                <a href="#tab4" data-toggle="tab">{% trans "Tests" %}</a>
             </li>
             <li>
                 <a href="#tab5" data-toggle="tab">{% trans "Notification" %}</a>
@@ -44,10 +44,10 @@
                 {% include "job/blocks/deployment.html" %}
             </div>
             <div class="tab-pane" id="tab3">
-                {% include "job/blocks/tests_list.html" %}
+                {% include "job/blocks/environment.html" %}
             </div>
             <div class="tab-pane" id="tab4">
-                {% include "job/blocks/environment.html" %}
+                {% include "job/blocks/tests_list.html" %}
             </div>
             <div class="tab-pane" id="tab5">
                 {% include "job/blocks/notification.html" %}
