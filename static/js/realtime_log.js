@@ -17,11 +17,13 @@ $(function(){
         }
     });
 
+    $(document).delegate( ".show-log", "click", function() {
+        gany.modals.info( $(this).siblings(".log").html().split("\n").join("<br/>") );
+    });
+
     $(document).bind("data-appended", function() {
         $("#result-table").show();
-        $(".show-log").unbind("click").bind( "click", function() {
-            gany.modals.info( $(this).next().html().split("\n").join("<br/>") );
-        });
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
     var result_markup =
@@ -35,13 +37,13 @@ $(function(){
             "</td>" +
             "<td>${name}</td>"+
             "<td>" +
-                "<a href='/test/update/${test_id}'><i class='icon-file' title='" + gettext('Test') + "' /></a>" +
-                "<a class='show-log cursor-hand'>" +
+                "<a data-toggle='tooltip' data-original-title='" + gettext('View') + "' href='/test/update/${test_id}'><i class='icon-file' title='" + gettext('Test') + "' /></a>" +
+                "<a data-toggle='tooltip' data-original-title='" + gettext('Log') + "' class='show-log cursor-hand'>" +
                     "<i class='icon-tasks' title='" + gettext('Log') + "' />" +
                 "</a>" +
                 "<div class='log'>{{html log}}</div>" +
                 "{{each artifacts}}" +
-                    "<a class='fancybox' rel='group1' href='${$value.path}' title='${name}'><i class='icon-picture' /></a>" +
+                    "<a data-toggle='tooltip' data-original-title='" + gettext('Screenshot') + "' class='fancybox' rel='group1' href='${$value.path}'><i class='icon-picture' /></a>" +
                 "{{/each}}" +
             "</td>" +
         "</tr>";
@@ -54,13 +56,13 @@ $(function(){
             "</td>" +
             "<td>${name}</td>"+
             "<td>" +
-                "<a href='/test/update/${test_id}'><i class='icon-file' title='" + gettext('Test') + "' /></a>" +
-                "<a class='show-log cursor-hand'>" +
+                "<a data-toggle='tooltip' data-original-title='" + gettext('View') + "' href='/test/update/${test_id}'><i class='icon-file' title='" + gettext('Test') + "' /></a>" +
+                "<a data-toggle='tooltip' data-original-title='" + gettext('Log') + "' class='show-log cursor-hand'>" +
                     "<i class='icon-tasks' title='" + gettext('Log') + "' />" +
                 "</a>" +
                 "<div class='log' id='current-test-log'>{{html log}}</div>" +
                     "{{each artifacts}}" +
-                        "<a class='fancybox' rel='group1' href='${$value.path}' title='${name}'><i class='icon-picture' /></a>" +
+                        "<a data-toggle='tooltip' data-original-title='" + gettext('Screenshot') + "' class='fancybox' rel='group1' href='${$value.path}'><i class='icon-picture' /></a>" +
                     "{{/each}}" +
             "</td>" +
         "</tr>";

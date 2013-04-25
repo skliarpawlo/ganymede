@@ -53,4 +53,8 @@ def log( request, task_id ) :
     task["name"] = task_model.job.name
     task["branch"] = task_model.job.branch
     task["repo"] = task_model.job.repo
-    return render_to_response('job/state/realtime_log.html', {'task':task, 'title':title})
+    return render_to_response(
+        'job/state/realtime_log.html',
+        {'task':task, 'title':title},
+        context_instance=RequestContext(request)
+    )
