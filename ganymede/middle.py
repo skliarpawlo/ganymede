@@ -12,7 +12,8 @@ from django.core.urlresolvers import resolve
 def is_static(request):
     return request.path.startswith("/static/") or\
            request.path.startswith("/favicon.ico") or\
-           request.path.startswith("/jsi18n")
+           request.path.startswith("/jsi18n") or\
+           request.path.startswith("/i18n")
 
 class DbMiddleware :
 

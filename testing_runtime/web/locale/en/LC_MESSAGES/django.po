@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 13:34+0300\n"
+"POT-Creation-Date: 2013-04-25 11:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,52 +17,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: job.py:70 templates/job/add/add_job.html:12
+#: job.py:71 templates/job/add/add_job.html:12
 #: templates/job/add/add_job.html.py:19 templates/layout/navbar.html:10
 msgid "Add job"
 msgstr ""
 
-#: job.py:70 job.py:100 job.py:130 templates/job/list/list.html:13
+#: job.py:71 job.py:104 job.py:136 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr ""
 
-#: job.py:116 templates/job/list/list.html:47
+#: job.py:120 templates/job/list/list.html:47
 msgid "Not executed"
 msgstr ""
 
-#: job.py:130 templates/job/update/update_job.html:12
+#: job.py:136 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr ""
 
-#: tasks.py:12 templates/job/state/state.html:13
+#: tasks.py:13 templates/job/state/state.html:13
 #: templates/layout/navbar.html:4
 msgid "System state"
 msgstr ""
 
-#: tasks.py:39 templates/job/state/realtime_log.html:26
+#: tasks.py:48 templates/job/state/realtime_log.html:26
 msgid "Task log"
 msgstr ""
 
-#: tasks.py:39
+#: tasks.py:48
 msgid "Tasks"
 msgstr ""
 
-#: tests.py:106 templates/layout/navbar.html:16
+#: tests.py:108 templates/layout/navbar.html:16
 #: templates/test/add/add_test.html:12 templates/test/add/add_test.html:19
 msgid "Add test"
 msgstr ""
 
-#: tests.py:106 tests.py:124 tests.py:129 templates/job/blocks/job.html:24
+#: tests.py:108 tests.py:130 tests.py:139 templates/job/blocks/job.html:27
 #: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
 msgid "Tests"
 msgstr ""
 
-#: tests.py:129 templates/test/update/update_test.html:12
+#: tests.py:139 templates/test/update/update_test.html:12
 msgid "Update test"
 msgstr ""
 
-#: tests.py:196
+#: tests.py:210
 msgid "Index"
 msgstr ""
 
@@ -109,6 +109,14 @@ msgstr "Russian"
 #: locale/js.py:12
 msgid "English"
 msgstr "English"
+
+#: locale/js.py:13
+msgid "View"
+msgstr ""
+
+#: locale/js.py:14
+msgid "Screenshot"
+msgstr ""
 
 #: templates/index.html:13
 msgid "Ganymede title"
@@ -204,7 +212,7 @@ msgstr ""
 msgid "Git"
 msgstr ""
 
-#: templates/job/blocks/job.html:27
+#: templates/job/blocks/job.html:24
 msgid "Environment"
 msgstr ""
 
@@ -339,6 +347,14 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: templates/layout/navbar.html:21 templates/user/login_page.html:8
+msgid "Log In"
+msgstr ""
+
+#: templates/layout/navbar.html:33
+msgid "Log Out"
+msgstr ""
+
 #: templates/modals/info_modal.html:5
 msgid "Info"
 msgstr ""
@@ -377,6 +393,18 @@ msgstr ""
 
 #: templates/test/blocks/test.html:44
 msgid "Test source code"
+msgstr ""
+
+#: templates/user/login_page.html:12
+msgid "User name"
+msgstr ""
+
+#: templates/user/login_page.html:23
+msgid "Password"
+msgstr ""
+
+#: templates/user/login_page.html:30
+msgid "Sign in"
 msgstr ""
 
 #, fuzzy
