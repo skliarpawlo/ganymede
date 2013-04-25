@@ -5,7 +5,7 @@ from threading import Timer
 
 def add_task( job_id ) :
     db.reconnect()
-    new_task = Task( job_id = job_id, status='waiting' )
+    new_task = Task( job_id = job_id, status='waiting', whose='cron [daily]' )
     db.session.add( new_task )
     db.session.commit()
 

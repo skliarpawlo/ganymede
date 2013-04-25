@@ -20,6 +20,7 @@ def system_state(request) :
         t["job_id"] = task.job.job_id
         t["status"] = task.status.capitalize()
         t["add_time"] = task.add_time
+        t["whose"] = task.whose if not task.whose is None else "-"
         if task.total_time < 0 :
             t["total_time"] = "-"
         else :
@@ -40,7 +41,8 @@ def system_state(request) :
 
 def run_job( request ) :
     job_id = request.POST['job_id']
-    new_task = Task( job_id = job_id, status='waiting' )
+    whose = request.user.username
+    new_task = Task( job_id = job_id, status='waiting', whose=whose )
     db.session.add( new_task )
     return HttpResponse( json.dumps( { "status" : "ok" } ), mimetype="application/json" )
 

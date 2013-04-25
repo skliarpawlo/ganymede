@@ -26,10 +26,10 @@ user_session = None
 def init():
     global _engine, _Session, session, config, _user_engine, _user_Session, user_session
     if _engine == None :
-        _engine = create_engine(config["connection"], pool_size=3, pool_recycle=30)
+        _engine = create_engine(config["connection"], pool_size=10, pool_recycle=30)
         _Session = sessionmaker(bind=_engine)
 
-        _user_engine = create_engine( config["users"], pool_size=3, pool_recycle=30 )
+        _user_engine = create_engine( config["users"], pool_size=10, pool_recycle=30 )
         _user_Session = sessionmaker(bind=_user_engine)
 
     session = _Session()

@@ -78,7 +78,13 @@ def add_job(request) :
         users = request.POST[ 'users' ]
         deploy = request.POST[ 'deploy' ]
         job_tests = json_to_tests(request.POST[ 'tests' ])
-        job = Job( name=name, repo=repo, branch=branch, tests=job_tests, users=users, deploy=deploy )
+        whose = request.user.username
+        job = Job(
+            name=name, repo=repo,
+            branch=branch, tests=job_tests,
+            users=users, deploy=deploy,
+            whose=whose
+        )
 
         job.envs = json_to_envs( request.POST[ 'envs' ] )
 
@@ -117,6 +123,7 @@ def list_jobs(request) :
             "name" : job.name,
             "repo" : job.repo,
             "branch" : job.branch,
+            "whose" : job.whose if not job.whose is None else "-",
             "last_status" :  _( "Not executed" ) if (last_task is None) else last_task.status.capitalize(),
             "last_task_id" : None if (last_task is None) else last_task.task_id
         } )

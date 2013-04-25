@@ -5,6 +5,7 @@
         <th>#</th>
         <th>{% trans "Status" %}</th>
         <th>{% trans "Job" %}</th>
+        <th>{% trans "Who started" %}</th>
         <th>{% trans "Log" %}</th>
         <th>{% trans "Start time" %}</th>
         <th>{% trans "Total time" %}</th>
@@ -29,6 +30,7 @@
                     {{ task.job_name }}
                 </a>
             </td>
+            <td>{{ task.whose }}</td>
             <td>
                 {% if task.status == 'Running' or task.status == 'Success' or task.status == 'Fail' %}
                     <a href="{% url testing_runtime.web.tasks.log task.id %}">{% trans "Log" %}</a>

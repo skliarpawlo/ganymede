@@ -20,6 +20,7 @@ class Job(Base) :
 
     job_id = Column( Integer, primary_key=True )
     name = Column( Unicode, unique=True )
+    whose = Column( Unicode )
     repo = Column( Unicode )
     branch = Column( Unicode )
     deploy = Column( Unicode )
@@ -35,6 +36,7 @@ class Task(Base) :
     task_id = Column( Integer, primary_key=True )
     job_id = Column( Unicode, ForeignKey("gany_jobs.job_id") )
     status = Column( Enum('waiting', 'running', 'success', 'fail'), nullable=False, default='waiting' )
+    whose = Column( Unicode )
     add_time = Column( DateTime )
     end_time = Column( DateTime )
     total_time = Column( Integer, default=-1 )
@@ -50,6 +52,7 @@ class StoredTest(Base) :
     __tablename__ = "gany_tests"
 
     test_id = Column( Integer, primary_key=True )
+    whose = Column( Unicode )
     code = Column( Unicode )
     status = Column( Enum('new', 'accepted'), nullable=False, default='new' )
 

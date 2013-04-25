@@ -5,12 +5,19 @@ from testing_runtime import models
 
 _all_tests = None
 _test_id_to_status = None
+_test_id_to_whose = None
 
 def test_id_to_status( test_id ) :
     global _test_id_to_status
     if _test_id_to_status is None :
         _fetch_tests()
     return _test_id_to_status[ test_id ]
+
+def test_id_to_whose( test_id ) :
+    global _test_id_to_whose
+    if _test_id_to_whose is None :
+        _fetch_tests()
+    return _test_id_to_whose[ test_id ]
 
 def all_tests() :
     global _all_tests
@@ -26,10 +33,11 @@ def test_to_id( test ) :
             return x
 
 def _fetch_tests() :
-    global _all_tests, _test_id_to_status
+    global _all_tests, _test_id_to_status, _test_id_to_whose
 
     _all_tests = {}
     _test_id_to_status = {}
+    _test_id_to_whose = {}
 
     #####################
     #fetch tests from db#
@@ -51,3 +59,4 @@ def _fetch_tests() :
                 if inspect.isclass(test) and issubclass(test, utils.Test) :
                     _all_tests[ stored_test.test_id ] = test
                     _test_id_to_status[ stored_test.test_id ] = stored_test.status
+                    _test_id_to_whose[ stored_test.test_id ] = stored_test.whose

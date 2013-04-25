@@ -25,6 +25,9 @@
                 <th>
                     {% trans "Parent test" %}
                 </th>
+                <th>
+                    {% trans "Created" %}
+                </th>
             </tr>
             <tr class="filters">
                 <th></th>
@@ -43,6 +46,9 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                </th>
+                <th>
+                    &nbsp
                 </th>
             </tr>
             </thead>
@@ -69,6 +75,9 @@
                     <td>
                         &nbsp
                     </td>
+                    <td>
+                        {{ test.whose }}
+                    </td>
                 </tr>
                 {% for subtest in test.subtests %}
                     <tr class="filtered-test-row" test_id="{{subtest.id}}">
@@ -89,6 +98,9 @@
                         </td>
                         <td>
                             {{ test.doc }} (#<span class='filtered-test-parent'>{{ test.id }}</span>)
+                        </td>
+                        <td>
+                            {{ subtest.whose }}
                         </td>
                     </tr>
                 {% endfor %}

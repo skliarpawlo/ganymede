@@ -77,6 +77,8 @@ def gather_tests_info( selected_tests = [] ) :
             test[ 'doc' ] = pagetest.__doc__
             test[ 'checked' ] = i in selected_tests
             test[ 'subtests' ] = []
+            whose = tests_config.test_id_to_whose( i )
+            test[ 'whose' ] = whose if not whose is None else "-"
             test[ 'status' ] = tests_config.test_id_to_status( i )
             for j in all_tests :
                 subtest = all_tests[j]()
@@ -87,6 +89,8 @@ def gather_tests_info( selected_tests = [] ) :
                     stest[ 'name' ] = utils.test_name(subtest)
                     stest[ 'doc' ] = subtest.__doc__
                     stest[ 'checked' ] = j in selected_tests
+                    whose = tests_config.test_id_to_whose( j )
+                    stest[ 'whose' ] = whose if not whose is None else "-"
                     stest[ 'status' ] = tests_config.test_id_to_status( j )
                     test[ 'subtests' ].append( stest )
             tests.append( test )
@@ -98,6 +102,8 @@ def gather_tests_info( selected_tests = [] ) :
             test[ 'doc' ] = pagetest.__doc__
             test[ 'checked' ] = i in selected_tests
             test[ 'subtests' ] = []
+            whose = tests_config.test_id_to_whose( i )
+            test[ 'whose' ] = whose if not whose is None else "-"
             test[ 'status' ] = tests_config.test_id_to_status( i )
             tests.append(test)
 
@@ -112,7 +118,8 @@ def add_test(request) :
         if len(err) == 0 :
             code = request.POST['code']
             status = request.POST['status']
-            test = models.StoredTest( code=code, status=status )
+            whose = request.user.username
+            test = models.StoredTest( code=code, status=status, whose=whose )
             db.session.add( test )
             json_resp = json.dumps( { "status" : "ok" } )
             return HttpResponse(json_resp, mimetype="application/json")

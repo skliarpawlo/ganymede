@@ -78,7 +78,7 @@ def push_notification( request ) :
 
         for job in jobs_to_start :
             f.write( u"job started #{0}\n".format( job.job_id ) )
-            new_task = Task( job_id = job.job_id, status='waiting' )
+            new_task = Task( job_id = job.job_id, status='waiting', whose='github' )
             db.session.add( new_task )
 
     else :
