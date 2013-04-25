@@ -7,6 +7,7 @@ import json
 from testing_runtime.web import tests
 from django.utils.translation import ugettext as _
 from decorators import html
+from django.template import RequestContext
 
 def json_to_envs( js, job_id=None ) :
     if js is None :
@@ -68,6 +69,7 @@ def json_to_tests( js ) :
 
 def add_job(request) :
     title = html.title([ _('Add job'), _('Jobs'), 'Ganymede' ])
+    request.page = "job.add"
 
     if request.method == 'POST' :
         name = request.POST[ 'name' ]
@@ -90,11 +92,13 @@ def add_job(request) :
     else :
         tests_data = tests.gather_tests_info()
         users_data = fetch_users_info()
-        return render_to_response( 'job/add/add_job.html', { 'title' : title,
-                                                             'tests' : tests_data,
-                                                             'users' : users_data,
-                                                             'repos' : [],
-                                                             'branches' : ['develop', 't-kz'] } )
+        return render_to_response( 'job/add/add_job.html', {
+            'title' : title,
+            'tests' : tests_data,
+            'users' : users_data,
+            'repos' : [],
+            'branches' : ['develop', 't-kz']
+        }, context_instance=RequestContext(request) )
 
 def list_jobs(request) :
     title = html.title( [ _('Jobs'), 'Ganymede' ] )
@@ -116,8 +120,10 @@ def list_jobs(request) :
             "last_status" :  _( "Not executed" ) if (last_task is None) else last_task.status.capitalize(),
             "last_task_id" : None if (last_task is None) else last_task.task_id
         } )
-    return render_to_response( 'job/list/list.html', { 'title' : title,
-                                                       'jobs' : jobs } )
+    return render_to_response( 'job/list/list.html', {
+        'title' : title,
+        'jobs' : jobs
+    }, context_instance=RequestContext(request) )
 
 def remove_job(request) :
     job_id = request.POST[ 'job_id' ]
@@ -185,4 +191,4 @@ def update_job(request, job_id) :
             'tests' : tests_data,
             'repos' : [],
             'branches' : ['develop', 't-kz']
-        } )
+        }, context_instance=RequestContext(request) )

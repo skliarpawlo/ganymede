@@ -61,7 +61,7 @@
                         <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
                             {{ test.doc }} (#{{test.id}})
                         </a>
-                        {% if test.status == 'new' %}[{% trans "in development" %}]{% endif %}
+                        {% if test.status == 'new' %}<small class="muted">[{% trans "in development" %}]</small>{% endif %}
                     </td>
                     <td class="filtered-test-url">
                         <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>

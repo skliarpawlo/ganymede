@@ -13,6 +13,8 @@ import traceback
 
 from django.utils.translation import ugettext as _
 from decorators import html
+from django.template import RequestContext
+
 
 def verify_test(test_id=None,code=None) :
     errors = []
@@ -118,12 +120,20 @@ def add_test(request) :
             json_resp = json.dumps( { "status" : "error", "content" : err } )
             return HttpResponse(json_resp, mimetype="application/json")
     else :
-        return render_to_response('test/add/add_test.html', { 'title' : title })
+        return render_to_response(
+            'test/add/add_test.html',
+            { 'title' : title },
+            context_instance=RequestContext(request)
+        )
 
 def list_tests(request) :
     title = html.title( [ _('Tests'), 'Ganymede' ] )
     stored_tests = gather_tests_info()
-    return render_to_response('test/list/tests_list.html', { "tests" : stored_tests, 'title' : title })
+    return render_to_response(
+        'test/list/tests_list.html',
+        { "tests" : stored_tests, 'title' : title },
+        context_instance=RequestContext(request)
+    )
 
 def update_test(request, test_id) :
     title = html.title( [ _('Update test') + " #" + str(test_id), _('Tests'), 'Ganymede' ] )
@@ -156,7 +166,11 @@ def update_test(request, test_id) :
         test["name"] = tests_config.all_tests()[test_id].__doc__
         test["code"] = test_model.code
         test["status"] = test_model.status
-        return render_to_response("test/update/update_test.html",{"test":test,'title' : title})
+        return render_to_response(
+            "test/update/update_test.html",
+            {"test":test,'title' : title},
+            context_instance=RequestContext(request)
+        )
 
 def remove_test(request) :
     test_id = int(request.POST[ 'test_id' ])
@@ -194,4 +208,8 @@ def screenshot(request) :
 
 def index(request) :
     title = html.title( [ _('Index'), 'Ganymede' ] )
-    return render_to_response( 'index.html', { 'title' : title } )
+    return render_to_response(
+        'index.html',
+        { 'title' : title },
+        context_instance=RequestContext(request)
+    )

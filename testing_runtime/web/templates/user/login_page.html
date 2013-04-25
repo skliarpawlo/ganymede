@@ -1,0 +1,35 @@
+{% extends "layout/layout.html" %}
+
+{% load i18n %}
+{% load wtforms %}
+
+{% block content %}
+
+    <legend>{% trans "Login" %}</legend>
+
+    <form class="form-horizontal" method="POST">
+        <div class="control-group">
+            <label class="control-label" for="username">{% trans "User name" %}</label>
+            <div class="controls">
+                {% form_field form.username %}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="help-block">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">{% trans "Password" %}</label>
+            <div class="controls">
+                {% form_field form.password %}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">{% trans "Sign in" %}</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

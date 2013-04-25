@@ -7,6 +7,7 @@ from data import providers
 from django.utils.translation import ugettext as _
 from decorators import html
 import datetime
+from django.template import RequestContext
 
 def system_state(request) :
     title = html.title( [ _('System state'), 'Ganymede' ] )
@@ -25,9 +26,17 @@ def system_state(request) :
             t["total_time"] = datetime.timedelta( seconds=task.total_time )
         tasks.append(t)
     if request.is_ajax() :
-        return render_to_response('job/state/table.html', {'tasks':tasks})
+        return render_to_response(
+            'job/state/table.html',
+            {'tasks':tasks},
+            context_instance=RequestContext(request)
+        )
     else :
-        return render_to_response('job/state/state.html', {'tasks':tasks, 'title':title})
+        return render_to_response(
+            'job/state/state.html',
+            {'tasks':tasks, 'title':title},
+            context_instance=RequestContext(request)
+        )
 
 def run_job( request ) :
     job_id = request.POST['job_id']

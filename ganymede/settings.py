@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'testlib',
     'testing_runtime',
     'testing_runtime.web',
+    'wtforms.ext.django',
 )
 
 ####################
@@ -38,13 +39,16 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
     )
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.i18n'
+    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
 )
 MIDDLEWARE_CLASSES = (
 #    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'ganymede.middle.DbMiddleware',
+    'ganymede.middle.UserAuthMiddleware',
+    'ganymede.middle.ViewNameMiddleware',
 )
 
 ROOT_URLCONF = 'ganymede.urls'

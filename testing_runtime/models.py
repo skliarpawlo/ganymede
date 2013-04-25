@@ -6,6 +6,7 @@ import ganymede.settings
 import os
 import hashlib
 import time
+import datetime
 
 Base = declarative_base()
 
@@ -81,6 +82,10 @@ class User(Base) :
 
     def email_hash(self):
         return hashlib.md5(self.email).hexdigest().encode('utf8')
+
+    COOKIE_KEY = "gany_user_identity"
+    def cookie_hash(self):
+        return hashlib.md5(self.salt).hexdigest()
 
     @staticmethod
     def hash_password(password, salt):

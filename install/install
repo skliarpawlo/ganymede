@@ -1,6 +1,7 @@
 pip install pyvirtualdisplay
 pip install sqlalchemy
 pip install selenium
+pip install WTForms
 
 # for logger
 pip install python-memcached

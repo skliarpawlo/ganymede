@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     url(r'^ajax/call$', 'testing_runtime.web.api.call'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
+    url(r'^user/login$', 'testing_runtime.web.user.login_page'),
+    url(r'^user/logout$', 'testing_runtime.web.user.logout'),
+
     url(r'^github/notify$', 'testing_runtime.github.views.push_notification'),
     url(r'^github/test$', 'testing_runtime.github.views.test_notification'),
 )
