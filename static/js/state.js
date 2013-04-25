@@ -7,7 +7,8 @@ $(function(){
             x.pagesize = 25;
             window.location = gany.urls.dumpHashes(x);
         }
-        $.get("", {page:x.page, pagesize:x.pagesize}).done(function(data){
+        return $.get("", {page:x.page, pagesize:x.pagesize}).done(function(data){
+            $("#loading-block").fadeOut(200);
             if ($($.trim(data)).find("tr").size() - 1 < x.pagesize) {
                 $("#pagi-next").parents("li").addClass("disabled");
             } else {
@@ -27,6 +28,7 @@ $(function(){
             $("#pagi-prev").parents("li").addClass("disabled");
         $("#page-no").text(x.page);
         location.hash = gany.urls.dumpHashes(x);
+        $("#loading-block").fadeIn(300);
         content_refresh();
         return false;
     });
@@ -42,7 +44,20 @@ $(function(){
             $("#pagi-prev").parents("li").removeClass("disabled");
         $("#page-no").text(x.page);
         location.hash = gany.urls.dumpHashes(x);
+        $("#loading-block").fadeIn(200);
         content_refresh();
         return false;
     });
+
+    // initial page
+    var x = gany.urls.parseHashes();
+    if (!x.page)
+        x.page = 1;
+    if (x.page > 1) {
+        $("#pagi-prev").parents("li").removeClass("disabled");
+        $("#loading-block").fadeIn(200);
+        content_refresh();
+    }
+    $("#page-no").text(x.page);
+
 });

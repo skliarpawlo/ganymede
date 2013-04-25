@@ -11,8 +11,15 @@
 
     <fieldset>
         <legend>{% trans "System state" %}</legend>
-        <div id="state-table">
-            {% include "job/state/table.html" %}
+        <div id="table-container">
+            <div id="loading-block">
+                <div id="loader-container">
+                    <img src="/static/images/ajax-loader.gif"/>
+                </div>
+            </div>
+            <div id="state-table">
+                {% include "job/state/table.html" %}
+            </div>
         </div>
     </fieldset>
 
