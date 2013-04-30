@@ -26,6 +26,15 @@ var gany = (function() {
             }
             $(el).datetimepicker(o);
         });
+
+        // tabs stuff
+        function tabrefresh() {
+            var tab = document.location.hash;
+            $('.nav-tabs a[href=' + tab + ']').tab('show');
+        }
+        $(window).on('hashchange', tabrefresh);
+        tabrefresh();
+
     });
 
     var urls = {
