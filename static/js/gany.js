@@ -28,12 +28,14 @@ var gany = (function() {
         });
 
         // tabs stuff
-        function tabrefresh() {
-            var tab = document.location.hash;
-            $('.nav-tabs a[href=' + tab + ']').tab('show');
+        if ( $(".nav-tabs").size() > 0 ) {
+            function tabrefresh() {
+                var tab = document.location.hash;
+                $('.nav-tabs a[href=' + tab + ']').tab('show');
+            }
+            $(window).on('hashchange', tabrefresh);
+            tabrefresh();
         }
-        $(window).on('hashchange', tabrefresh);
-        tabrefresh();
 
     });
 
