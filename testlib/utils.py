@@ -71,7 +71,7 @@ class RedirectTest(MainTest) :
             u"При посещении страницы {0}, ожидался {1} переход на страницу {2}, но получен статус {3}".\
             format( html.link(from_url,from_url), redirect_status, html.link( dest_url, dest_url ), from_response.status )
 
-            loc = from_response.getheader('location')
+            loc = from_response.getheader('location').decode('utf-8')
 
             assert loc == dest_url, \
             u"При посещении страницы {0}, ожидался {1} переход на страницу {2}, но редирект перевел на страницу {3}".\
