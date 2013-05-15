@@ -98,6 +98,11 @@ var gany = (function() {
             // git
             var repo = $("#repo-val").val();
             var branch = $("#branch-val").val();
+            // github
+            var github = 'no';
+            if ($("#chk-github").is(":checked")) {
+                github = 'yes';
+            }
             // deploy
             var deploy = null;
             if ($("#deploy-code-chbox").is(":checked")) {
@@ -138,6 +143,7 @@ var gany = (function() {
                 tests : JSON.stringify(tests),
                 users : JSON.stringify(users),
                 envs : JSON.stringify(envs),
+                github : github,
                 exec_time : exec_time,
                 deploy : deploy
             };

@@ -71,7 +71,8 @@ def push_notification( request ) :
                 jobs_to_start = db.session.query( Job ).filter(
                     and_(
                         Job.repo == repo,
-                        Job.branch == branch
+                        Job.branch == branch,
+                        Job.github == 'yes'
                     )
                 ).all()
 

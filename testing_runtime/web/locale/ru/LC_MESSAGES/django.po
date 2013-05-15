@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-25 13:56+0300\n"
+"POT-Creation-Date: 2013-05-15 13:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,16 +24,16 @@ msgstr ""
 msgid "Add job"
 msgstr "Добавить задачу"
 
-#: job.py:71 job.py:110 job.py:143 templates/job/list/list.html:13
+#: job.py:71 job.py:111 job.py:144 templates/job/list/list.html:13
 #: templates/layout/navbar.html:7
 msgid "Jobs"
 msgstr "Задачи"
 
-#: job.py:127 templates/job/list/list.html:49
+#: job.py:128 templates/job/list/list.html:49
 msgid "Not executed"
 msgstr "Не запускалось"
 
-#: job.py:143 templates/job/update/update_job.html:12
+#: job.py:144 templates/job/update/update_job.html:12
 msgid "Update job"
 msgstr "Изменить задачу"
 
@@ -120,6 +120,10 @@ msgstr "Показать"
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
+#: locale/js.py:15
+msgid "Job created"
+msgstr "Задача созданна"
+
 #: templates/index.html:13
 msgid "Ganymede title"
 msgstr "Тестирующая система ЛУН"
@@ -200,6 +204,10 @@ msgstr "Синхронизировать"
 #: templates/job/blocks/git_tab.html:19 templates/job/list/list.html:19
 msgid "Branch"
 msgstr "Ветка"
+
+#: templates/job/blocks/git_tab.html:30
+msgid "Execute on github notification"
+msgstr "Выполнять при каждом обновлении ветки на github-е"
 
 #: templates/job/blocks/job.html:8 templates/modals/error_modal.html:6
 msgid "Error"
@@ -321,11 +329,11 @@ msgstr "Название теста"
 msgid "Additional info"
 msgstr "Дополнительная информация"
 
-#: templates/job/state/state.html:27
+#: templates/job/state/state.html:34
 msgid "Prev"
 msgstr "Пред."
 
-#: templates/job/state/state.html:35
+#: templates/job/state/state.html:42
 msgid "Next"
 msgstr "След."
 

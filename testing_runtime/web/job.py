@@ -77,13 +77,14 @@ def add_job(request) :
         branch = request.POST[ 'branch' ]
         users = request.POST[ 'users' ]
         deploy = request.POST[ 'deploy' ]
+        github = request.POST[ 'github' ]
         job_tests = json_to_tests(request.POST[ 'tests' ])
         whose = request.user.username
         job = Job(
             name=name, repo=repo,
             branch=branch, tests=job_tests,
             users=users, deploy=deploy,
-            whose=whose
+            whose=whose, github=github
         )
 
         job.envs = json_to_envs( request.POST[ 'envs' ] )
@@ -151,6 +152,7 @@ def update_job(request, job_id) :
         job.tests = json_to_tests( request.POST[ 'tests' ] )
         job.users = request.POST[ 'users' ]
         job.deploy = request.POST[ 'deploy' ] if not request.POST[ 'deploy' ] == u'' else None
+        job.github = request.POST[ 'github' ]
 
         for env in job.envs :
             db.session.delete( env )
@@ -180,7 +182,8 @@ def update_job(request, job_id) :
             "envs" : job_model.envs,
             "exec_time" : job_model.exec_time.strftime("%H:%M") if not job_model.exec_time is None else "",
             "tests" : job_model.tests,
-            "deploy" : job_model.deploy
+            "deploy" : job_model.deploy,
+            "github" : job_model.github
         }
 
         tests_ids = []

@@ -26,6 +26,7 @@ class Job(Base) :
     deploy = Column( Unicode )
     exec_time = Column( Time )
     users = Column( Unicode )
+    github = Column( Enum( 'no', 'yes' ), default='no' )
 
     tests = relationship( "StoredTest", secondary = jobs_to_tests )
     envs = relationship( "EnvScript" )

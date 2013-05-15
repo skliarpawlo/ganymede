@@ -11,9 +11,10 @@
            value="callisto"
        {% endif %}
 />
-<button type="button" class="btn" id="refresh-repo-btn">
-    {% trans "Sync with github" %}
-</button>
+
+<a id="refresh-repo-btn" data-toggle="tooltip" data-original-title="{% trans "Sync with github" %}">
+    <i class="icon-refresh"></i>
+</a>
 
 <label class="control-label" for="branch-val">
     {% trans "Branch" %}
@@ -25,4 +26,8 @@
            value="master"
        {% endif %}
 />
+
+<label class="checkbox">
+    <input id="chk-github" {% if job.github == 'yes' %}checked="checked"{% endif %} type="checkbox"> {% trans "Execute on github notification" %}
+</label>
 </fieldset>

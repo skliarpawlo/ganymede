@@ -2,10 +2,10 @@ $(function() {
     // git stuff
     $("#refresh-repo-btn").click(function() {
         var that = $(this);
-        that.prop("disabled","disabled");
+        that.find(".icon-refresh").removeClass("icon-refresh").addClass("icon-time");
         gany.git.reset();
         gany.git.fetch($("#repo-val").val()).done(function(data) {
-            that.prop("disabled",false);
+            that.find(".icon-time").removeClass("icon-time").addClass("icon-refresh");
             if (data.status == "ok") {
                 gany.modals.info( gettext('Repository synchronized') + ": " + data.content );
             } else {
