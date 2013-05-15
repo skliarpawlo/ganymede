@@ -15,6 +15,16 @@ def is_static(request):
            request.path.startswith("/jsi18n") or\
            request.path.startswith("/i18n")
 
+
+def is_github(request):
+    return request.path.startswith("/github/notify")
+        # and\   # may change so not recomended
+        #    request.META["REMOTE_ADDR"] in \
+        #         ( '127.0.0.1',
+        #           '207.97.227.253', '50.57.128.197', '108.171.174.178',
+        #           '50.57.231.61', '204.232.175.64', '192.30.252.0' )
+
+
 class DbMiddleware :
 
     def process_request(self, request):
@@ -35,7 +45,7 @@ class DbMiddleware :
 class UserAuthMiddleware :
 
     def process_request(self, request):
-        if is_static( request ) :
+        if is_static( request ) or is_github( request ) :
             return
 
         id_cookie = request.COOKIES['gany_user_identity'] if 'gany_user_identity' in request.COOKIES else '-'

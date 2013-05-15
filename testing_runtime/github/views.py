@@ -56,39 +56,39 @@ def test_notification( request ) :
     return HttpResponse({"status" : "ok"}, mimetype="application/json")
 
 def push_notification( request ) :
+    log_path = os.path.join( settings.HEAP_PATH, "github.log" )
+    with open( log_path, "a" ) as f :
+        f.write(u"Client IP: {ip}\n".format(ip=request.META["REMOTE_ADDR"]))
+        if request.POST.has_key('payload') :
+            try :
+                json_resp = json.loads( request.POST['payload'] )
 
-    f = open( os.path.join( settings.HEAP_PATH, "github.log" ), "a" )
+                repo = json_resp[ "repository" ][ "name" ]
+                branch = "-"
+                if json_resp[ "ref" ][ :len( "refs/heads/" ) ] == "refs/heads/" :
+                    branch = json_resp[ "ref" ][ len( "refs/heads/" ): ]
 
-    if request.POST.has_key('payload') :
-        json_resp = json.loads( request.POST['payload'] )
+                jobs_to_start = db.session.query( Job ).filter(
+                    and_(
+                        Job.repo == repo,
+                        Job.branch == branch
+                    )
+                ).all()
 
-        repo = json_resp[ "repository" ][ "name" ]
-        branch = "-"
-        if json_resp[ "ref" ][ :len( "refs/heads/" ) ] == "refs/heads/" :
-            branch = json_resp[ "ref" ][ len( "refs/heads/" ): ]
+                f.write( u"repo '{0}' branch '{1}'\n".format( repo, branch ) )
 
-        jobs_to_start = db.session.query( Job ).filter(
-            and_(
-                Job.repo == repo,
-                Job.branch == branch
-            )
-        ).all()
+                for job in jobs_to_start :
+                    f.write( u"job started #{0}\n".format( job.job_id ) )
+                    new_task = Task( job_id = job.job_id, status='waiting', whose='github' )
+                    db.session.add( new_task )
+            except Exception as ex :
+                json_resp = { "status" : "exception raised: {0}".format( str( ex ) ) }
+        else :
+            json_resp = { "status" : "not github knocking here" }
 
-        f.write( u"repo '{0}' branch '{1}'\n".format( repo, branch ) )
-
-        for job in jobs_to_start :
-            f.write( u"job started #{0}\n".format( job.job_id ) )
-            new_task = Task( job_id = job.job_id, status='waiting', whose='github' )
-            db.session.add( new_task )
-
-    else :
-        json_resp = { "status" : "not github knocking here" }
-
-
-    f.write( u"\n\n" )
-    f.write( json.dumps( json_resp ) )
-    f.write( u"\n\n______________________\n\n" )
-    f.close()
+        f.write( u"\n\n" )
+        f.write( json.dumps( json_resp ) )
+        f.write( u"\n\n______________________\n\n" )
 
     return HttpResponse(json_resp, mimetype="application/json")
 
