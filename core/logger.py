@@ -103,9 +103,9 @@ def set_status( status ) :
     set_result( obj )
 
 # RAW LOG WRITE
-def write( s, append=True ) :
+def write( s, append=True, to_task_log=False ) :
     test = get_test()
-    if test is None :
+    if (to_task_log) or (test is None) :
         if append == True :
             was = memcached.get( derive_task_log_key(), u"" )
             memcached.set( derive_task_log_key(), was + u"\n" + s )

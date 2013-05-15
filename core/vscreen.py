@@ -9,5 +9,6 @@ def start() :
     display.start()
         
 def stop() :
-    display.stop()
-    
+    if not display is None :
+        display.stop()
+

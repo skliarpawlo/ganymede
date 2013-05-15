@@ -82,9 +82,8 @@ def signal_handler( task, start_time ) :
 
     def stop_me( signum, frame ) :
         core.db.reconnect()
-
         with core.logger.current_task( task_id ) :
-            core.logger.write("task interrupted!")
+            core.logger.write("Task interrupted!", True, True)
             log = core.logger.get_task_log()
 
         result = json.dumps( core.logger.get_all_results() )
