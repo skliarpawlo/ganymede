@@ -1,7 +1,7 @@
 CREATE TABLE `gany_jobs` (
   `job_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) DEFAULT NULL,
-  `whose` varchar(12) DEFAULT NULL,
+  `whose` varchar(64) DEFAULT NULL,
   `repo` varchar(255) DEFAULT NULL,
   `branch` varchar(80) DEFAULT NULL,
   `deploy` text,
@@ -15,7 +15,7 @@ CREATE TABLE `gany_tasks` (
   `task_id` int(11) not null auto_increment,
   `job_id` int(11),
   `status` enum('waiting', 'running', 'fail', 'success') not null default 'waiting',
-  `whose` varchar(12) DEFAULT NULL,
+  `whose` varchar(64) DEFAULT NULL,
   `add_time` TIMESTAMP,
   `end_time` TIMESTAMP,
   `total_time` int(11) default -1,
@@ -28,7 +28,7 @@ CREATE TABLE `gany_tasks` (
 
 CREATE TABLE `gany_tests` (
   `test_id` int(11) not null auto_increment,
-  `whose` varchar(12) DEFAULT NULL,
+  `whose` varchar(64) DEFAULT NULL,
   `code` text,
   `status` enum('new', 'accepted') not null default 'new',
   primary key(`test_id`)

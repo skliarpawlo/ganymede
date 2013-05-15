@@ -58,10 +58,13 @@ def test_notification( request ) :
 def push_notification( request ) :
     log_path = os.path.join( settings.HEAP_PATH, "github.log" )
     with open( log_path, "a" ) as f :
-        f.write(u"Client IP: {ip}\n".format(ip=request.META["REMOTE_ADDR"]))
+        f.write( u"\n\n______________________\n\n" )
+        f.write(u"Client IP: {ip}\n\n".format(ip=request.META["REMOTE_ADDR"]))
         if request.POST.has_key('payload') :
             try :
                 json_resp = json.loads( request.POST['payload'] )
+                f.write( json.dumps( json_resp ) )
+                f.write( u"\n\nProcessing github notification:\n\n" )
 
                 repo = json_resp[ "repository" ][ "name" ]
                 branch = "-"
@@ -80,16 +83,20 @@ def push_notification( request ) :
 
                 for job in jobs_to_start :
                     f.write( u"job started #{0}\n".format( job.job_id ) )
-                    new_task = Task( job_id = job.job_id, status='waiting', whose='github' )
+                    whose = 'github'
+                    if ("pusher" in json_resp) and \
+                       ("name" in json_resp[ "pusher" ]) and \
+                       ("email" in json_resp[ "pusher" ]) :
+                        whose = u'github, pushed by {0} ({1})'.format(
+                            json_resp[ "pusher" ][ "name" ],
+                            json_resp[ "pusher" ][ "email" ]
+                        )
+                    new_task = Task( job_id = job.job_id, status='waiting', whose=whose )
                     db.session.add( new_task )
             except Exception as ex :
-                json_resp = { "status" : "exception raised: {0}".format( str( ex ) ) }
+                f.write( u"exception raised: {0}".format( str( ex ) ) )
         else :
-            json_resp = { "status" : "not github knocking here" }
-
-        f.write( u"\n\n" )
-        f.write( json.dumps( json_resp ) )
-        f.write( u"\n\n______________________\n\n" )
+            f.write( u"not github knocking here" )
 
     return HttpResponse(json_resp, mimetype="application/json")
 
