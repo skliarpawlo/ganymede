@@ -82,17 +82,30 @@ def push_notification( request ) :
                 f.write( u"repo '{0}' branch '{1}'\n".format( repo, branch ) )
 
                 for job in jobs_to_start :
-                    f.write( u"job started #{0}\n".format( job.job_id ) )
-                    whose = 'github'
-                    if ("pusher" in json_resp) and \
-                       ("name" in json_resp[ "pusher" ]) and \
-                       ("email" in json_resp[ "pusher" ]) :
-                        whose = u'github, pushed by {0} ({1})'.format(
-                            json_resp[ "pusher" ][ "name" ],
-                            json_resp[ "pusher" ][ "email" ]
+                    same_waiting_tasks = db.session.query( Task ).filter(
+                        and_(
+                            Task.job_id == job.job_id,
+                            Task.status == 'waiting'
                         )
-                    new_task = Task( job_id = job.job_id, status='waiting', whose=whose )
-                    db.session.add( new_task )
+                    ).all()
+                    if len( same_waiting_tasks ) == 0 :
+                        f.write( u"job started #{0}\n".format( job.job_id ) )
+                        whose = 'github'
+                        if ("pusher" in json_resp) and \
+                           ("name" in json_resp[ "pusher" ]) and \
+                           ("email" in json_resp[ "pusher" ]) :
+                            whose = u'github, pushed by {0} ({1})'.format(
+                                json_resp[ "pusher" ][ "name" ],
+                                json_resp[ "pusher" ][ "email" ]
+                            )
+                        new_task = Task( job_id = job.job_id, status='waiting', whose=whose )
+                        db.session.add( new_task )
+                    else :
+                        f.write( u"same task already waiting: " )
+                        for x in same_waiting_tasks :
+                            f.write( u"#{0} ".format( x.task_id ) )
+                        f.write( u"\n" )
+
             except Exception as ex :
                 f.write( u"exception raised: {0}".format( str( ex ) ) )
         else :

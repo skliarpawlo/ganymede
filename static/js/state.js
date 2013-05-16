@@ -8,13 +8,13 @@ $(function(){
             window.location = gany.urls.dumpHashes(x);
         }
         return $.get("", {page:x.page, pagesize:x.pagesize}).done(function(data){
-            $("#loading-block").fadeOut(200);
             if ($($.trim(data)).find("tr").size() - 1 < x.pagesize) {
                 $("#pagi-next").parents("li").addClass("disabled");
             } else {
                 $("#pagi-next").parents("li").removeClass("disabled");
             }
             $("#state-table").html(data);
+            $("#loading-block").fadeOut(200);
         });
     }
 
