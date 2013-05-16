@@ -1,6 +1,6 @@
 $(function(){
 
-    var content_refresh = function() {
+    var content_refresh = function( process_loader ) {
         var x = gany.urls.parseHashes();
         if (!x.page) {
             x.page = 1;
@@ -13,12 +13,17 @@ $(function(){
             } else {
                 $("#pagi-next").parents("li").removeClass("disabled");
             }
-            $("#state-table").html(data);
-            $("#loading-block").fadeOut(200);
+
+            var xx = gany.urls.parseHashes();
+
+            if ( process_loader && (xx.page == x.page) ) { // если подгруженные данные не соответствуют странице
+                $("#state-table").html(data);
+                $("#loading-block").fadeOut(200);
+            }
         });
     }
 
-    setInterval( content_refresh, 2000 );
+    setInterval( function() { content_refresh(false); }, 2000 );
 
     $("#pagi-prev").click(function() {
         var x = gany.urls.parseHashes();
@@ -29,7 +34,7 @@ $(function(){
         $("#page-no").text(x.page);
         location.hash = gany.urls.dumpHashes(x);
         $("#loading-block").fadeIn(300);
-        content_refresh();
+        content_refresh( true );
         return false;
     });
 
@@ -44,8 +49,8 @@ $(function(){
             $("#pagi-prev").parents("li").removeClass("disabled");
         $("#page-no").text(x.page);
         location.hash = gany.urls.dumpHashes(x);
-        $("#loading-block").fadeIn(200);
-        content_refresh();
+        $("#loading-block").fadeIn(300);
+        content_refresh( true );
         return false;
     });
 
@@ -55,8 +60,8 @@ $(function(){
         x.page = 1;
     if (x.page > 1) {
         $("#pagi-prev").parents("li").removeClass("disabled");
-        $("#loading-block").fadeIn(200);
-        content_refresh();
+        $("#loading-block").fadeIn(300);
+        content_refresh( true );
     }
     $("#page-no").text(x.page);
 
