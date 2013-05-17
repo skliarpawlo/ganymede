@@ -1,6 +1,7 @@
 import inspect
 from testlib import utils
 from core import db
+from sqlalchemy import func
 from testing_runtime import models
 
 _all_tests = None
@@ -22,6 +23,9 @@ def test_id_to_whose( test_id ) :
 def all_tests() :
     global _all_tests
     if _all_tests is None :
+        _fetch_tests()
+    tests_count = db.session.query( func.count( models.StoredTest.test_id ) ).scalar()
+    if len( _all_tests ) != tests_count :
         _fetch_tests()
     return _all_tests
 

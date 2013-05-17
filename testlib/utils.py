@@ -333,21 +333,7 @@ class SearchFormTest( FunctionalTest ) :
     checking_element = None
     checkboxes = []
     selects = []
-
-    # location_params = {
-    #     "type" : "district",
-    #     "check" : [ "//*[@id='d3']", "//*[@id='d4']" ]
-    # }
-
-    # location_params = {
-    #     "type" : "street",
-    #     "text" : [ u"Крещатик", Keys.RETURN ]
-    # }
-
-    # location_params = {
-    #     "type" : "address",
-    #     "text" : [ u"Крещатик ул., 15", Keys.RETURN ]
-    # }
+    location_params = {}
 
     realty_type_change = '//*[@id="s-form"]//div[@class="input-pseudoselect for-items-nowrap"]'
     realty_type_select = None
@@ -462,8 +448,9 @@ class SearchFormTest( FunctionalTest ) :
                 el.clear()
                 el.send_keys( sel[ "to" ][ "value" ] )
 
-        loc_method = getattr( self, self.location_params[ "type" ] )
-        loc_method()
+        if "type" in self.location_params :
+            loc_method = getattr( self, self.location_params[ "type" ] )
+            loc_method()
 
         ff.find_element_by_xpath( self.realty_type_change ).click()
         ff.find_element_by_xpath( self.realty_type_select ).click()
@@ -486,35 +473,29 @@ class SearchFormTest( FunctionalTest ) :
                 pass
 
         for sel in self.selects :
-            ff.find_element_by_xpath( sel[ "element" ] ).click()
-            if "check" in sel :
-                for sel_chk in sel[ "check" ] :
-                    try :
+            try :
+                ff.find_element_by_xpath( sel[ "element" ] ).click()
+                if "check" in sel :
+                    for sel_chk in sel[ "check" ] :
                         assert ff.find_element_by_xpath( sel_chk ).is_selected(), u"Элемент по xpath: '{0}' не выбран, хотя выбирался при заполнении формы".format( sel_chk )
-                    except NoSuchElementException as ex :
-                        pass
 
-            if "from" in sel :
-                try :
+                if "from" in sel :
                     assert ff.find_element_by_xpath( sel["from"]["input"] ).get_attribute( "value" ) == sel["from"]["value"], \
                         u"Значение элемента по xpath: '{0}' не соответвует введенному, {0} != {1}".format(
                             ff.find_element_by_xpath( sel["from"]["input"] ).get_attribute( "value" ),
                             sel["from"]["value"]
                         )
-                except NoSuchElementException as ex :
-                    pass
 
-            if "to" in sel :
-                try :
+                if "to" in sel :
                     assert ff.find_element_by_xpath( sel["to"]["input"] ).get_attribute( "value" ) == sel["to"]["value"], \
                         u"Значение элемента по xpath: '{0}' не соответвует введенному, {0} != {1}".format(
                             ff.find_element_by_xpath( sel["to"]["input"] ).get_attribute( "value" ),
                             sel["to"]["value"]
                         )
-                except NoSuchElementException as ex :
-                    pass
+            except NoSuchElementException as ex :
+                pass
 
-        if hasattr( self, self.location_params[ "type" ] + "_check") :
+        if ( "type" in self.location_params ) and hasattr( self, self.location_params[ "type" ] + "_check" ) :
             loc_check_method = getattr( self, self.location_params[ "type" ] + "_check" )
             loc_check_method()
 

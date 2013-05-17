@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-15 13:05+0300\n"
+"POT-Creation-Date: 2013-05-17 16:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,11 +200,11 @@ msgstr ""
 msgid "Sync with github"
 msgstr ""
 
-#: templates/job/blocks/git_tab.html:19 templates/job/list/list.html:19
+#: templates/job/blocks/git_tab.html:20 templates/job/list/list.html:19
 msgid "Branch"
 msgstr ""
 
-#: templates/job/blocks/git_tab.html:30
+#: templates/job/blocks/git_tab.html:31
 msgid "Execute on github notification"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgid "Empty"
 msgstr ""
 
 #: templates/job/blocks/tests_list.html:60
-#: templates/job/blocks/tests_list.html:83 templates/test/blocks/test.html:40
+#: templates/job/blocks/tests_list.html:83 templates/test/blocks/test.html:44
 #: templates/test/list/tests_list.html:70
 #: templates/test/list/tests_list.html:94
 msgid "in development"
@@ -317,7 +317,7 @@ msgid "Results"
 msgstr ""
 
 #: templates/job/state/realtime_log.html:47 templates/job/state/table.html:6
-#: templates/test/blocks/test.html:36
+#: templates/test/blocks/test.html:40
 msgid "Status"
 msgstr ""
 
@@ -408,7 +408,11 @@ msgstr ""
 msgid "Redirect check test"
 msgstr ""
 
-#: templates/test/blocks/test.html:44
+#: templates/test/blocks/test.html:25
+msgid "Search form test"
+msgstr ""
+
+#: templates/test/blocks/test.html:48
 msgid "Test source code"
 msgstr ""
 
