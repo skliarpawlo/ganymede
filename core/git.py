@@ -92,5 +92,5 @@ def checkout_and_deploy(job) :
     #envs
     for env in envs :
         fd = open( os.path.join( config['deploy_path'], env.path ), 'w' )
-        fd.write( env.code )
+        fd.write( env.code.encode("utf-8") )
         fd.close()

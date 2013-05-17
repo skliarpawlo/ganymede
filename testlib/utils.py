@@ -15,12 +15,14 @@ import httplib
 from urlparse import urlparse
 import urllib
 from testing_runtime.web.decorators import html
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
+
 
 class Test( object ):
 
@@ -44,6 +46,7 @@ class Test( object ):
     def artifactsDir(self):
         return os.path.join(self.testDir(), "photos")
 
+
 class MainTest(Test) :
 
     def run(self):
@@ -51,6 +54,7 @@ class MainTest(Test) :
 
     def snapshot(self):
         pass
+
 
 class RedirectTest(MainTest) :
 
@@ -86,6 +90,7 @@ class RedirectTest(MainTest) :
             u"При посещении страницы {0}, ожидался {1} переход на страницу {2} со статусом {3}, но получен статус {4}".\
             format( html.link(from_url,from_url), redirect_status, html.link( dest_url, dest_url ), dest_status, dest_response.status )
 
+
 class FunctionalTest(MainTest) :
 
     browser = None
@@ -109,6 +114,7 @@ class FunctionalTest(MainTest) :
 
     def snapshot(self):
         snapshot()
+
 
 class SeleniumIDETest( FunctionalTest ) :
 
@@ -150,10 +156,11 @@ class SeleniumIDETest( FunctionalTest ) :
         super(SeleniumIDETest, self).tearDown()
         assert len(self.verificationErrors) == 0
 
+
 class PageTest( FunctionalTest ) :
     """Тест определенной страницы. url задается через переменную url
     которая переопределяется в подклассах для разных страниц. Браузер с загруженной
-    страницей доступен через self.webpage. Переменная класса status задает ожидаемы
+    страницей доступен через self.webpage. Переменная класса status задает ожидаемый
     http-код страници. title, h1, title_xpath, h1_xpath - задают полоежение и ожидаемый
     контент тайтла и хедера страници"""
 
@@ -261,6 +268,7 @@ class PageTest( FunctionalTest ) :
     def addSubtest(self, test):
         self.subtests.append( test )
 
+
 class SubTest( Test ) :
     "тест может выполнятся только в контексте какого-то PageTest-а"
 
@@ -278,6 +286,7 @@ class SubTest( Test ) :
     def tearDown(self) :
         self.webpage = None
         super( SubTest, self ).tearDown()
+
 
 class TypeaheadTest( SubTest ) :
 
@@ -297,6 +306,7 @@ class TypeaheadTest( SubTest ) :
                 for phrase in self.autocomplete[x] :
                     assert phrase in ac.text, u"Ошибка автокомплита: не найдено: {0} в автокомплите: {1}, предложенный автокомплит: {2}".format( phrase, x, ac.text )
 
+
 class LoadOnSelectTest( SubTest ) :
     select_xpath = None
     loaded_element_xpath = None
@@ -315,8 +325,203 @@ class LoadOnSelectTest( SubTest ) :
             for word in item[1] :
                 assert word in text, u"При выборе '{0}' не подгрузилось поле '{1}', подгруженные элементы: '{2}'".format(item[0], word, text)
 
+
+class SearchFormTest( FunctionalTest ) :
+
+    search_form_url = None
+    waited_url = None
+    checking_element = None
+    checkboxes = []
+    selects = []
+
+    # location_params = {
+    #     "type" : "district",
+    #     "check" : [ "//*[@id='d3']", "//*[@id='d4']" ]
+    # }
+
+    # location_params = {
+    #     "type" : "street",
+    #     "text" : [ u"Крещатик", Keys.RETURN ]
+    # }
+
+    # location_params = {
+    #     "type" : "address",
+    #     "text" : [ u"Крещатик ул., 15", Keys.RETURN ]
+    # }
+
+    realty_type_change = '//*[@id="s-form"]//div[@class="input-pseudoselect for-items-nowrap"]'
+    realty_type_select = None
+
+    def district(self) :
+        if not "click_first" in self.location_params :
+            self.location_params[ "click_first" ] = "//*[@id='ch-district']"
+        if not "input" in self.location_params :
+            self.location_params[ "input" ] = "//*[@id='dtext']"
+
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+        for check in self.location_params[ "check" ] :
+            ff.find_element_by_xpath( check ).click()
+
+    def district_check(self) :
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+        for check in self.location_params[ "check" ] :
+            assert ff.find_element_by_xpath( check ).is_selected(),\
+                u"Район по xpath: '{0}' не выбран, хотя был при заполнении формы".format( check )
+
+    def street(self):
+        if not "click_first" in self.location_params :
+            self.location_params[ "click_first" ] = "//*[@id='ch-street']"
+        if not "input" in self.location_params :
+            self.location_params[ "input" ] = "//*[@id='s-street']//input[@class='ac_input']"
+
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
+        inp.click()
+        inp.clear()
+        for t in self.location_params[ "text" ] :
+            inp.send_keys( t )
+            time.sleep( 2 )
+
+    def address(self):
+        if not "click_first" in self.location_params :
+            self.location_params[ "click_first" ] = "//*[@id='ch-address']"
+        if not "input" in self.location_params :
+            self.location_params[ "input" ] = '//*[@id="address"]'
+
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
+        inp.click()
+        inp.clear()
+        for t in self.location_params[ "text" ] :
+            inp.send_keys( t )
+            time.sleep( 2 )
+
+        self.location_params[ "temp_to_check" ] = inp.get_attribute("value")
+
+    def address_check(self):
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
+        inp.click()
+        assert inp.get_attribute("value") == self.location_params[ "temp_to_check" ], \
+            u"Поле адреса заполнено не верно {0} != {1}".format( inp.get_attribute("value"), self.location_params[ "temp_to_check" ] )
+
+    def metro(self) :
+        if not "click_first" in self.location_params :
+            self.location_params[ "click_first" ] = "//*[@id='ch-subway']"
+        if not "input" in self.location_params :
+            self.location_params[ "input" ] = "//*[@id='stext']"
+        if not "distance_input" in self.location_params :
+            self.location_params[ "distance_input" ] = "//*[@id='distance']"
+
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+
+        if "distance" in self.location_params :
+            ff.find_element_by_xpath( self.location_params[ "distance_input" ] ).click()
+            ff.find_element_by_xpath( self.location_params[ "distance" ] ).click()
+
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+        for check in self.location_params[ "check" ] :
+            ff.execute_script( "document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext().checked = true;".format( check ) )
+
+    def metro_check(self) :
+        ff = self.browser
+        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+        for check in self.location_params[ "check" ] :
+            res = ff.execute_script( "return document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext().checked;".format( check ) )
+            assert res == True, u"Станция метро c xpath: {0}, не отмечена, хотя выбиралась при заполнении формы".format( check )
+
+    def run(self):
+        ff = self.browser
+        ff.get( self.search_form_url )
+        for checkbox in self.checkboxes :
+            ff.find_element_by_xpath( checkbox ).click()
+        for sel in self.selects :
+            ff.find_element_by_xpath( sel[ "element" ] ).click()
+            if "check" in sel :
+                for sel_chk in sel[ "check" ] :
+                    ff.find_element_by_xpath( sel_chk ).click()
+            if "select" in sel :
+                ff.find_element_by_xpath( sel[ "select" ] ).click()
+            if "from" in sel :
+                el = ff.find_element_by_xpath( sel[ "from" ][ "input" ] )
+                el.click()
+                el.clear()
+                el.send_keys( sel[ "from" ][ "value" ] )
+            if "to" in sel :
+                el = ff.find_element_by_xpath( sel[ "to" ][ "input" ] )
+                el.click()
+                el.clear()
+                el.send_keys( sel[ "to" ][ "value" ] )
+
+        loc_method = getattr( self, self.location_params[ "type" ] )
+        loc_method()
+
+        ff.find_element_by_xpath( self.realty_type_change ).click()
+        ff.find_element_by_xpath( self.realty_type_select ).click()
+
+        WebDriverWait( ff, 5 ).until(
+            lambda ff :
+                self.waited_url in url_unquote( ff.current_url )
+        )
+
+        if not self.checking_element is None :
+            try :
+                ff.find_element_by_xpath( self.checking_element )
+            except NoSuchElementException as ex :
+                assert False, u"Проверочный элемент, по xpath: '{0}', не найден. Скорее всего страница выдала ошибку".format( self.checking_element )
+
+        for checkbox in self.checkboxes :
+            try :
+                assert ff.find_element_by_xpath( checkbox ).is_selected(), u"Элемент по xpath: '{0}' не выбран, хотя выбирался при заполнении формы".format( checkbox )
+            except NoSuchElementException as ex :
+                pass
+
+        for sel in self.selects :
+            ff.find_element_by_xpath( sel[ "element" ] ).click()
+            if "check" in sel :
+                for sel_chk in sel[ "check" ] :
+                    try :
+                        assert ff.find_element_by_xpath( sel_chk ).is_selected(), u"Элемент по xpath: '{0}' не выбран, хотя выбирался при заполнении формы".format( sel_chk )
+                    except NoSuchElementException as ex :
+                        pass
+
+            if "from" in sel :
+                try :
+                    assert ff.find_element_by_xpath( sel["from"]["input"] ).get_attribute( "value" ) == sel["from"]["value"], \
+                        u"Значение элемента по xpath: '{0}' не соответвует введенному, {0} != {1}".format(
+                            ff.find_element_by_xpath( sel["from"]["input"] ).get_attribute( "value" ),
+                            sel["from"]["value"]
+                        )
+                except NoSuchElementException as ex :
+                    pass
+
+            if "to" in sel :
+                try :
+                    assert ff.find_element_by_xpath( sel["to"]["input"] ).get_attribute( "value" ) == sel["to"]["value"], \
+                        u"Значение элемента по xpath: '{0}' не соответвует введенному, {0} != {1}".format(
+                            ff.find_element_by_xpath( sel["to"]["input"] ).get_attribute( "value" ),
+                            sel["to"]["value"]
+                        )
+                except NoSuchElementException as ex :
+                    pass
+
+        if hasattr( self, self.location_params[ "type" ] + "_check") :
+            loc_check_method = getattr( self, self.location_params[ "type" ] + "_check" )
+            loc_check_method()
+
+
 class SubTestFail( Exception ) :
     pass
+
 
 ## util functions
 def assert_xpath_content(webpage, xpath, waited_content):

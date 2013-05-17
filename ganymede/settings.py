@@ -5,6 +5,7 @@ TEMPLATE_DEBUG = DEBUG
 
 # mars, vm
 MODE = "mars"
+USE_VSCREEN = True
 
 BASE_URL = "ganymede.lun.ua"
 SERVER_PORT = 80
