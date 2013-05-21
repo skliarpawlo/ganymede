@@ -53,60 +53,127 @@ $(function() {
         }
     } );
 
-
     // tests stuff
+
     $("#check-all-tests").change( function() {
         if ($(this).is(":checked")) {
             $(this)
                 .parents("table")
-                .find("tr:visible .test-chk")
-                .prop("checked", true);
+                .find("tr:visible .test-chk").each( function( ind, el ) {
+                    $(el).prop("checked", true);
+                    provider.check( $(el).attr("test_id") * 1 );
+                    if ($(el).attr("main_test")) {
+                        provider.check( $(el).attr("main_test") * 1 );
+                    }
+                } );
         } else {
             $(this)
                 .parents("table")
-                .find("tr:visible .test-chk")
-                .prop("checked", false);
+                .find("tr:visible .test-chk").each( function( ind, el ) {
+                    $(el).prop("checked", false);
+                    provider.uncheck( $(el).attr("test_id") * 1 );
+                } );
         }
     });
 
-    $(".subtest-chk").change( function() {
+    $("#tests-list").delegate( ".subtest-chk", "change", function() {
+        if ($(this).is(":checked")) {
+            provider.check( $(this).attr("test_id") * 1 );
+            provider.check( $(this).attr("main_test") * 1 );
+        } else {
+            provider.uncheck( $(this).attr("test_id") * 1 );
+        }
         var count = $(this).parents("table").find(".subtest-chk:checked").size();
         if (count > 0) {
-            $(this).parents("table").find(".maintest-chk[test_id='" + $(this).attr("main_test") + "']").prop("checked", true);
+            var par = $(this).parents("table").find(".maintest-chk[test_id='" + $(this).attr("main_test") + "']");
+            par.prop("checked", true);
         }
-    });
+    } );
 
-    $(".maintest-chk").change( function() {
-        $(this).parents("table").find(".subtest-chk[main_test='" + $(this).attr("test_id") + "']").prop("checked", false);
-    });
+    $("#tests-list").delegate( ".maintest-chk", 'change', function() {
+        if ($(this).is(":checked")) {
+            provider.check( $(this).attr("test_id") * 1 );
+        } else {
+            provider.uncheck( $(this).attr("test_id") * 1 );
+        }
+        var subtests = $(this).parents("table").find(".subtest-chk[main_test='" + $(this).attr("test_id") + "']");
+        subtests.prop( "checked", false );
+        subtests.each( function( ind, el ) {
+            provider.uncheck( $(el).attr( "test_id" ) * 1 );
+        } );
+    } );
+
+    var test_layout =
+        '{{if type=="main"}}' +
+            '<tr class="filtered-test-row" test_id="${id}">' +
+                '<td>' +
+                    '<input type="checkbox" ' +
+                           'test_id="${id}" ' +
+                           '{{if checked}} checked {{/if}} ' +
+                           'class="test-chk maintest-chk"/>' +
+                '</td>' +
+                '<td>' +
+                    '<a class="filtered-test-id" href="${url}">${doc} (#${id})</a>' +
+                    '{{if status == "new"}} ' +
+                        '<small class="muted">[' + gettext('in development') + ']</small>' +
+                    '{{/if}}' +
+                '</td>' +
+                '<td>' +
+                    '<a class="filtered-test-url" href="${url}">${url}</a>' +
+                '</td>' +
+                '<td>' +
+                    '&nbsp' +
+                '</td>' +
+                '<td>' +
+                    '${whose}' +
+                '</td>' +
+            '</tr>' +
+        '{{else}}' +
+            '<tr class="filtered-test-row">' +
+                '<td>' +
+                    '<input main_test="${parent_id}" class="test-chk subtest-chk" ' +
+                           'type="checkbox" ' +
+                           '{{if checked}} checked {{/if}} ' +
+                           'test_id="${id}">' +
+                '</td>' +
+                '<td>' +
+                    '↳ <a class="filtered-test-id" href="${url}">${doc} (#${id})</a> ' +
+                    '{{if status == "new"}}<small class="muted">[' + gettext('in development') + ']</small>{{/if}}' +
+                '</td>' +
+                '<td>&nbsp</td>' +
+                '<td>' +
+                    '${parent}' +
+                '</td>' +
+                '<td>' +
+                    '${whose}' +
+                '</td>' +
+            '</tr>' +
+        '{{/if}}';
+
+    $.template( "test_layout", test_layout );
+
+    var provider = new gany.dataprovider.DataProvider( tests_data );
+    var table = new gany.dataprovider.Table( $( "#tests-list" ), provider );
+    $(provider).trigger( "data-changed" );
+    gany.dataprovider.global( "tests_data_provider", provider );
 
     var filter_func = function() {
-        var url_filter = $("#filter-test-url").val().toLowerCase();
-        var id_filter = $("#filter-test-id").val().toLowerCase();
-        var parent_filter = $("#filter-test-parent").val() * 1;
-        $(".filtered-test-row").each( function(ind,el) {
-            var url = $(el).find(".filtered-test-url").text().toLowerCase();
-            var id = $(el).find(".filtered-test-id").text().toLowerCase();
-            var parent = $(el).find(".filtered-test-parent").text() * 1;
-            if ((url.search(url_filter) == -1) ||
-                (id.search(id_filter) == -1) ||
-                (parent_filter != 0 && parent != parent_filter) ) {
-                $(el).hide();
-            } else {
-                $(el).show();
-            }
-
-            if ((url.search(url_filter) != -1) &&
-                (id.search(id_filter) != -1) &&
-                ($(el).attr("test_id") * 1 == parent_filter)) {
-                $(el).show()
-            }
-        });
+        provider.pagination.page = 1;
+        var filters = [];
+        $(".like-filter").each( function( ind, el ) {
+            filters.push( new gany.dataprovider.LikeFilter( $(el).attr("data-key"), $(el).val() ) );
+        } );
+        $(".parent-filter").each( function( ind, el ) {
+            filters.push( new gany.dataprovider.ParentFilter( $(el).attr("data-key"), $(el).val() ) );
+        } );
+        provider.filters = filters;
+        $(provider).trigger( "data-changed" );
     };
 
-    $("#filter-test-id").keyup(filter_func);
-    $("#filter-test-url").keyup(filter_func);
-    $("#filter-test-parent").change(filter_func);
+    $(".like-filter").change( filter_func );
+    $(".parent-filter").change( filter_func );
+
+    var pagination_ui = gany.dataprovider.Pagination( $("#pagi-prev"), $("#pagi-next"), $("#page-no"), provider );
 
     // env
     var bind_env_events = function( env_el ) {

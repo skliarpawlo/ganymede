@@ -1,6 +1,38 @@
 {% load i18n %}
 
+<script type="text/javascript">
+    var tests_data = [
+        {% for test in tests %}
+            {
+                "id" : {{ test.id }},
+                "doc" : "{{ test.doc }}",
+                "update" : "{% url testing_runtime.web.tests.update_test test.id %}",
+                "url" : "{{ test.url }}",
+                "whose" : "{{ test.whose }}",
+                "type" : "main",
+                "checked" : {% if test.checked %}true{% else %}false{% endif %},
+                "status" : "{{ test.status }}"
+            },
+        {% endfor %}
+        {% for test in tests %}{% for subtest in test.subtests %}
+            {
+                "id" : {{ subtest.id }},
+                "doc" : "{{ subtest.doc }}",
+                "update" : "{% url testing_runtime.web.tests.update_test subtest.id %}",
+                "url" : "{{ subtest.url }}",
+                "whose" : "{{ subtest.whose }}",
+                "type" : "subtest",
+                "parent" : "{{ test.doc }} (#{{ test.id }})",
+                "parent_id" : {{ test.id }},
+                "checked" : {% if subtest.checked %}true{% else %}false{% endif %},
+                "status" : "{{ test.status }}"
+            },
+        {% endfor %}{% endfor %}
+    ];
+</script>
+<script type="text/javascript" src="/static/js/gany_dataprovider.js"></script>
 <script type="text/javascript" src="/static/js/job.js"></script>
+
 <form>
 
     <div id="create-job-error" style="display: none" class="alert alert-block alert-error fade in">

@@ -25,13 +25,13 @@
         <th>
         </th>
         <th>
-            <input type="text" id="filter-test-id" placeholder=""/>
+            <input type="text" class="like-filter" data-key="doc"/>
         </th>
         <th>
-            <input type="text" id="filter-test-url" placeholder=""/>
+            <input type="text" class="like-filter" data-key="url"/>
         </th>
         <th>
-            <select id="filter-test-parent">
+            <select class="parent-filter">
                 <option value="" selected="selected">{% trans "Empty" %}</option>
                 {% for test in tests %}
                     {% if test.subtests %}
@@ -41,59 +41,30 @@
             </select>
         </th>
         <th>
-            &nbsp
+            <input type="text" class="like-filter" data-key="whose"/>
         </th>
     </tr>
     </thead>
-    <tbody>
-    {% for test in tests %}
-        <tr class="filtered-test-row" test_id="{{test.id}}">
-            <td>
-                <input type="checkbox"
-                       test_id="{{ test.id }}"
-                        {% if test.checked %} checked {% endif %}
-                       class="test-chk maintest-chk"/>
-            </td>
-            <td>
-                <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">{{ test.doc }} (#{{ test.id }})</a>
-                {% if test.status == 'new' %}
-                    [{% trans "in development" %}]
-                {% endif %}
-            </td>
-            <td>
-                <a class="filtered-test-url" href="{{ test.url }}">{{ test.url }}</a>
-            </td>
-            <td>
-                &nbsp
-            </td>
-            <td>
-                {{ test.whose }}
-            </td>
-        </tr>
-        {% for subtest in test.subtests %}
-            <tr class="filtered-test-row">
-                <td>
-                    <input main_test="{{ test.id }}" class="test-chk subtest-chk"
-                           type="checkbox"
-                            {% if subtest.checked %} checked {% endif %}
-                           test_id="{{ subtest.id }}">
-                </td>
-                <td>
-                    ↳ <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }} (#{{ subtest.id }})</a>
-                    {% if subtest.status == 'new' %}[{% trans "in development" %}]{% endif %}
-                </td>
-                <td>
-                    &nbsp
-                </td>
-                <td>
-                    {{ test.doc }} (#<span class='filtered-test-parent'>{{ test.id }}</span>)
-                </td>
-                <td>
-                    {{ subtest.whose }}
-                </td>
-            </tr>
-        {% endfor %}
-    {% endfor %}
+    <tbody id="tests-list">
     </tbody>
+
+    <div class="pagination">
+        <ul>
+            <li class="disabled">
+                <a id="pagi-prev" class="cursor-hand">
+                    {% trans "Prev" %}
+                </a>
+            </li>
+            <li>
+                <span id="page-no">1</span>
+            </li>
+            <li>
+                <a id="pagi-next" class="cursor-hand">
+                    {% trans "Next" %}
+                </a>
+            </li>
+        </ul>
+    </div>
+
 </table>
 </fieldset>

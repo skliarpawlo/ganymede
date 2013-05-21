@@ -4,6 +4,35 @@
 
 {% block head %}
     {{ block.super }}
+    <script type="text/javascript">
+        var tests_data = [
+            {% for test in tests %}
+                {
+                    "id" : {{ test.id }},
+                    "doc" : "{{ test.doc }}",
+                    "update" : "{% url testing_runtime.web.tests.update_test test.id %}",
+                    "url" : "{{ test.url }}",
+                    "whose" : "{{ test.whose }}",
+                    "type" : "main",
+                    "status" : "{{ test.status }}"
+                },
+            {% endfor %}
+            {% for test in tests %}{% for subtest in test.subtests %}
+                {
+                    "id" : {{ subtest.id }},
+                    "doc" : "{{ subtest.doc }}",
+                    "update" : "{% url testing_runtime.web.tests.update_test subtest.id %}",
+                    "url" : "{{ subtest.url }}",
+                    "whose" : "{{ subtest.whose }}",
+                    "type" : "subtest",
+                    "parent" : "{{ test.doc }} (#{{ test.id }})",
+                    "parent_id" : {{ test.id }},
+                    "status" : "{{ subtest.status }}"
+                },
+            {% endfor %}{% endfor %}
+        ];
+    </script>
+    <script type="text/javascript" src="/static/js/gany_dataprovider.js"></script>
     <script type="text/javascript" src="/static/js/tests_list.js"></script>
 {% endblock %}
 
@@ -32,13 +61,13 @@
             <tr class="filters">
                 <th></th>
                 <th>
-                    <input type="text" id="filter-test-id" placeholder=""/>
+                    <input type="text" class="like-filter" data-key="doc"/>
                 </th>
                 <th>
-                    <input type="text" id="filter-test-url" placeholder=""/>
+                    <input type="text" class="like-filter" data-key="url"/>
                 </th>
                 <th>
-                    <select id="filter-test-parent">
+                    <select class="parent-filter">
                         <option value="" selected="selected">{% trans "Empty" %}</option>
                         {% for test in tests %}
                             {% if test.subtests %}
@@ -48,65 +77,35 @@
                     </select>
                 </th>
                 <th>
-                    &nbsp
+                    <input type="text" class="like-filter" data-key="whose" placeholder=""/>
                 </th>
             </tr>
             </thead>
-            <tbody>
-            {% for test in tests %}
-                <tr class="filtered-test-row" test_id="{{test.id}}">
-                    <td>
-                        <a data-toggle="tooltip" title="{% trans "Update" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test test.id %}">
-                            <i class="icon-wrench"></i>
-                        </a>
-                        <a data-toggle="tooltip" title="{% trans "Remove" %}" class="remove-test cursor-hand">
-                            <i class="icon-trash"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test test.id %}">
-                            {{ test.doc }} (#{{test.id}})
-                        </a>
-                        {% if test.status == 'new' %}<small class="muted">[{% trans "in development" %}]</small>{% endif %}
-                    </td>
-                    <td class="filtered-test-url">
-                        <a href="{{ test.url }}" target="_blank">{{ test.url }}</a>
-                    </td>
-                    <td>
-                        &nbsp
-                    </td>
-                    <td>
-                        {{ test.whose }}
-                    </td>
-                </tr>
-                {% for subtest in test.subtests %}
-                    <tr class="filtered-test-row" test_id="{{subtest.id}}">
-                        <td>
-                            <a data-toggle="tooltip" title="{% trans "Update" %}" class="change-test" href="{% url testing_runtime.web.tests.update_test subtest.id %}">
-                                <i class="icon-wrench"></i>
-                            </a>
-                            <a data-toggle="tooltip" title="{% trans "Remove" %}"  class="remove-test cursor-hand">
-                                <i class="icon-trash"></i>
-                            </a>
-                        </td>
-                        <td>
-                            ↳ <a class="filtered-test-id" href="{% url testing_runtime.web.tests.update_test subtest.id %}">{{ subtest.doc }}(#{{ subtest.id }})</a>
-                            {% if subtest.status == 'new' %}<small class="muted">[{% trans "in development" %}]</small>{% endif %}
-                        </td>
-                        <td>
-                            &nbsp
-                        </td>
-                        <td>
-                            {{ test.doc }} (#<span class='filtered-test-parent'>{{ test.id }}</span>)
-                        </td>
-                        <td>
-                            {{ subtest.whose }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
+            <tbody id="tests-list">
             </tbody>
         </table>
     </fieldset>
+
+{% endblock %}
+
+{% block bottom-navbar-items %}
+
+    <div class="pagination">
+        <ul>
+            <li class="disabled">
+                <a id="pagi-prev" class="cursor-hand">
+                    {% trans "Prev" %}
+                </a>
+            </li>
+            <li>
+                <span id="page-no">1</span>
+            </li>
+            <li>
+                <a id="pagi-next" class="cursor-hand">
+                    {% trans "Next" %}
+                </a>
+            </li>
+        </ul>
+    </div>
 
 {% endblock %}

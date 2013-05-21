@@ -1,4 +1,6 @@
-var gany = (function() {
+var gany = gany || {};
+
+$.extend( gany, (function() {
 
     $(function() {
         $(".lang-chooser").click( function() {
@@ -123,10 +125,7 @@ var gany = (function() {
                 } );
             } );
             // tests
-            var tests = [];
-            $("[test_id]:checked").each( function( ind, el ) {
-                tests.push( $(el).attr("test_id") );
-            } );
+            var tests = gany.dataprovider.global( "tests_data_provider").checkedlist.all();
 
             //notification
             var users = [];
@@ -247,4 +246,4 @@ var gany = (function() {
         git : git,
         boxes : boxes
     }
-})();
+})() );
