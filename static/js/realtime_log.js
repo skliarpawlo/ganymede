@@ -87,7 +87,12 @@ $(function(){
         return res.html();
     }
 
+    var AJAX_LOCK = false;
+
     var log_func = function() {
+
+        if (AJAX_LOCK) return; AJAX_LOCK = true;
+
         gany.task.log( taskId, log_size, results_count, current_test_log_size ).done( function(data) {
             if (data.status == "ok") {
                 results_count += data.content.result.length;
@@ -134,6 +139,7 @@ $(function(){
                 }
                 $(document).trigger( "data-appended" );
             }
+            AJAX_LOCK = false;
         });
     };
     var t = setInterval( log_func, 1200 );
