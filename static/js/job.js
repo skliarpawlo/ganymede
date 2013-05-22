@@ -113,7 +113,7 @@ $(function() {
                            'class="test-chk maintest-chk"/>' +
                 '</td>' +
                 '<td>' +
-                    '<a class="filtered-test-id" href="${url}">${doc} (#${id})</a>' +
+                    '<a class="filtered-test-id" href="${update}">${doc} (#${id})</a>' +
                     '{{if status == "new"}} ' +
                         '<small class="muted">[' + gettext('in development') + ']</small>' +
                     '{{/if}}' +
@@ -137,7 +137,7 @@ $(function() {
                            'test_id="${id}">' +
                 '</td>' +
                 '<td>' +
-                    '↳ <a class="filtered-test-id" href="${url}">${doc} (#${id})</a> ' +
+                    '↳ <a class="filtered-test-id" href="${update}">${doc} (#${id})</a> ' +
                     '{{if status == "new"}}<small class="muted">[' + gettext('in development') + ']</small>{{/if}}' +
                 '</td>' +
                 '<td>&nbsp</td>' +

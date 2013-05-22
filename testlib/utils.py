@@ -428,6 +428,10 @@ class SearchFormTest( FunctionalTest ) :
     def run(self):
         ff = self.browser
         ff.get( self.search_form_url )
+
+        if "type" in self.location_params :
+            loc_method = getattr( self, self.location_params[ "type" ] )
+            loc_method()
         for checkbox in self.checkboxes :
             ff.find_element_by_xpath( checkbox ).click()
         for sel in self.selects :
@@ -448,10 +452,6 @@ class SearchFormTest( FunctionalTest ) :
                 el.clear()
                 el.send_keys( sel[ "to" ][ "value" ] )
 
-        if "type" in self.location_params :
-            loc_method = getattr( self, self.location_params[ "type" ] )
-            loc_method()
-
         ff.find_element_by_xpath( self.realty_type_change ).click()
         ff.find_element_by_xpath( self.realty_type_select ).click()
 
@@ -465,6 +465,10 @@ class SearchFormTest( FunctionalTest ) :
                 ff.find_element_by_xpath( self.checking_element )
             except NoSuchElementException as ex :
                 assert False, u"Проверочный элемент, по xpath: '{0}', не найден. Скорее всего страница выдала ошибку".format( self.checking_element )
+
+        if ( "type" in self.location_params ) and hasattr( self, self.location_params[ "type" ] + "_check" ) :
+            loc_check_method = getattr( self, self.location_params[ "type" ] + "_check" )
+            loc_check_method()
 
         for checkbox in self.checkboxes :
             try :
@@ -494,10 +498,6 @@ class SearchFormTest( FunctionalTest ) :
                         )
             except NoSuchElementException as ex :
                 pass
-
-        if ( "type" in self.location_params ) and hasattr( self, self.location_params[ "type" ] + "_check" ) :
-            loc_check_method = getattr( self, self.location_params[ "type" ] + "_check" )
-            loc_check_method()
 
 
 class SubTestFail( Exception ) :

@@ -8,7 +8,7 @@ def start() :
     if not settings.USE_VSCREEN :
         return
     if display is None :
-        display = Display( visible = 0, size=( 800, 600 ) )
+        display = Display( visible = 0, size=( 1200, 800 ) )
     display.start()
         
 def stop() :
