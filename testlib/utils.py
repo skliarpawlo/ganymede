@@ -340,6 +340,11 @@ class SearchFormTest( FunctionalTest ) :
     realty_type_change = '//*[@id="s-form"]//div[@class="input-pseudoselect for-items-nowrap"]'
     realty_type_select = None
 
+    def setUp(self):
+        super(SearchFormTest, self).setUp()
+        ff = self.browser
+        ff.get( self.search_form_url )
+
     def district(self) :
         if not "click_first" in self.location_params :
             self.location_params[ "click_first" ] = "//*[@id='ch-district']"
@@ -347,14 +352,14 @@ class SearchFormTest( FunctionalTest ) :
             self.location_params[ "input" ] = "//*[@id='dtext']"
 
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
         for check in self.location_params[ "check" ] :
             ff.find_element_by_xpath( check ).click()
 
     def district_check(self) :
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
         for check in self.location_params[ "check" ] :
             assert ff.find_element_by_xpath( check ).is_selected(),\
@@ -362,12 +367,12 @@ class SearchFormTest( FunctionalTest ) :
 
     def street(self):
         if not "click_first" in self.location_params :
-            self.location_params[ "click_first" ] = "//*[@id='ch-street']"
+            self.location_params[ "click_first" ] = [ "//*[@id='ch-street']", "//*[@id='default-value-input']" ]
         if not "input" in self.location_params :
             self.location_params[ "input" ] = "//*[@id='s-street']//input[@class='ac_input']"
 
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
         inp.click()
         inp.clear()
@@ -377,12 +382,12 @@ class SearchFormTest( FunctionalTest ) :
 
     def address(self):
         if not "click_first" in self.location_params :
-            self.location_params[ "click_first" ] = "//*[@id='ch-address']"
+            self.location_params[ "click_first" ] = [ "//*[@id='ch-address']", "//*[@id='default-value-input']" ]
         if not "input" in self.location_params :
             self.location_params[ "input" ] = '//*[@id="address"]'
 
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
         inp.click()
         inp.clear()
@@ -394,7 +399,7 @@ class SearchFormTest( FunctionalTest ) :
 
     def address_check(self):
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         inp = ff.find_element_by_xpath( self.location_params[ "input" ] )
         inp.click()
         assert inp.get_attribute("value") == self.location_params[ "temp_to_check" ], \
@@ -409,7 +414,7 @@ class SearchFormTest( FunctionalTest ) :
             self.location_params[ "distance_input" ] = "//*[@id='distance']"
 
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
 
         if "distance" in self.location_params :
             ff.find_element_by_xpath( self.location_params[ "distance_input" ] ).click()
@@ -421,7 +426,7 @@ class SearchFormTest( FunctionalTest ) :
 
     def metro_check(self) :
         ff = self.browser
-        ff.find_element_by_xpath( self.location_params[ "click_first" ] ).click()
+        click_all( ff, self.location_params[ "click_first" ] )
         ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
         for check in self.location_params[ "check" ] :
             res = ff.execute_script( "return document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext().checked;".format( check ) )
@@ -429,7 +434,6 @@ class SearchFormTest( FunctionalTest ) :
 
     def run(self):
         ff = self.browser
-        ff.get( self.search_form_url )
 
         if "type" in self.location_params :
             loc_method = getattr( self, self.location_params[ "type" ] )
@@ -507,6 +511,14 @@ class SubTestFail( Exception ) :
 
 
 ## util functions
+def click_all( ff, elems ) :
+    if type(elems) == list :
+        for elem in elems :
+            ff.find_element_by_xpath( elem ).click()
+    else :
+        ff.find_element_by_xpath( elems ).click()
+
+
 def assert_xpath_content(webpage, xpath, waited_content):
     real_content = webpage.find_element_by_xpath( xpath ).text
     assert real_content == waited_content, u"Comparing content on xpath {0}, expect: '{1}', recieved '{2}'".format( xpath, waited_content, real_content )
