@@ -2,8 +2,8 @@
 
 cd $PROJECT_PATH
 
-git checkout $BRANCH
 git fetch
+git checkout $BRANCH
 git reset --hard origin/$BRANCH
 
 rm -rf $DEPLOY_PATH/*

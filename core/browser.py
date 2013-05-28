@@ -9,6 +9,12 @@ heap = ''
 def start() :
     global inst, errors
     ffb = webdriver.firefox.firefox_binary.FirefoxBinary( firefox_path = '/usr/bin/firefox' )
+    # ffprofile = webdriver.firefox.firefox_profile.FirefoxProfile()
+    # ffprofile.set_preference("browser.cache.disk.enable", False)
+    # ffprofile.set_preference("browser.cache.memory.enable", False)
+    # ffprofile.set_preference("browser.cache.offline.enable", False)
+    # ffprofile.set_preference("network.http.use-cache", False)
+    # inst = webdriver.Firefox( firefox_binary=ffb, firefox_profile=ffprofile )
     inst = webdriver.Firefox( firefox_binary=ffb )
     inst.implicitly_wait(5)
 
