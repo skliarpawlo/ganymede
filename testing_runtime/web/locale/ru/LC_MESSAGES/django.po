@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 16:55+0300\n"
+"POT-Creation-Date: 2013-05-29 17:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,21 +50,21 @@ msgstr "Лог задания"
 msgid "Tasks"
 msgstr "Задания"
 
-#: tests.py:114 templates/layout/navbar.html:16
+#: tests.py:135 templates/layout/navbar.html:16
 #: templates/test/add/add_test.html:12 templates/test/add/add_test.html:19
 msgid "Add test"
 msgstr "Добавить тест"
 
-#: tests.py:114 tests.py:137 tests.py:146 templates/job/blocks/job.html:27
-#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
+#: tests.py:135 tests.py:159 tests.py:168 templates/job/blocks/job.html:61
+#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:44
 msgid "Tests"
 msgstr "Тесты"
 
-#: tests.py:146 templates/test/update/update_test.html:12
+#: tests.py:168 templates/test/update/update_test.html:15
 msgid "Update test"
 msgstr "Изменить тест"
 
-#: tests.py:217
+#: tests.py:254
 msgid "Index"
 msgstr "Index"
 
@@ -124,11 +124,15 @@ msgstr "Снимок экрана"
 msgid "Job created"
 msgstr "Задача созданна"
 
+#: locale/js.py:16
+msgid "Enter tags..."
+msgstr "Введите теги..."
+
 #: templates/index.html:13
 msgid "Ganymede title"
 msgstr "Тестирующая система ЛУН"
 
-#: templates/job/blocks/deployment.html:4 templates/job/blocks/job.html:21
+#: templates/job/blocks/deployment.html:4 templates/job/blocks/job.html:55
 msgid "Deployment"
 msgstr "Развертывание"
 
@@ -164,8 +168,6 @@ msgstr "Исходный код"
 
 #: templates/job/blocks/environment.html:29
 #: templates/job/blocks/environment.html:55 templates/job/list/list.html:31
-#: templates/test/list/tests_list.html:62
-#: templates/test/list/tests_list.html:88
 msgid "Remove"
 msgstr "Удалить"
 
@@ -209,27 +211,27 @@ msgstr "Ветка"
 msgid "Execute on github notification"
 msgstr "Выполнять при каждом обновлении ветки на github-е"
 
-#: templates/job/blocks/job.html:8 templates/modals/error_modal.html:6
+#: templates/job/blocks/job.html:42 templates/modals/error_modal.html:6
 msgid "Error"
 msgstr "Ошибка"
 
-#: templates/job/blocks/job.html:15
+#: templates/job/blocks/job.html:49
 msgid "General"
 msgstr "Общий"
 
-#: templates/job/blocks/job.html:18
+#: templates/job/blocks/job.html:52
 msgid "Git"
 msgstr "Git"
 
-#: templates/job/blocks/job.html:24
+#: templates/job/blocks/job.html:58
 msgid "Environment"
 msgstr "Окружение"
 
-#: templates/job/blocks/job.html:30 templates/job/blocks/notification.html:4
+#: templates/job/blocks/job.html:64 templates/job/blocks/notification.html:4
 msgid "Notification"
 msgstr "Оповещение"
 
-#: templates/job/blocks/job.html:33 templates/job/blocks/schedule.html:4
+#: templates/job/blocks/job.html:67 templates/job/blocks/schedule.html:4
 msgid "Schedule"
 msgstr "Планирование"
 
@@ -250,36 +252,44 @@ msgid "Test case"
 msgstr "Набор тестов"
 
 #: templates/job/blocks/tests_list.html:12
-#: templates/test/list/tests_list.html:20
+#: templates/test/list/tests_list.html:51
 msgid "Test"
 msgstr "Тест"
 
 #: templates/job/blocks/tests_list.html:15
-#: templates/test/list/tests_list.html:23
+#: templates/test/list/tests_list.html:54
 msgid "Page"
 msgstr "Страница"
 
-#: templates/job/blocks/tests_list.html:18
-#: templates/test/list/tests_list.html:26
+#: templates/job/blocks/tests_list.html:18 templates/test/blocks/test.html:49
+#: templates/test/list/tests_list.html:57
+msgid "Tags"
+msgstr "Теги"
+
+#: templates/job/blocks/tests_list.html:21
+#: templates/test/list/tests_list.html:60
 msgid "Parent test"
 msgstr "Родительский тест"
 
-#: templates/job/blocks/tests_list.html:21 templates/job/list/list.html:18
-#: templates/test/list/tests_list.html:29
+#: templates/job/blocks/tests_list.html:24 templates/job/list/list.html:18
+#: templates/test/list/tests_list.html:63
 msgid "Created"
 msgstr "Создал"
 
-#: templates/job/blocks/tests_list.html:35
-#: templates/test/list/tests_list.html:42
+#: templates/job/blocks/tests_list.html:43
+#: templates/test/list/tests_list.html:81
 msgid "Empty"
 msgstr "Пусто"
 
-#: templates/job/blocks/tests_list.html:60
-#: templates/job/blocks/tests_list.html:83 templates/test/blocks/test.html:44
-#: templates/test/list/tests_list.html:70
-#: templates/test/list/tests_list.html:94
-msgid "in development"
-msgstr "в разработке"
+#: templates/job/blocks/tests_list.html:63 templates/job/state/state.html:34
+#: templates/test/list/tests_list.html:107
+msgid "Prev"
+msgstr "Пред."
+
+#: templates/job/blocks/tests_list.html:71 templates/job/state/state.html:42
+#: templates/test/list/tests_list.html:115
+msgid "Next"
+msgstr "След."
 
 #: templates/job/list/list.html:16
 msgid "Operations"
@@ -297,8 +307,7 @@ msgstr "Последний запуск"
 msgid "Run"
 msgstr "Запустить"
 
-#: templates/job/list/list.html:28 templates/test/list/tests_list.html:59
-#: templates/test/list/tests_list.html:85
+#: templates/job/list/list.html:28
 msgid "Update"
 msgstr "Изменить"
 
@@ -329,14 +338,6 @@ msgstr "Название теста"
 msgid "Additional info"
 msgstr "Дополнительная информация"
 
-#: templates/job/state/state.html:34
-msgid "Prev"
-msgstr "Пред."
-
-#: templates/job/state/state.html:42
-msgid "Next"
-msgstr "След."
-
 #: templates/job/state/table.html:7
 msgid "Job"
 msgstr "Задача"
@@ -354,13 +355,13 @@ msgid "Total time"
 msgstr "Время работы"
 
 #: templates/job/update/update_job.html:19
-#: templates/test/update/update_test.html:19
+#: templates/test/update/update_test.html:22
 msgid "Save"
 msgstr "Сохранить"
 
 #: templates/job/update/update_job.html:21
 #: templates/modals/rusure_modal.html:13
-#: templates/test/update/update_test.html:21
+#: templates/test/update/update_test.html:24
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -412,7 +413,11 @@ msgstr "Тест перенаправления"
 msgid "Search form test"
 msgstr "Тест поисковой формы"
 
-#: templates/test/blocks/test.html:48
+#: templates/test/blocks/test.html:44
+msgid "in development"
+msgstr "в разработке"
+
+#: templates/test/blocks/test.html:56
 msgid "Test source code"
 msgstr "Исходный код теста"
 

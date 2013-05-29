@@ -138,11 +138,16 @@ $.extend( gany, (function() {
             var tags = item[ this.attr ];
             if (this.like.length == 0)
                 return true;
-            for ( x in tags )
-                for ( y in this.like )
-                    if ( tags[ x ] == this.like[ y ] )
-                        return true;
-            return false;
+            for ( y in this.like ) {
+                var flag = false;
+                for ( x in tags ) {
+                    if ( tags[ x ] == this.like[ y ] ) {
+                        flag = true;
+                    }
+                }
+                if (!flag) return false;
+            }
+            return true;
         }
         return this;
     }

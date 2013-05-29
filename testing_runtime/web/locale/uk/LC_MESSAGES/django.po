@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 16:55+0300\n"
+"POT-Creation-Date: 2013-05-29 17:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,21 +48,21 @@ msgstr "Лог завдання"
 msgid "Tasks"
 msgstr "Завдання"
 
-#: tests.py:114 templates/layout/navbar.html:16
+#: tests.py:135 templates/layout/navbar.html:16
 #: templates/test/add/add_test.html:12 templates/test/add/add_test.html:19
 msgid "Add test"
 msgstr "Додати тест"
 
-#: tests.py:114 tests.py:137 tests.py:146 templates/job/blocks/job.html:27
-#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:13
+#: tests.py:135 tests.py:159 tests.py:168 templates/job/blocks/job.html:61
+#: templates/layout/navbar.html:13 templates/test/list/tests_list.html:44
 msgid "Tests"
 msgstr "Тести"
 
-#: tests.py:146 templates/test/update/update_test.html:12
+#: tests.py:168 templates/test/update/update_test.html:15
 msgid "Update test"
 msgstr "Змінити тест"
 
-#: tests.py:217
+#: tests.py:254
 msgid "Index"
 msgstr "Index"
 
@@ -122,11 +122,15 @@ msgstr "Знімок екрану"
 msgid "Job created"
 msgstr "Завдання створено"
 
+#: locale/js.py:16
+msgid "Enter tags..."
+msgstr "Введіть теги..."
+
 #: templates/index.html:13
 msgid "Ganymede title"
 msgstr "Тестуюча система ЛУН"
 
-#: templates/job/blocks/deployment.html:4 templates/job/blocks/job.html:21
+#: templates/job/blocks/deployment.html:4 templates/job/blocks/job.html:55
 msgid "Deployment"
 msgstr "Розгортання"
 
@@ -162,8 +166,6 @@ msgstr "Вихідний код"
 
 #: templates/job/blocks/environment.html:29
 #: templates/job/blocks/environment.html:55 templates/job/list/list.html:31
-#: templates/test/list/tests_list.html:62
-#: templates/test/list/tests_list.html:88
 msgid "Remove"
 msgstr "Видалити"
 
@@ -207,27 +209,27 @@ msgstr "Гілка"
 msgid "Execute on github notification"
 msgstr "Виконувати за кожного оновлення гілки на githab"
 
-#: templates/job/blocks/job.html:8 templates/modals/error_modal.html:6
+#: templates/job/blocks/job.html:42 templates/modals/error_modal.html:6
 msgid "Error"
 msgstr "Помилка"
 
-#: templates/job/blocks/job.html:15
+#: templates/job/blocks/job.html:49
 msgid "General"
 msgstr "Загальне"
 
-#: templates/job/blocks/job.html:18
+#: templates/job/blocks/job.html:52
 msgid "Git"
 msgstr "Git"
 
-#: templates/job/blocks/job.html:24
+#: templates/job/blocks/job.html:58
 msgid "Environment"
 msgstr "Оточення"
 
-#: templates/job/blocks/job.html:30 templates/job/blocks/notification.html:4
+#: templates/job/blocks/job.html:64 templates/job/blocks/notification.html:4
 msgid "Notification"
 msgstr "Сповіщення"
 
-#: templates/job/blocks/job.html:33 templates/job/blocks/schedule.html:4
+#: templates/job/blocks/job.html:67 templates/job/blocks/schedule.html:4
 msgid "Schedule"
 msgstr "Планування"
 
@@ -248,36 +250,44 @@ msgid "Test case"
 msgstr "Набір тестів"
 
 #: templates/job/blocks/tests_list.html:12
-#: templates/test/list/tests_list.html:20
+#: templates/test/list/tests_list.html:51
 msgid "Test"
 msgstr "Тест"
 
 #: templates/job/blocks/tests_list.html:15
-#: templates/test/list/tests_list.html:23
+#: templates/test/list/tests_list.html:54
 msgid "Page"
 msgstr "Сторінка"
 
-#: templates/job/blocks/tests_list.html:18
-#: templates/test/list/tests_list.html:26
+#: templates/job/blocks/tests_list.html:18 templates/test/blocks/test.html:49
+#: templates/test/list/tests_list.html:57
+msgid "Tags"
+msgstr "Теги"
+
+#: templates/job/blocks/tests_list.html:21
+#: templates/test/list/tests_list.html:60
 msgid "Parent test"
 msgstr "Батьківський тест"
 
-#: templates/job/blocks/tests_list.html:21 templates/job/list/list.html:18
-#: templates/test/list/tests_list.html:29
+#: templates/job/blocks/tests_list.html:24 templates/job/list/list.html:18
+#: templates/test/list/tests_list.html:63
 msgid "Created"
 msgstr "Створив"
 
-#: templates/job/blocks/tests_list.html:35
-#: templates/test/list/tests_list.html:42
+#: templates/job/blocks/tests_list.html:43
+#: templates/test/list/tests_list.html:81
 msgid "Empty"
 msgstr "Пусто"
 
-#: templates/job/blocks/tests_list.html:60
-#: templates/job/blocks/tests_list.html:83 templates/test/blocks/test.html:44
-#: templates/test/list/tests_list.html:70
-#: templates/test/list/tests_list.html:94
-msgid "in development"
-msgstr "у розробці"
+#: templates/job/blocks/tests_list.html:63 templates/job/state/state.html:34
+#: templates/test/list/tests_list.html:107
+msgid "Prev"
+msgstr "Назад"
+
+#: templates/job/blocks/tests_list.html:71 templates/job/state/state.html:42
+#: templates/test/list/tests_list.html:115
+msgid "Next"
+msgstr "Вперед"
 
 #: templates/job/list/list.html:16
 msgid "Operations"
@@ -295,8 +305,7 @@ msgstr "Останній запуск"
 msgid "Run"
 msgstr "Виконати"
 
-#: templates/job/list/list.html:28 templates/test/list/tests_list.html:59
-#: templates/test/list/tests_list.html:85
+#: templates/job/list/list.html:28
 msgid "Update"
 msgstr "Змінити"
 
@@ -327,14 +336,6 @@ msgstr "Назва теста"
 msgid "Additional info"
 msgstr "Додаткова інформація"
 
-#: templates/job/state/state.html:34
-msgid "Prev"
-msgstr "Назад"
-
-#: templates/job/state/state.html:42
-msgid "Next"
-msgstr "Вперед"
-
 #: templates/job/state/table.html:7
 msgid "Job"
 msgstr "Задача"
@@ -352,13 +353,13 @@ msgid "Total time"
 msgstr "Час роботи"
 
 #: templates/job/update/update_job.html:19
-#: templates/test/update/update_test.html:19
+#: templates/test/update/update_test.html:22
 msgid "Save"
 msgstr "Зберегти"
 
 #: templates/job/update/update_job.html:21
 #: templates/modals/rusure_modal.html:13
-#: templates/test/update/update_test.html:21
+#: templates/test/update/update_test.html:24
 msgid "Cancel"
 msgstr "Відмінити"
 
@@ -410,7 +411,11 @@ msgstr "Перевірка перенаправлення"
 msgid "Search form test"
 msgstr "Тест пошукової форми"
 
-#: templates/test/blocks/test.html:48
+#: templates/test/blocks/test.html:44
+msgid "in development"
+msgstr "у розробці"
+
+#: templates/test/blocks/test.html:56
 msgid "Test source code"
 msgstr "Вихідний код тесту"
 
