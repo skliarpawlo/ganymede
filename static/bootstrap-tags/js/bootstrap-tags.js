@@ -200,7 +200,13 @@
         var k;
         k = (e.keyCode != null ? e.keyCode : e.which);
         if (k !== 40 && k !== 38 && k !== 27) {
-          return _this.makeSuggestions(e, false);
+            var q = e.target.value;
+            $.get( "/tags/typeahead", { q : q } ).done( function (data) {
+                if (data.status == "ok") {
+                    _this.suggestions = data.content;
+                }
+                _this.makeSuggestions(e, false);
+            });
         }
       };
       this.makeSuggestions = function(e, overrideLengthCheck) {

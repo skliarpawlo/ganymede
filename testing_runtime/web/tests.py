@@ -241,6 +241,15 @@ def screenshot(request) :
     except :
         return HttpResponse( content="file {0} not found".format(ganymede.settings.HEAP_PATH + request.path), mimetype='text/plain' )
 
+
+def tags_typeahead(request):
+    q = request.GET["q"]
+    tags = db.session.query( Tag ).filter( Tag.value.like( u"%{0}%".format( q ) ) ).limit(10).all()
+    tags = map( lambda tag : tag.value, tags )
+    json_resp = json.dumps( { "status" : "ok", "content" : tags } )
+    return HttpResponse( json_resp, mimetype="application/json" )
+
+
 def index(request) :
     title = html.title( [ _('Index'), 'Ganymede' ] )
     return render_to_response(

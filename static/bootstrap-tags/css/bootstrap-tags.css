@@ -1,18 +1,18 @@
 /* bootstrap-tags styles */
 
 .tag-list {
-	width: 280px;
-	height: 26px;
-	left:2px;
-	top:2px;
+	min-width: 280px;
+    max-width: 360px;
+    width: 100%;
 	position:relative;
 }
 .tag-data {
 	display:none;
 }
-.tags-input {
+.tags-input, input[type=text].tags-input {
 	/*width:100%;*/
-	height:30px !important;
+	height:28px !important;
+    padding: 0;
 	/*margin:0;*/
 	/*padding-bottom:0 !important;*/
 	/*font-size:12px !important;*/
@@ -25,7 +25,7 @@
 	margin:0;
 }
 .tag {
-	padding: 1px 3px;
+	padding: 7px 3px;
 	margin:1px;
 	float:left;
 }

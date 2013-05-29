@@ -63,5 +63,7 @@ CREATE TABLE `gany_tags` (
 CREATE TABLE `gany_tests_to_tags` (
   `test_id` int(11) NOT NULL,
   `tag_id` int(10) NOT NULL,
-  PRIMARY KEY (`test_id`,`tag_id`)
+  PRIMARY KEY (`test_id`,`tag_id`),
+  FOREIGN KEY (`test_id`) REFERENCES gany_tests(`test_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`tag_id`) REFERENCES gany_tags(`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^test/list$', 'testing_runtime.web.tests.list_tests'),
     url(r'^test/update/(?P<test_id>\w+)$', 'testing_runtime.web.tests.update_test'),
     url(r'^test/remove$', 'testing_runtime.web.tests.remove_test'),
+    url(r'^tags/typeahead$', 'testing_runtime.web.tests.tags_typeahead'),
     url(r'^.*\.png$', 'testing_runtime.web.tests.screenshot'),
 
     url(r'^task/log/(?P<task_id>\w+)$', 'testing_runtime.web.tasks.log'),

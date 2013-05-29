@@ -35,11 +35,11 @@ $.extend( gany, (function() {
             var that = this;
             def.done( function( data ) {
                 var rows = [];
-                for ( x in data ) {
+                for ( var x in data ) {
                     rows.push( new Row( "test_layout", data[ x ] ) );
                 }
                 that.el.html("");
-                for ( x in rows ) {
+                for ( var x in rows ) {
                     that.el.append( rows[x].render() );
                 }
             });
@@ -103,7 +103,7 @@ $.extend( gany, (function() {
         return {
             apply : function( data ) {
                 var res = [];
-                for ( x in data ) {
+                for ( var x in data ) {
                     if ( this.one( data[ x ] ) ) {
                         res.push( data[ x ] );
                     }
