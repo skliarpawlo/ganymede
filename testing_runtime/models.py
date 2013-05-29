@@ -8,12 +8,19 @@ import hashlib
 import time
 import datetime
 
+
 Base = declarative_base()
 
 jobs_to_tests = Table('gany_jobs_to_tests', Base.metadata,
     Column('job_id', Integer, ForeignKey('gany_jobs.job_id')),
     Column('test_id', Integer, ForeignKey('gany_tests.test_id'))
 )
+
+tests_to_tags = Table('gany_tests_to_tags', Base.metadata,
+    Column('test_id', Integer, ForeignKey('gany_tests.test_id')),
+    Column('tag_id', Integer, ForeignKey('gany_tags.tag_id'))
+)
+
 
 class Job(Base) :
     __tablename__ = "gany_jobs"
@@ -30,6 +37,7 @@ class Job(Base) :
 
     tests = relationship( "StoredTest", secondary = jobs_to_tests )
     envs = relationship( "EnvScript" )
+
 
 class Task(Base) :
     __tablename__ = "gany_tasks"
@@ -49,6 +57,7 @@ class Task(Base) :
     def artifactsDir(self):
         return os.path.join( ganymede.settings.HEAP_PATH, "tasks", str(self.task_id), "artifacts" )
 
+
 class StoredTest(Base) :
     __tablename__ = "gany_tests"
 
@@ -56,6 +65,8 @@ class StoredTest(Base) :
     whose = Column( Unicode )
     code = Column( Unicode )
     status = Column( Enum('new', 'accepted'), nullable=False, default='new' )
+    tags = relationship( "Tag", secondary=tests_to_tags )
+
 
 class User(Base) :
     __tablename__ = 'users'
@@ -99,6 +110,7 @@ class User(Base) :
     def get_new_salt():
         return hashlib.sha1(str(time.time())).hexdigest()
 
+
 class EnvScript(Base) :
     __tablename__ = "gany_env"
 
@@ -107,4 +119,11 @@ class EnvScript(Base) :
     path = Column( Unicode, nullable=False )
     lang = Column( Unicode, nullable=False )
     code = Column( Unicode )
+
+
+class Tag(Base) :
+    __tablename__ = "gany_tags"
+
+    tag_id = Column( Integer, primary_key=True )
+    value = Column( Unicode, nullable=False, unique=True )
 

@@ -7,7 +7,13 @@ $.extend( gany, (function() {
         var layout = _layout;
 
         var render = function() {
-            return $.tmpl( layout, data );
+            var el = $.tmpl( layout, data );
+            el.find( ".tag-list").tags( {
+                tagData : data.tags,
+                readOnly : true,
+                readOnlyEmptyMessage : "-"
+            } );
+            return el;
         }
 
         return {
@@ -125,8 +131,25 @@ $.extend( gany, (function() {
         return this;
     }
 
+    function TagFilter( _attr, _like ) {
+        this.like = _like;
+        this.attr = _attr;
+        this.one = function ( item ) {
+            var tags = item[ this.attr ];
+            if (this.like.length == 0)
+                return true;
+            for ( x in tags )
+                for ( y in this.like )
+                    if ( tags[ x ] == this.like[ y ] )
+                        return true;
+            return false;
+        }
+        return this;
+    }
+
     LikeFilter.prototype = FilterProto();
     ParentFilter.prototype = FilterProto();
+    TagFilter.prototype = FilterProto();
 
     function Pagination( _prev, _next, _page, _provider ) {
         this.prev = _prev;
@@ -225,6 +248,7 @@ $.extend( gany, (function() {
             DataProvider : DataProvider,
             LikeFilter : LikeFilter,
             ParentFilter : ParentFilter,
+            TagFilter : TagFilter,
             Pagination : Pagination,
             TestList : TestsList,
             global : global

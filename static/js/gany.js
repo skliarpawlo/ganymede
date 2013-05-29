@@ -199,6 +199,10 @@ $.extend( gany, (function() {
             } else {
                 res["status"] = "accepted";
             }
+
+            var tags = $("#test-tag-list").tags().getTags();
+            res["tags"] = JSON.stringify( tags );
+
             return res;
         }
     }

@@ -122,6 +122,11 @@ $(function() {
                     '<a class="filtered-test-url" href="${url}">${url}</a>' +
                 '</td>' +
                 '<td>' +
+                    '<div class="tag-list">' +
+                        '<div class="tags"></div>' +
+                    '</div>' +
+                '</td>' +
+                '<td>' +
                     '&nbsp' +
                 '</td>' +
                 '<td>' +
@@ -141,6 +146,11 @@ $(function() {
                     '{{if status == "new"}}<small class="muted">[' + gettext('in development') + ']</small>{{/if}}' +
                 '</td>' +
                 '<td>&nbsp</td>' +
+                '<td>' +
+                    '<div class="tag-list">' +
+                        '<div class="tags"></div>' +
+                    '</div>' +
+                '</td>' +
                 '<td>' +
                     '${parent}' +
                 '</td>' +
@@ -166,12 +176,20 @@ $(function() {
         $(".parent-filter").each( function( ind, el ) {
             filters.push( new gany.dataprovider.ParentFilter( $(el).attr("data-key"), $(el).val() ) );
         } );
+        $(".tag-filter").each( function( ind, el ) {
+            filters.push( new gany.dataprovider.TagFilter( $(el).attr("data-key"), $(el).tags().getTags() ) );
+        } );
         provider.filters = filters;
         $(provider).trigger( "data-changed" );
     };
 
     $(".like-filter").change( filter_func );
     $(".parent-filter").change( filter_func );
+    $(".tag-filter").tags({
+        promptText : gettext( "Enter tags..." ),
+        afterAddingTag : filter_func,
+        afterDeletingTag : filter_func
+    });
 
     var pagination_ui = gany.dataprovider.Pagination( $("#pagi-prev"), $("#pagi-next"), $("#page-no"), provider );
 

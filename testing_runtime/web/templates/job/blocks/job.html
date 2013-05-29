@@ -11,7 +11,8 @@
                 "whose" : "{{ test.whose }}",
                 "type" : "main",
                 "checked" : {% if test.checked %}true{% else %}false{% endif %},
-                "status" : "{{ test.status }}"
+                "status" : "{{ test.status }}",
+                "tags" : [ {% for tag in test.tags %}"{{ tag }}",{% endfor %} ]
             },
         {% endfor %}
         {% for test in tests %}{% for subtest in test.subtests %}
@@ -25,7 +26,8 @@
                 "parent" : "{{ test.doc }} (#{{ test.id }})",
                 "parent_id" : {{ test.id }},
                 "checked" : {% if subtest.checked %}true{% else %}false{% endif %},
-                "status" : "{{ test.status }}"
+                "status" : "{{ test.status }}",
+                "tags" : [ {% for tag in subtest.tags %}"{{ tag }}",{% endfor %} ]
             },
         {% endfor %}{% endfor %}
     ];

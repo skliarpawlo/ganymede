@@ -4,6 +4,9 @@
 
 {% block head %}
     {{ block.super }}
+    <script type="text/javascript">
+        var tags = [{% for tag in test.tags %}"{{ tag }}",{% endfor %}];
+    </script>
     <script type="text/javascript" src="/static/js/update_test.js"></script>
 {% endblock %}
 

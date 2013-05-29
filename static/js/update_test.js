@@ -10,4 +10,9 @@ $(function() {
             }
         });
     });
+
+    $("#test-tag-list").tags( {
+        tagData : tags
+    } );
+
 });

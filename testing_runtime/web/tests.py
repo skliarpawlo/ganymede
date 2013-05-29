@@ -10,6 +10,7 @@ from testing_runtime import tests_config
 from testlib import utils
 import inspect
 import traceback
+from testing_runtime.models import Tag, StoredTest
 
 from django.utils.translation import ugettext as _
 from decorators import html
@@ -61,6 +62,7 @@ def verify_test(test_id=None,code=None) :
 
     return errors
 
+
 def gather_tests_info( selected_tests = [] ) :
     tests_config._fetch_tests()
 
@@ -80,6 +82,8 @@ def gather_tests_info( selected_tests = [] ) :
             whose = tests_config.test_id_to_whose( i )
             test[ 'whose' ] = whose if not whose is None else "-"
             test[ 'status' ] = tests_config.test_id_to_status( i )
+            tags = db.session.query( StoredTest ).get( i ).tags
+            test[ 'tags' ] = map( lambda tag : tag.value, tags )
             for j in all_tests :
                 subtest = all_tests[j]()
                 if isinstance(subtest, utils.SubTest) and\
@@ -93,6 +97,8 @@ def gather_tests_info( selected_tests = [] ) :
                     stest[ 'whose' ] = whose if not whose is None else "-"
                     stest[ 'status' ] = tests_config.test_id_to_status( j )
                     test[ 'subtests' ].append( stest )
+                    tags = db.session.query( StoredTest ).get( j ).tags
+                    stest[ 'tags' ] = map( lambda tag : tag.value, tags )
             tests.append( test )
         elif isinstance(pagetest, utils.MainTest) :
             test = {}
@@ -105,9 +111,24 @@ def gather_tests_info( selected_tests = [] ) :
             whose = tests_config.test_id_to_whose( i )
             test[ 'whose' ] = whose if not whose is None else "-"
             test[ 'status' ] = tests_config.test_id_to_status( i )
+            tags = db.session.query( StoredTest ).get( i ).tags
+            test[ 'tags' ] = map( lambda tag : tag.value, tags )
             tests.append(test)
 
     return tests
+
+
+def json_to_tags( js ) :
+    tags_values = json.loads( js )
+    tags = []
+    for val in tags_values :
+        tag = db.session.query( Tag ).filter( Tag.value == val ).first()
+        if tag is None :
+            tag = Tag( value=val )
+            db.session.add( tag )
+        tags.append( tag )
+    return tags
+
 
 def add_test(request) :
 
@@ -119,7 +140,8 @@ def add_test(request) :
             code = request.POST['code']
             status = request.POST['status']
             whose = request.user.username
-            test = models.StoredTest( code=code, status=status, whose=whose )
+            tags = json_to_tags( request.POST['tags'] )
+            test = models.StoredTest( code=code, status=status, whose=whose, tags=tags )
             db.session.add( test )
             json_resp = json.dumps( { "status" : "ok" } )
             return HttpResponse(json_resp, mimetype="application/json")
@@ -157,6 +179,10 @@ def update_test(request, test_id) :
                 "status" : request.POST['status'].encode('utf-8')
             } )
 
+            tags = json_to_tags( request.POST['tags'] )
+            test = db.session.query(models.StoredTest).get( test_id )
+            test.tags = tags
+
             json_resp = json.dumps( { "status" : "ok" } )
             return HttpResponse(json_resp, mimetype="application/json")
         else :
@@ -173,6 +199,8 @@ def update_test(request, test_id) :
         test["name"] = tests_config.all_tests()[test_id].__doc__
         test["code"] = test_model.code
         test["status"] = test_model.status
+        test["tags"] = map( lambda tag : tag.value, test_model.tags )
+
         return render_to_response(
             "test/update/update_test.html",
             {"test":test,'title' : title},

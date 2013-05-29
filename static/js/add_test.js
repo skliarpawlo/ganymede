@@ -11,4 +11,6 @@ $(function(){
         });
     });
 
+    $("#test-tag-list").tags();
+
 });

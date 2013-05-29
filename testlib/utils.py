@@ -514,9 +514,15 @@ class SubTestFail( Exception ) :
 def click_all( ff, elems ) :
     if type(elems) == list :
         for elem in elems :
-            ff.find_element_by_xpath( elem ).click()
+            try :
+                ff.find_element_by_xpath( elem ).click()
+            except :
+                pass
     else :
-        ff.find_element_by_xpath( elems ).click()
+        try :
+            ff.find_element_by_xpath( elems ).click()
+        except :
+            pass
 
 
 def assert_xpath_content(webpage, xpath, waited_content):

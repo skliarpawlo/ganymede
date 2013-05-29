@@ -15,6 +15,9 @@
             {% trans "Page" %}
         </th>
         <th>
+            {% trans "Tags" %}
+        </th>
+        <th>
             {% trans "Parent test" %}
         </th>
         <th>
@@ -29,6 +32,11 @@
         </th>
         <th>
             <input type="text" class="like-filter" data-key="url"/>
+        </th>
+        <th>
+            <div class="tag-list tag-filter" data-key="tags">
+                <div class="tags"></div>
+            </div>
         </th>
         <th>
             <select class="parent-filter">

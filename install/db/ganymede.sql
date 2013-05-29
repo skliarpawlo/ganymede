@@ -52,3 +52,16 @@ CREATE TABLE `gany_env` (
   UNIQUE KEY `path_per_job` (`job_id`,`path`),
   CONSTRAINT `gany_env_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `gany_jobs` (`job_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gany_tags` (
+  `tag_id` int(10) NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`tag_id`),
+  UNIQUE KEY `value` (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gany_tests_to_tags` (
+  `test_id` int(11) NOT NULL,
+  `tag_id` int(10) NOT NULL,
+  PRIMARY KEY (`test_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
