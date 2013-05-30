@@ -356,6 +356,7 @@ class SearchFormTest( FunctionalTest ) :
         ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
         for check in self.location_params[ "check" ] :
             ff.find_element_by_xpath( check ).click()
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
 
     def district_check(self) :
         ff = self.browser
@@ -416,13 +417,15 @@ class SearchFormTest( FunctionalTest ) :
         ff = self.browser
         click_all( ff, self.location_params[ "click_first" ] )
 
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+        for check in self.location_params[ "check" ] :
+            ff.execute_script( "$(document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext()).click();".format( check ) )
+        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
+
         if "distance" in self.location_params :
             ff.find_element_by_xpath( self.location_params[ "distance_input" ] ).click()
             ff.find_element_by_xpath( self.location_params[ "distance" ] ).click()
 
-        ff.find_element_by_xpath( self.location_params[ "input" ] ).click()
-        for check in self.location_params[ "check" ] :
-            ff.execute_script( "document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext().checked = true;".format( check ) )
 
     def metro_check(self) :
         ff = self.browser
