@@ -18,18 +18,17 @@ config = json.loads(
         ),
         "r" ).read()
 )
-path.ensure( config['repos_path'] )
 
 def projects() :
     return config["projects"].keys()
 
 def clone(project) :
-    with path.cd( os.path.join( config['repos_path'] ) ) :
-        out = process.get_output([ "git", "clone", config[ 'projects' ][ project ][ 'repo' ] ])
+    with path.cd( config['projects'][project]['repo_path'] ) :
+        out = process.get_output([ "git", "clone", config[ 'projects' ][ project ][ 'repo' ], "." ])
         logger.write( out )
 
 def fetch(project) :
-    working_dir = os.path.join( config['repos_path'], project )
+    working_dir = config['projects'][project]['repo_path']
     if not os.path.exists(working_dir) :
         clone(project)
     res = 'empty'
@@ -38,7 +37,7 @@ def fetch(project) :
     return res
 
 def branches(project) :
-    working_dir = os.path.join( config['repos_path'], project )
+    working_dir = config['projects'][project]['repo_path']
     if not os.path.exists(working_dir) :
         clone(project)
 
@@ -60,7 +59,7 @@ def checkout_and_deploy(job) :
     envs = job.envs
     deploy_code = job.deploy
 
-    working_dir = os.path.join( config['repos_path'], project )
+    working_dir = config['projects'][project]['repo_path']
     if not os.path.exists(working_dir) :
         clone(project)
 
@@ -81,7 +80,8 @@ def checkout_and_deploy(job) :
             "REPO" : job.repo,
             "BRANCH" : job.branch,
             "PROJECT_PATH" : working_dir,
-            "DEPLOY_PATH" : config['deploy_path'],
+            "BASE_DIR" : config['projects'][job.repo]['base_dir'],
+            "DEPLOY_PATH" : config['projects'][job.repo]['deploy_path']
         }
 
         # execute it
@@ -91,6 +91,6 @@ def checkout_and_deploy(job) :
 
     #envs
     for env in envs :
-        fd = open( os.path.join( config['deploy_path'], env.path ), 'w' )
+        fd = open( os.path.join( config['projects'][job.repo]['deploy_path'], env.path ), 'w' )
         fd.write( env.code.encode("utf-8") )
         fd.close()

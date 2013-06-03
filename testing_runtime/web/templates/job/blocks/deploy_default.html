@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 
 cd $PROJECT_PATH
-
 git fetch
 git checkout $BRANCH
 git reset --hard origin/$BRANCH
 
-rm -rf $DEPLOY_PATH/*
-cp -rf $PROJECT_PATH/* $DEPLOY_PATH
+cp $PROJECT_PATH/scripts/deploy $BASE_DIR
 
-rm -rf $DEPLOY_PATH/.git
-
-mkdir $DEPLOY_PATH/assets
-chmod 777 $DEPLOY_PATH/assets
-mkdir $DEPLOY_PATH/protected/runtime
-chmod 777 $DEPLOY_PATH/protected/runtime
+cd $BASE_DIR
+sh deploy -b $BRANCH -c ua

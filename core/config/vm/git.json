@@ -1,8 +1,9 @@
 {
-    "repos_path":"/home/pavlo/main/ganymede/repos",
-    "deploy_path":"/home/pavlo/main/test",
     "projects" : {
         "callisto" : {
+            "base_dir":"/home/pavlo/main/lun.ua",
+            "deploy_path":"/home/pavlo/main/lun.ua/www",
+            "repo_path":"/home/pavlo/main/lun.ua/git",
             "repo":"git@github.com:skliarovskyi/callisto.git"
         }
     }
