@@ -70,6 +70,22 @@ $(function(){
     $.template( "result_markup", result_markup );
     $.template( "current_markup", current_markup );
 
+    var log_block = gany.code.block("log-block", {
+        mode : {
+            name : "shell"
+        },
+        lineNumbers : true,
+        readOnly : true
+    });
+
+    // stupid hack to force redraw
+    $(".nav-tabs li").click(function(){
+        setTimeout( function() {
+            log_block.refresh();
+        }, 500);
+    });
+
+
     var process_diffs = function( data ) {
         var res = $("<div>" + data + "</div>");
         var diff_blocks = res.find(".textdiff");
@@ -109,7 +125,9 @@ $(function(){
                 for ( x in data.content.result ) {
                     data.content.result[ x ].log = process_diffs(data.content.result[ x ].log);
                 }
-                $("#log-block").html($("#log-block").html() + data.content.text.split("\n").join("<br/>"));
+
+                $("#log-block").html($("#log-block").html() + data.content.text);
+                gany.code.block("log-block").setValue( $("#log-block").html() );
 
                 $.tmpl( "result_markup", data.content.result)
                     .css("display", "none")

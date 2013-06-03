@@ -5,6 +5,7 @@ from testing_runtime import models
 import json
 import os
 import ganymede.settings
+import time
 
 _task_id = None
 _test = None
@@ -104,6 +105,10 @@ def set_status( status ) :
 
 # RAW LOG WRITE
 def write( s, append=True, to_task_log=False ) :
+    s = u"{time} {info}".format(
+            time=time.strftime( u"[%H:%M:%S]", time.localtime() ),
+            info=s
+        )
     test = get_test()
     if (to_task_log) or (test is None) :
         if append == True :
