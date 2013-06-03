@@ -340,6 +340,8 @@ class SearchFormTest( FunctionalTest ) :
     realty_type_change = '//*[@id="s-form"]//div[@class="input-pseudoselect for-items-nowrap"]'
     realty_type_select = None
 
+    search_button = None
+
     def setUp(self):
         super(SearchFormTest, self).setUp()
         ff = self.browser
@@ -461,8 +463,11 @@ class SearchFormTest( FunctionalTest ) :
                 el.clear()
                 el.send_keys( sel[ "to" ][ "value" ] )
 
-        ff.find_element_by_xpath( self.realty_type_change ).click()
-        ff.find_element_by_xpath( self.realty_type_select ).click()
+        if not self.search_button is None :
+            ff.find_element_by_xpath( self.search_button ).click()
+        elif not self.realty_type_change is None :
+            ff.find_element_by_xpath( self.realty_type_change ).click()
+            ff.find_element_by_xpath( self.realty_type_select ).click()
 
         WebDriverWait( ff, 5 ).until(
             lambda ff :
