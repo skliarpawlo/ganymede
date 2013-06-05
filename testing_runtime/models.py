@@ -78,7 +78,6 @@ class User(Base) :
     email = Column(Unicode)
     role = Column(Unicode)
     allowed_databases = Column(Unicode)
-    invited = Column(Integer)
 
     def is_authenticated(self):
         return True

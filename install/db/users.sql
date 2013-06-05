@@ -6,7 +6,6 @@ CREATE TABLE `users` (
   `email` varchar(64) NOT NULL,
   `role` varchar(32) DEFAULT NULL,
   `allowed_databases` text,
-  `invited` int(10) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
