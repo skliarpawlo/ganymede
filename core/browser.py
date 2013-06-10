@@ -17,6 +17,7 @@ def start() :
     # inst = webdriver.Firefox( firefox_binary=ffb, firefox_profile=ffprofile )
     inst = webdriver.Firefox( firefox_binary=ffb )
     inst.implicitly_wait(5)
+    inst.by_x = inst.find_element_by_xpath
 
 def stop() :
     if not inst is None :

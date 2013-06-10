@@ -2,12 +2,9 @@
 
 from core import db
 import time
+import utils
 
 class SearchForm :
-
-    selectors = {
-        # merge here
-    }
 
     own_selectors = {
         "checkboxes" : {
@@ -20,39 +17,24 @@ class SearchForm :
         }
     }
 
-    @staticmethod
-    def add_selectors( a, b, path=None ):
-        if path is None:
-            path = []
-        for key in b:
-            if key in a:
-                if isinstance(a[key], dict) and isinstance(b[key], dict):
-                    SearchForm.merge(a[key], b[key], path + [str(key)])
-                elif a[key] == b[key]:
-                    pass # same leaf value
-                else:
-                    raise Exception('Conflict at %s' % '.'.join(path + [str(key)]))
-            else:
-                a[key] = b[key]
-        return a
-
     def __init__(self, ff) :
         self.ff = ff
-        self.add_selectors( self.selectors, SearchForm.own_selectors )
+        self.selectors = {}
+        utils.merge( self.selectors, SearchForm.own_selectors )
 
     def set_checkbox(self, id):
-        x = self.ff.find_element_by_xpath( self.own_selectors['checkboxes'][ id ] )
+        x = self.ff.by_x( self.selectors['checkboxes'][ id ] )
         if not x.is_selected() :
             x.click()
 
     def unset_checkbox(self, id):
-        x = self.ff.find_element_by_xpath( self.own_selectors['checkboxes'][ id ] )
+        x = self.ff.by_x( self.selectors['checkboxes'][ id ] )
         if x.is_selected() :
             x.click()
 
     def check_checkbox(self, id, must_be_checked=True):
-        assert self.ff.find_element_by_xpath( self.checkboxes[ id ] ).is_selected() == must_be_checked, \
-            u"Флаг '{id}' не в правильном состоянии".format( id )
+        assert self.ff.by_x( self.checkboxes[ id ] ).is_selected() == must_be_checked, \
+            u"Флаг '{id}' в неправильном состоянии".format( id )
 
     # price
     def set_price(self, _from, _to):
@@ -177,40 +159,40 @@ class CallistoSearchForm( SearchForm ) :
         for x in res :
             self.own_selectors[ 'geo' ][ 'subway' ][ x[ 1 ] ] = "//*[@id='s{id}']".format( id = x[ 0 ] )
 
-        self.add_selectors( self.selectors, self.own_selectors )
+        utils.merge( self.selectors, CallistoSearchForm.own_selectors )
 
     def _set_select(self, key, check):
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         for c in check :
-            self.ff.find_element_by_xpath( self.own_selectors[ key ][ "check" ][ c ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+            self.ff.by_x( self.selectors[ key ][ "check" ][ c ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     def _check_select(self, key, check):
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         for c in check :
-            assert self.ff.find_element_by_xpath( self.own_selectors[ key ][ "check" ][ c ] ).is_selected(),\
+            assert self.ff.by_x( self.selectors[ key ][ "check" ][ c ] ).is_selected(),\
             u"В селекте {0} не выбран {1}, хотя выбирался при заполнении формы".format( key, c )
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     def _set_from_to(self, key, _from=None, _to=None):
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         if not _from is None :
-            el = self.ff.find_element_by_xpath( self.own_selectors[ key ][ "from" ] )
+            el = self.ff.by_x( self.selectors[ key ][ "from" ] )
             el.click()
             el.clear()
             el.send_keys( _from )
         if not _to is None :
-            el = self.ff.find_element_by_xpath( self.own_selectors[ key ][ "to" ] )
+            el = self.ff.by_x( self.selectors[ key ][ "to" ] )
             el.click()
             el.clear()
             el.send_keys( _to )
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     def _check_from_to(self, key, _from=None, _to=None):
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         if not _from is None :
-            from_xpath = self.own_selectors[ key ][ "from" ]
-            val = self.ff.find_element_by_xpath( from_xpath ).get_attribute( "value" )
+            from_xpath = self.selectors[ key ][ "from" ]
+            val = self.ff.by_x( from_xpath ).get_attribute( "value" )
             assert val == str(_from), \
                 u"Значение {0} не соответвует введенному, {1} != {2}".format(
                     key,
@@ -218,15 +200,15 @@ class CallistoSearchForm( SearchForm ) :
                     _from
                 )
         if not _to is None :
-            to_xpath = self.own_selectors[ key ][ "to" ]
-            val = self.ff.find_element_by_xpath( to_xpath ).get_attribute( "value" )
+            to_xpath = self.selectors[ key ][ "to" ]
+            val = self.ff.by_x( to_xpath ).get_attribute( "value" )
             assert val == str(_to), \
                 u"Значение {0} не соответвует введенному, {1} != {2}".format(
                     key,
                     val,
                     _to
                 )
-        self.ff.find_element_by_xpath( self.own_selectors[ key ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     # area
     def set_area(self, _from=None, _to=None):
@@ -251,39 +233,39 @@ class CallistoSearchForm( SearchForm ) :
 
     # contract/realty
     def contract_realty(self, contract_realty):
-        self.ff.find_element_by_xpath( self.own_selectors[ "realty_contract" ][ "input" ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "realty_contract" ][ "check" ][ contract_realty ] ).click()
+        self.ff.by_x( self.selectors[ "realty_contract" ][ "input" ] ).click()
+        self.ff.by_x( self.selectors[ "realty_contract" ][ "check" ][ contract_realty ] ).click()
 
     # submit
     def go(self):
-        self.ff.find_element_by_xpath( self.own_selectors[ "submit" ] ).click()
+        self.ff.by_x( self.selectors[ "submit" ] ).click()
 
     # geo
 
     # districts
     def set_districts(self, districts) :
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "districts" ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "districts" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
         for d in districts :
-            self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "districts" ][ d ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
+            self.ff.by_x( self.selectors[ "geo" ][ "districts" ][ d ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
 
     def check_districts(self, districts) :
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "districts" ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "districts" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
         try :
             for d in districts :
-                assert self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "districts" ][ d ] ).is_selected(),\
+                assert self.ff.by_x( self.selectors[ "geo" ][ "districts" ][ d ] ).is_selected(),\
                     u"Район по '{0}' не выбран, хотя был при заполнении формы".format( d )
         finally:
-            self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
+            self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "districts" ] ).click()
 
     # street
     def set_street(self, texts):
-        self.ff.find_element_by_xpath( self.own_selectors['geo']['parts']['street'] ).click()
+        self.ff.by_x( self.selectors['geo']['parts']['street'] ).click()
         click_all( self.ff, "//*[@id='default-value-input']" )
 
-        input = self.ff.find_element_by_xpath( self.own_selectors['geo']['inputs']['street'] )
+        input = self.ff.by_x( self.selectors['geo']['inputs']['street'] )
         input.click()
         input.clear()
 
@@ -293,9 +275,9 @@ class CallistoSearchForm( SearchForm ) :
 
     #address
     def set_address(self, texts):
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "address" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "address" ] ).click()
         click_all( self.ff, "//*[@id='default-value-input']" )
-        inp = self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "address" ] )
+        inp = self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "address" ] )
         inp.click()
         inp.clear()
         for t in texts :
@@ -305,32 +287,32 @@ class CallistoSearchForm( SearchForm ) :
         return inp.get_attribute("value")
 
     def check_address(self, check):
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "address" ] ).click()
-        inp = self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "address" ] )
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "address" ] ).click()
+        inp = self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "address" ] )
         inp.click()
         assert inp.get_attribute("value") == check, \
             u"Поле адреса заполнено не верно {0} != {1}".format( inp.get_attribute("value"), check )
 
     #metro
     def set_subway(self, subways, distance = None) :
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "subway" ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "subway" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
         for s in subways :
             self.ff.execute_script( "$(document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext()).click();".format(
-                self.own_selectors[ "geo" ][ "subway" ][ s ]
+                self.selectors[ "geo" ][ "subway" ][ s ]
             ) )
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
 
         if not distance is None :
-            self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "subway" ][ "distance" ] ).click()
-            self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "subway_distance" ][ distance ] ).click()
+            self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "subway" ][ "distance" ] ).click()
+            self.ff.by_x( self.selectors[ "geo" ][ "subway_distance" ][ distance ] ).click()
 
     def check_subway(self, subways, distance = None) :
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "parts" ][ "subway" ] ).click()
-        self.ff.find_element_by_xpath( self.own_selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "subway" ] ).click()
+        self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "subway" ][ "select" ] ).click()
         for s in subways :
             res = self.ff.execute_script( "return document.evaluate(\"{0}\", document, null, XPathResult.ANY_TYPE, null).iterateNext().checked;".format(
-                self.own_selectors[ "geo" ][ "subway" ][ s ]
+                self.selectors[ "geo" ][ "subway" ][ s ]
             ) )
             assert res == True, u"Станция метро c '{0}', не отмечена, хотя выбиралась при заполнении формы".format( s )
 
@@ -340,12 +322,12 @@ def click_all( ff, elems ) :
     if type(elems) == list :
         for elem in elems :
             try :
-                ff.find_element_by_xpath( elem ).click()
+                ff.by_x( elem ).click()
             except :
                 pass
     else :
         try :
-            ff.find_element_by_xpath( elems ).click()
+            ff.by_x( elems ).click()
         except :
             pass
 

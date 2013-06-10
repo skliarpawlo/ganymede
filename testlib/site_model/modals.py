@@ -1,7 +1,13 @@
+# coding: utf-8
+
+import utils
+
+
 class Modal :
 
     def __init__(self, ff):
         self.ff = ff
+        self.selectors = {}
 
     def open(self):
         pass
@@ -29,21 +35,25 @@ class ProblemOnSiteModal( Modal ) :
         "close" : "//*[@id='problembut-box']//*[contains(@class,'closebut')]"
     }
 
+    def __init__(self, ff):
+        Modal.__init__( self, ff )
+        utils.merge( self.selectors, ProblemOnSiteModal.own_selectors )
+
     def open(self):
-        self.ff.find_element_by_xpath( self.own_selectors[ "open" ] ).click()
+        self.ff.by_x( self.selectors[ "open" ] ).click()
 
     def fill(self, key, content):
-        el = self.ff.find_element_by_xpath( self.own_selectors[ key ] )
+        el = self.ff.by_x( self.selectors[ key ] )
         el.clear()
         el.send_keys( content )
 
     def get_value(self, key):
-        el = self.ff.find_element_by_xpath( self.own_selectors[ key ] )
+        el = self.ff.by_x( self.selectors[ key ] )
         return el.get_attribute('value')
 
     def submit(self):
-        self.ff.find_element_by_xpath( self.own_selectors[ "submit" ] ).click()
+        self.ff.by_x( self.selectors[ "submit" ] ).click()
 
     def close(self):
-        self.ff.find_element_by_xpath( self.own_selectors[ "close" ] ).click()
+        self.ff.by_x( self.selectors[ "close" ] ).click()
 

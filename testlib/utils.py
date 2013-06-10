@@ -22,9 +22,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium import webdriver
 
+from site_model import constants
 from site_model import search_form
 from site_model import modals
 from site_model import utils as site_model_utils
+from site_model import forms
+from site_model import pages
+
 
 heap_dir = ganymede.settings.HEAP_PATH
 base_dir = ganymede.settings.BASE_PATH
