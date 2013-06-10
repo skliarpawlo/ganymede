@@ -2,13 +2,13 @@
 
 from selenium.webdriver.support.ui import WebDriverWait
 import utils
+import urllib
 
 class Page :
-    url = ''
-
-    def __init__( self, ff ):
+    def __init__( self, ff, url='' ):
         self.ff = ff
         self.selectors = {}
+        self.url = url
 
     def wait_for( self, key, sec=10 ) :
         WebDriverWait( self.ff, sec ).until(
@@ -19,17 +19,22 @@ class Page :
     def wait_page(self, sec=5 ):
         WebDriverWait( self.ff, sec ).until(
             lambda ff :
-                self.url in ff.current_url
+                self.url in Page.url_unquote( ff.current_url )
         )
 
+    @staticmethod
+    def url_unquote(url) :
+        return urllib.unquote( url.encode('utf-8') ).decode('utf-8')
 
 
 class LunMainPage( Page ) :
-    url = u'http://www.lun.ua/'
+    def __init__(self, ff):
+        Page.__init__( self, ff, u'http://www.lun.ua/' )
 
 
 class NovostroykiMainPage( Page ) :
-    url = u'http://novostroyki.lun.ua/'
+    def __init__(self, ff):
+        Page.__init__( self, ff, u'http://novostroyki.lun.ua/' )
 
 
 class LunSearchPage( Page ) :
@@ -46,7 +51,7 @@ class RegistrationPage( Page ) :
     }
 
     def __init__(self, ff):
-        Page.__init__( self, ff )
+        Page.__init__( self, ff, u"http://www.lun.ua/register" )
         utils.merge( self.selectors, RegistrationPage.own_selectors )
 
     def go_to_search(self):

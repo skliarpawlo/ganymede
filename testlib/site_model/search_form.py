@@ -33,7 +33,7 @@ class SearchForm :
             x.click()
 
     def check_checkbox(self, id, must_be_checked=True):
-        assert self.ff.by_x( self.checkboxes[ id ] ).is_selected() == must_be_checked, \
+        assert self.ff.by_x( self.selectors['checkboxes'][ id ] ).is_selected() == must_be_checked, \
             u"Флаг '{id}' в неправильном состоянии".format( id )
 
     # price
