@@ -1,3 +1,5 @@
+# coding: utf-8
+
 def hack_ajax(ff) :
     ff.execute_script( """
        $.ajax = function() {
@@ -35,3 +37,18 @@ def merge( a, b, path=None ):
         else:
             a[key] = b[key]
     return a
+
+
+def click_all( ff, elems ) :
+    if type(elems) == list :
+        for elem in elems :
+            try :
+                ff.by_x( elem ).click()
+            except :
+                pass
+    else :
+        try :
+            ff.by_x( elems ).click()
+        except :
+            pass
+

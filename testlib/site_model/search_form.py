@@ -13,7 +13,8 @@ class SearchForm :
             "without_fee" : "//*[@id='withoutFee']",
             "without_brokers" : "//*[@id='withoutBrokers']",
             "non_residential_fund" : "//*[@id='nonResidentialFund']",
-            "near_subway" : "//*[@id='nearMetro']"
+            "near_subway" : "//*[@id='nearMetro']",
+            "is_center" : "//*[@id='isCenter']"
         }
     }
 
@@ -33,8 +34,9 @@ class SearchForm :
             x.click()
 
     def check_checkbox(self, id, must_be_checked=True):
-        assert self.ff.by_x( self.selectors['checkboxes'][ id ] ).is_selected() == must_be_checked, \
-            u"Флаг '{id}' в неправильном состоянии".format( id )
+        if utils.element_present( self.ff, self.selectors['checkboxes'][ id ] ) :
+            assert self.ff.by_x( self.selectors['checkboxes'][ id ] ).is_selected() == must_be_checked, \
+                u"Флаг '{id}' в неправильном состоянии".format( id )
 
     # price
     def set_price(self, _from, _to):
@@ -137,7 +139,7 @@ class CallistoSearchForm( SearchForm ) :
             """.format( city=city_id )
         ).fetchall()
         for x in res :
-            self.own_selectors[ 'geo' ][ 'districts' ][ x[ 1 ] ] = "//*[@id='d{id}']".format( id = x[ 0 ] )
+            CallistoSearchForm.own_selectors[ 'geo' ][ 'districts' ][ x[ 1 ] ] = "//*[@id='d{id}']".format( id = x[ 0 ] )
 
         res = db.execute(
             """
@@ -147,7 +149,7 @@ class CallistoSearchForm( SearchForm ) :
             """.format( city=city_id )
         ).fetchall()
         for x in res :
-            self.own_selectors[ 'geo' ][ 'districts' ][ x[ 1 ] ] = "//*[@id='m{id}']".format( id = x[ 0 ] )
+            CallistoSearchForm.own_selectors[ 'geo' ][ 'districts' ][ x[ 1 ] ] = "//*[@id='m{id}']".format( id = x[ 0 ] )
 
         res = db.execute(
             """
@@ -157,7 +159,7 @@ class CallistoSearchForm( SearchForm ) :
             """.format( city=city_id )
         ).fetchall()
         for x in res :
-            self.own_selectors[ 'geo' ][ 'subway' ][ x[ 1 ] ] = "//*[@id='s{id}']".format( id = x[ 0 ] )
+            CallistoSearchForm.own_selectors[ 'geo' ][ 'subway' ][ x[ 1 ] ] = "//*[@id='s{id}']".format( id = x[ 0 ] )
 
         utils.merge( self.selectors, CallistoSearchForm.own_selectors )
 
@@ -168,6 +170,9 @@ class CallistoSearchForm( SearchForm ) :
         self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     def _check_select(self, key, check):
+        if not utils.element_present( self.ff, self.selectors[ key ][ "input" ] ) :
+            return
+
         self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         for c in check :
             assert self.ff.by_x( self.selectors[ key ][ "check" ][ c ] ).is_selected(),\
@@ -189,6 +194,9 @@ class CallistoSearchForm( SearchForm ) :
         self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
 
     def _check_from_to(self, key, _from=None, _to=None):
+        if not utils.element_present( self.ff, self.selectors[ key ][ "input" ] ) :
+            return
+
         self.ff.by_x( self.selectors[ key ][ "input" ] ).click()
         if not _from is None :
             from_xpath = self.selectors[ key ][ "from" ]
@@ -263,7 +271,7 @@ class CallistoSearchForm( SearchForm ) :
     # street
     def set_street(self, texts):
         self.ff.by_x( self.selectors['geo']['parts']['street'] ).click()
-        click_all( self.ff, "//*[@id='default-value-input']" )
+        utils.click_all( self.ff, "//*[@id='default-value-input']" )
 
         input = self.ff.by_x( self.selectors['geo']['inputs']['street'] )
         input.click()
@@ -276,7 +284,7 @@ class CallistoSearchForm( SearchForm ) :
     #address
     def set_address(self, texts):
         self.ff.by_x( self.selectors[ "geo" ][ "parts" ][ "address" ] ).click()
-        click_all( self.ff, "//*[@id='default-value-input']" )
+        utils.click_all( self.ff, "//*[@id='default-value-input']" )
         inp = self.ff.by_x( self.selectors[ "geo" ][ "inputs" ][ "address" ] )
         inp.click()
         inp.clear()
@@ -317,17 +325,22 @@ class CallistoSearchForm( SearchForm ) :
             assert res == True, u"Станция метро c '{0}', не отмечена, хотя выбиралась при заполнении формы".format( s )
 
 
-## util functions
-def click_all( ff, elems ) :
-    if type(elems) == list :
-        for elem in elems :
-            try :
-                ff.by_x( elem ).click()
-            except :
-                pass
-    else :
-        try :
-            ff.by_x( elems ).click()
-        except :
-            pass
+class BigmirSearchForm( CallistoSearchForm ) :
 
+    own_selectors = {
+        "realty_contract" : {
+            "input" : "//*[@id='contract-realty']",
+            "check" : {
+                u"аренда квартир" : "//*[@id='contract-realty']//*[@value='2-1']",
+                u"аренда офисов" : "//*[@id='contract-realty']//*[@value='2-5']",
+                u"аренда комнат" : "//*[@id='contract-realty']//*[@value='2-20']",
+                u"продажа квартир" : "//*[@id='contract-realty']//*[@value='1-1']",
+                u"продажа офисов" : "//*[@id='contract-realty']//*[@value='1-5']",
+                u"посуточная аренда" : "//*[@id='contract-realty']//*[@value='6-1']"
+            }
+        }
+    }
+
+    def __init__(self, ff, city_id ):
+        CallistoSearchForm.__init__( self, ff, city_id )
+        utils.merge( self.selectors, BigmirSearchForm.own_selectors )

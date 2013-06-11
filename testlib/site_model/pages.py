@@ -19,7 +19,8 @@ class Page :
     def wait_page(self, sec=5 ):
         WebDriverWait( self.ff, sec ).until(
             lambda ff :
-                self.url in Page.url_unquote( ff.current_url )
+                self.url in Page.url_unquote( ff.current_url ),
+                u"Не дождались подгрузки страницы '{0}'".format( self.url ).encode( "utf-8" )
         )
 
     @staticmethod
@@ -58,4 +59,22 @@ class RegistrationPage( Page ) :
         self.wait_for( "go_to_search" )
         self.ff.by_x( self.selectors[ "go_to_search" ] ).click()
 
+
+class BigmirFrame( Page ) :
+    own_selectors = {
+        "iframe" : "//*[@id='lun-iframe']",
+        "blocks" : {
+            "buildings" : '//*[@id="buildings-block"]',
+            "results" : '//*[@id="result-stream"]',
+        },
+        "results" : '//*[@id="result-stream"]//*[contains(@class,"stream-item")]',
+        "pagination" : {
+            "2" : "//*[contains(@href,'page=2') and contains(@href,'lun.ua')]",
+            "3" : "//*[contains(@href,'page=3') and contains(@href,'lun.ua')]"
+        }
+    }
+
+    def __init__( self, ff ):
+        Page.__init__( self, ff, u"http://finance.bigmir.net/realty/lun" )
+        utils.merge( self.selectors, BigmirFrame.own_selectors )
 
