@@ -39,10 +39,10 @@ class SearchForm :
                 u"Флаг '{id}' в неправильном состоянии".format( id )
 
     # price
-    def set_price(self, _from, _to):
+    def set_price(self, _from = None, _to = None, _currency = None):
         pass
 
-    def check_price(self, _from, _to):
+    def check_price(self, _from = None, _to = None, _currency = None):
         pass
 
     # area
@@ -61,7 +61,7 @@ class SearchForm :
 
     # submit
     def go(self):
-        pass
+        self.ff.by_x( self.selectors[ "submit" ] ).click()
 
 
 class CallistoSearchForm( SearchForm ) :
@@ -128,7 +128,7 @@ class CallistoSearchForm( SearchForm ) :
         },
     }
 
-    def __init__(self, ff, city_id):
+    def __init__(self, ff, city_id=1):
         SearchForm.__init__( self, ff )
 
         res = db.execute(
@@ -226,10 +226,10 @@ class CallistoSearchForm( SearchForm ) :
         self._check_from_to( "area", _from, _to )
 
     # price
-    def set_price(self, _from=None, _to=None):
+    def set_price(self, _from=None, _to=None, _currency=None):
         self._set_from_to( "price", _from, _to )
 
-    def check_price(self, _from, _to):
+    def check_price(self, _from, _to, _currency=None):
         self._check_from_to( "price", _from, _to )
 
     # rooms
@@ -243,10 +243,6 @@ class CallistoSearchForm( SearchForm ) :
     def contract_realty(self, contract_realty):
         self.ff.by_x( self.selectors[ "realty_contract" ][ "input" ] ).click()
         self.ff.by_x( self.selectors[ "realty_contract" ][ "check" ][ contract_realty ] ).click()
-
-    # submit
-    def go(self):
-        self.ff.by_x( self.selectors[ "submit" ] ).click()
 
     # geo
 
@@ -344,3 +340,88 @@ class BigmirSearchForm( CallistoSearchForm ) :
     def __init__(self, ff, city_id ):
         CallistoSearchForm.__init__( self, ff, city_id )
         utils.merge( self.selectors, BigmirSearchForm.own_selectors )
+
+
+class QuatreSearchForm( SearchForm ) :
+    own_selectors = {
+        "submit" : "//*[@id='go']",
+        "contract" : {
+            "input" : "//*[@id='contract']",
+            "check" : {
+                u"аренда" : "//*[@id='contract']//*[@value='2']",
+                u"продажа" : "//*[@id='contract']//*[@value='1']",
+                u"посуточно" : "//*[@id='contract']//*[@value='6']"
+            }
+        },
+        "checkboxes" : {
+            "new_building" : "//*[@id='new-building']",
+            "without_brokers" : "//*[@id='no-realtors']"
+        },
+        "realty" : {
+            "input" : "//*[@id='realty']",
+            "check" : {
+                u"квартира" : "//*[@id='realty']//*[@value='1']",
+                u"комната" : "//*[@id='realty']//*[@value='20']",
+                u"офис" : "//*[@id='realty']//*[@value='5']"
+            }
+        },
+        "price" : {
+            "from" : "//*[@id='price_min']",
+            "to" : "//*[@id='price_max']",
+            "currency" : {
+                'input' : "//*[@id='currency']",
+                u'$' : "//*[@id='currency']//*[@value='1']",
+                u'грн' : "//*[@id='currency']//*[@value='2']"
+            }
+        },
+        "districts" : {
+            "input" : "//*[@id='district']",
+        },
+        "geo" : {
+            "districts" : {} # to load
+        }
+    }
+
+    def __init__(self, ff, city_id=1 ):
+        SearchForm.__init__( self, ff )
+
+        res = db.execute(
+            """
+               SELECT district_id, nominative
+               FROM geo_districts
+               WHERE city_id={city}
+            """.format( city=city_id )
+        ).fetchall()
+        for x in res :
+            QuatreSearchForm.own_selectors[ 'geo' ][ 'districts' ][ x[ 1 ] ] = "//*[@id='district']//*[@value='{id}']".format( id = x[ 0 ] )
+
+        utils.merge( self.selectors, QuatreSearchForm.own_selectors )
+
+    def set_price( self, _from=None, _to=None, _currency=None ):
+        ff = self.ff
+        if not _from is None :
+            ff.by_x( self.selectors[ "price" ][ "from" ] ).send_keys( _from )
+        if not _to is None :
+            ff.by_x( self.selectors[ "price" ][ "to" ] ).send_keys( _to )
+
+        if not _currency is None :
+            ff.by_x( self.selectors[ "price" ][ "currency" ][ "input" ] ).click()
+            ff.by_x( self.selectors[ "price" ][ "currency" ][ _currency ] ).click()
+
+    def contract_realty( self, contract_realty ):
+        ( contract, realty ) = contract_realty.split( u" " )
+
+        ff = self.ff
+        ff.by_x( self.selectors[ "contract" ][ "input" ] ).click()
+        ff.by_x( self.selectors[ "contract" ][ "check" ][ contract ] ).click()
+        ff.by_x( self.selectors[ "contract" ][ "input" ] ).click()
+
+        ff.by_x( self.selectors[ "realty" ][ "input" ] ).click()
+        ff.by_x( self.selectors[ "realty" ][ "check" ][ realty ] ).click()
+        ff.by_x( self.selectors[ "realty" ][ "input" ] ).click()
+
+    def set_district(self, district):
+        ff = self.ff
+        ff.by_x( self.selectors[ "districts" ][ "input" ] ).click()
+        ff.by_x( self.selectors[ "geo" ][ "districts" ][ district ] ).click()
+
