@@ -1,66 +1,27 @@
-# название теста = название класса
-class TestTemplate( utils.SearchFormTest ) :
-    # описание теста
-    "Try search form test"
+# имя теста должно быть уникальным
+class SearchFormTemplateTest( utils.FunctionalTest ) :
+    # краткое описание теста
+    ""
 
-    # страница на которой заполняется форма поиска
-    search_form_url = u"http://www.lun.ua/"
-
-    # страница на которую ожидается переход (без get-параметров)
-    waited_url = u"http://www.lun.ua/аренда-офисов-киев"
-
-    # элемент который должен быть на странице waited_url (необязательный параметр)
-    checking_element = "//*[@id='s-block']"
-
-    # выбираемый contractType/realtyType
-    realty_type_select = '//*[@id="s-form"]//a[@contract="2" and @realty="5"]'
-
-    # флажки поисковой формы
-    checkboxes = [
-        "//*[@id='hasPhotos']", "//*[@id='newBuilding']",
-        "//*[@id='nearMetro']", "//*[@id='withoutFee']",
-        "//*[@id='withoutBrokers']"                  
-    ]
-
-    # селекты поисковой формы
-    selects = [
-        {
-            # элемент по которому кликнуть, чтобы открыть селект
-            "element" : "//*[@id='rtext']",
-            # если в селекте - чекбоксы
-            "check" : [ "//*[@id='r1']", "//*[@id='r2']", "//*[@id='r3']" ]
-        },
-        {
-            "element" : "//*[@id='atext']",
-            # если выбирается только один вариант из предложенных
-            "select" : '//*[@id="square"]//div[@value="65"]'
-        },
-        {
-            "element" : "//*[@id='ptext']",
-            # если есть поля для ввода интервала (например, цен)
-            "from" : {
-                'input' : '//*[@id="price"]//input[@name="priceMin"]',
-                'value' : '10'
-            },
-            "to" : {
-                'input' : '//*[@id="price"]//input[@name="priceMax"]',
-                'value' : '1000000'
-            }
-        }
-    ]
-
-    # открываемая вкладка: район, адрес, улица, метро
-    location_params = {
-        # district | address | street | subway
-        "type" : "metro",
-
-        # только для address и street, вводимый текст в инпут
-        # между вводом элементов списка делается пауза 2 секунды
-        # для подгрузки автокомплита
-        # "text" : [ u"Крещатик ул., 15", utils.Keys.RETURN ]
-
-        # только для district и subway, выбираемые элементы
-        "check" : [ "//*[@id='s1']", "//*[@id='s2']" ],
-        # только для subway, дистанция до метро
-        "distance" : '//*[@id="distance"]//div[@data-value="750"]'
-    }
+    def run(self) :
+        kiev_id = 1
+        go_to_page = u"http://www.lun.ua/аренда-квартир-киев"
+        
+        ff = self.browser
+        ff.get( "http://www.lun.ua/" )
+        
+        sf = utils.search_form.CallistoSearchForm( ff, kiev_id )
+        sf.set_price( 1000, 1000000 )
+        sf.set_area( 10, 500 )
+        sf.set_rooms( [ 1,2,3 ] )
+        
+        sf.set_subway( [ u"Черниговская" ], 750 )
+        
+        sf.contract_realty( u"аренда квартир" )
+        
+        utils.Page( ff, go_to_page ).wait_page()
+        
+        sf.check_price( 1000, 1000000 )
+        sf.check_area( 10, 500 )
+        sf.check_rooms( [1,2,3] )
+        sf.check_subway( [ u"Черниговская" ], 750 )
