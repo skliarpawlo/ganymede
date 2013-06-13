@@ -74,3 +74,17 @@ class RegistrationForm( Form ) :
         Form.__init__(self,ff)
         utils.merge( self.selectors, RegistrationForm.own_selectors )
 
+
+class ProblemOnSiteOnMainForm( Form ) :
+    own_selectors = {
+        "message" : "//*[@id='n-foot-problem-text']",
+        "email" : "//*[@id='n-foot-problem-email']",
+        "submit" : "//*[@id='n-foot-problem-but']"
+    }
+
+    MESSAGE_DEFAULT = u'Пишите здесь'
+    EMAIL_DEFAULT = u'введите e-mail'
+
+    def __init__(self, ff):
+        Form.__init__(self,ff)
+        utils.merge( self.selectors, ProblemOnSiteOnMainForm.own_selectors )
