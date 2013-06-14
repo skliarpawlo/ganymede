@@ -32,4 +32,9 @@ urlpatterns = patterns('',
 
     url(r'^github/notify$', 'testing_runtime.github.views.push_notification'),
     url(r'^github/test$', 'testing_runtime.github.views.test_notification'),
+
+    url(r'^modules/list$', 'testing_runtime.web.modules.list_modules'),
+    url(r'^modules/add$', 'testing_runtime.web.modules.add_module'),
+    url(r'^modules/update/(?P<module_id>\w+)$', 'testing_runtime.web.modules.update_module'),
+    url(r'^modules/remove$', 'testing_runtime.web.modules.remove_module'),
 )

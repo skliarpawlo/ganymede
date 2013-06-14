@@ -240,6 +240,20 @@ $.extend( gany, (function() {
         }
     }
 
+    var modules = {
+        gather_data : function() {
+            var res = {};
+            res['name'] = $( "#module-name").val();
+            res['path'] = $( "#module-path").val();
+
+            var block = gany.code.block("module-source-code");
+            block.save();
+            res["code"] = block.getTextArea().value;
+
+            return res;
+        }
+    }
+
     return {
         urls : urls,
         test : test,
@@ -248,6 +262,7 @@ $.extend( gany, (function() {
         job : job,
         task : task,
         git : git,
-        boxes : boxes
+        boxes : boxes,
+        modules : modules
     }
 })() );

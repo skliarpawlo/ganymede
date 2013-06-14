@@ -126,3 +126,12 @@ class Tag(Base) :
     tag_id = Column( Integer, primary_key=True )
     value = Column( Unicode, nullable=False, unique=True )
 
+
+class Module(Base) :
+    __tablename__ = "gany_modules"
+
+    module_id = Column( Integer, primary_key=True )
+    name = Column( Unicode, nullable=False, unique=True )
+    path = Column( Unicode, nullable=False, unique=True )
+    code = Column( Unicode )
+

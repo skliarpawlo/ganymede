@@ -15,6 +15,12 @@
     <li {% if request.view == 'testing_runtime.web.tests.add_test' %}class="active"{% endif %}>
         <a href="{% url testing_runtime.web.tests.add_test %}">{% trans "Add test" %}</a>
     </li>
+    <li {% if request.view == 'testing_runtime.web.modules.list_modules' %}class="active"{% endif %}>
+        <a href="{% url testing_runtime.web.modules.list_modules %}">{% trans "Modules" %}</a>
+    </li>
+    <li {% if request.view == 'testing_runtime.web.modules.add_module' %}class="active"{% endif %}>
+        <a href="{% url testing_runtime.web.modules.add_module %}">{% trans "Add module" %}</a>
+    </li>
     <li {% if request.view == 'testing_runtime.web.user.login_page' %}class="active"{% endif %}>
         {% if not request.user %}
             <a href="{% url testing_runtime.web.user.login_page %}">

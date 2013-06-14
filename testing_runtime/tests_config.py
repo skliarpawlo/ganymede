@@ -3,6 +3,7 @@ from testlib import utils
 from core import db
 from sqlalchemy import func
 from testing_runtime import models
+from testing_runtime import modules
 
 _all_tests = None
 _test_id_to_status = None
@@ -43,6 +44,8 @@ def _fetch_tests() :
     _test_id_to_status = {}
     _test_id_to_whose = {}
 
+    modules.import_modules( locals(), globals() )
+
     #####################
     #fetch tests from db#
     #####################
@@ -53,7 +56,7 @@ def _fetch_tests() :
         b = locals().keys()
 
         #execute test code
-        exec code
+        exec code in globals(), locals()
 
         #checkout wich name appeared in locals
         a = locals().keys()

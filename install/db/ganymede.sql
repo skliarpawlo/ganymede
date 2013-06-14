@@ -66,4 +66,14 @@ CREATE TABLE `gany_tests_to_tags` (
   PRIMARY KEY (`test_id`,`tag_id`),
   FOREIGN KEY (`test_id`) REFERENCES gany_tests(`test_id`) ON DELETE CASCADE,
   FOREIGN KEY (`tag_id`) REFERENCES gany_tags(`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `gany_modules` (
+  `module_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) DEFAULT NULL,
+  `code` text,
+  `path` varchar(255),
+  PRIMARY KEY (`module_id`),
+  UNIQUE KEY `path` (`path`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

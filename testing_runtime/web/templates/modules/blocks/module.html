@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<script type="text/javascript" src="/static/js/module.js"></script>
+
+<p>
+    <label class="control-label" for="module-name">{% trans "Name" %}</label>
+    <input type="text" placeholder="my_module"
+           id="module-name"
+           value="{{ module.name }}" />
+</p>
+
+<p>
+    <label class="control-label" for="module-path">{% trans "Package" %}</label>
+    <input type="text" placeholder="path.to.module"
+           id="module-path"
+           value="{{ module.path }}" />
+</p>
+
+<legend>{% trans "Module source code" %}</legend>
+
+<div class="code-block">
+    {% if module.code %}
+        <textarea id="module-source-code">{{ module.code }}</textarea>
+    {% else %}
+        <textarea id="module-source-code"></textarea>
+    {% endif %}
+</div>
